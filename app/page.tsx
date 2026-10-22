@@ -22,6 +22,7 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [onDevice, setOnDevice] = useState(false);
+  const [retrying, setRetrying] = useState(false);
   const [pages, setPages] = useState<{ done: number; total: number } | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [result, setResult] = useState<AnalyzeResponse | null>(null);
@@ -88,30 +89,34 @@ export default function Home() {
         setUploaded(true);
         return fetch("/api/analyze", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, buyer }) });
       }
-      let res: Response;
-      if (file.size > SERVER_PDF_BYTES) {
-        res = await viaText();
-      } else {
+      // One send, as a function, so it can be repeated if the AI service is busy.
+      const send = async (): Promise<Response> => {
+        if (file.size > SERVER_PDF_BYTES) return viaText();
         try {
           const blob = await upload(file.name, file, { access: "public", handleUploadUrl: "/api/upload" });
           setUploaded(true);
-          res = await fetch("/api/analyze", {
+          return await fetch("/api/analyze", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ pdfUrl: blob.url, buyer }),
           });
         } catch {
           // No Blob store: small files go straight to the server, bigger ones are read on the device.
-          if (file.size > DIRECT_LIMIT) {
-            res = await viaText();
-          } else {
-            setUploaded(true);
-            const form = new FormData();
-            form.set("file", file);
-            form.set("buyer", buyer);
-            res = await fetch("/api/analyze", { method: "POST", body: form });
-          }
+          if (file.size > DIRECT_LIMIT) return viaText();
+          setUploaded(true);
+          const form = new FormData();
+          form.set("file", file);
+          form.set("buyer", buyer);
+          return fetch("/api/analyze", { method: "POST", body: form });
         }
+      };
+      let res = await send();
+      // 503 = every AI model was overloaded. Wait a moment and try once more before showing an error.
+      if (res.status === 503) {
+        setRetrying(true);
+        await new Promise((r) => setTimeout(r, 12_000));
+        res = await send();
+        setRetrying(false);
       }
       const data = (await res.json()) as AnalyzeResponse;
       setResult(data);
@@ -119,6 +124,7 @@ export default function Home() {
     } catch (e) {
       setResult({ status: "error", message: e instanceof Error ? e.message : "Something went wrong. Please try again." });
     } finally {
+      setRetrying(false);
       setBusy(false);
     }
   }
@@ -179,6 +185,7 @@ export default function Home() {
             busy={busy}
             uploaded={uploaded}
             onDevice={onDevice}
+            retrying={retrying}
             pages={pages}
             seconds={seconds}
             result={result}

@@ -1,12 +1,23 @@
 import { ApiError, GoogleGenAI, ThinkingLevel, type Part } from "@google/genai";
+import { classifyAiError, ModelPool, rateLimitRestMs, REST_MS } from "./aiPool.ts";
+import { parseModelJson } from "./jsonExtract.ts";
 import { normaliseRawScript } from "./script.ts";
 import type { BuyerChoice, BuyerType, Facts, Script, Teardown } from "./types.ts";
 
-// Free-plan quotas are counted per model, so when one is used up we move to the next one.
-const MODELS = [process.env.GEMINI_MODEL, "gemini-3.6-flash", "gemini-3.7-flash", "gemini-3.8-flash", "gemini-3.1-flash-lite"].filter(
-  (m, i, a): m is string => !!m && a.indexOf(m) === i,
+// Free-plan quotas are counted per model, so a model that is over quota, busy or too slow is rested for a while and the next
+// one is used. The light model goes first: it has been the fastest and the most available, and it wrote every script we have checked.
+const pool = new ModelPool(
+  [process.env.GEMINI_MODEL, "gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash", "gemini-3.8-flash"].filter((m, i, a): m is string => !!m && a.indexOf(m) === i),
 );
-let modelIdx = 0;
+
+/** The AI could not give a usable answer after trying. 'busy' = overloaded or unreachable, 'timeout' = too slow, 'bad_output' = answered in a form we could not use. */
+export class AiError extends Error {
+  kind: "busy" | "timeout" | "bad_output";
+  constructor(kind: "busy" | "timeout" | "bad_output", message: string) {
+    super(message);
+    this.kind = kind;
+  }
+}
 
 export class SetupError extends Error {}
 
@@ -19,75 +30,106 @@ function client() {
 }
 
 function parseJson(text: string): unknown {
-  const t = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
-  const start = t.indexOf("{");
-  const end = t.lastIndexOf("}");
-  return JSON.parse(start >= 0 && end > start ? t.slice(start, end + 1) : t);
+  return parseModelJson(text);
 }
 
 export function isRateLimit(e: unknown): boolean {
   return e instanceof ApiError && e.status === 429;
 }
 
-/** Ask Gemini for JSON. Retries once on bad JSON or a failed validation. */
-async function askJson<T>(parts: Part[], system: string, validate: (x: unknown) => T, thinking?: ThinkingLevel): Promise<T> {
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+interface AskOpts {
+  /** The longest one call may take before it is given up on. */
+  timeoutMs?: number;
+  /** The longest all attempts together may take. */
+  budgetMs?: number;
+  onModel?: (model: string) => void;
+}
+
+/**
+ * Ask Gemini for JSON. Every call has a time limit. A model that is over quota, overloaded, too slow or unreachable is rested and the
+ * next one is tried; an answer that cannot be parsed or fails validation is retried, then moves to the next model. Only a bad API key or
+ * a real bug stops at once. When nothing works it throws a plain AiError saying which kind of trouble it was.
+ */
+async function askJson<T>(parts: Part[], system: string, validate: (x: unknown) => T, thinking?: ThinkingLevel, opts: AskOpts = {}): Promise<T> {
   const ai = client();
-  let lastError = "";
-  let busyRetries = 0;
+  const timeoutMs = opts.timeoutMs ?? 60_000;
+  const deadline = Date.now() + (opts.budgetMs ?? 110_000);
   let useThinking = true;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  let strikes = 0; // failures in a row on the current model
+  let last: { kind: "busy" | "timeout" | "bad_output"; detail: string } = { kind: "busy", detail: "" };
+
+  for (let attempt = 0; attempt < 10 && Date.now() < deadline; attempt++) {
+    // Every model is resting (a per-minute limit, usually): wait for the first to recover instead of failing.
+    if (pool.allCooling()) await sleep(Math.min(pool.waitMs(), 30_000));
+    const model = pool.current();
+    opts.onModel?.(model);
+
+    let text: string;
     try {
       const res = await ai.models.generateContent({
-        model: MODELS[modelIdx],
+        model,
         contents: [{ role: "user", parts }],
-        config: { systemInstruction: system, responseMimeType: "application/json", temperature: 0.3, ...(thinking && useThinking ? { thinkingConfig: { thinkingLevel: thinking } } : {}) },
+        config: {
+          systemInstruction: system,
+          responseMimeType: "application/json",
+          temperature: 0.3,
+          abortSignal: AbortSignal.timeout(timeoutMs),
+          ...(thinking && useThinking ? { thinkingConfig: { thinkingLevel: thinking } } : {}),
+        },
       });
-      return validate(parseJson(res.text ?? ""));
+      text = res.text ?? "";
     } catch (e) {
-      if (e instanceof ApiError) {
-        if (e.status === 401 || e.status === 403 || /API key/i.test(e.message)) {
-          throw new SetupError("Setup problem: Gemini rejected the API key. Check GEMINI_API_KEY.");
-        }
-        // Daily quota used up (429) or model unavailable (404): switch to the next model and try again.
-        if ((e.status === 429 || e.status === 404) && modelIdx < MODELS.length - 1) {
-          modelIdx++;
-          attempt--;
-          continue;
-        }
-        // This model does not accept a thinking level: try again without it.
-        if (e.status === 400 && /thinking/i.test(e.message) && useThinking) {
-          useThinking = false;
-          attempt--;
-          continue;
-        }
-        // 503 = Google is busy. Try the same model twice quickly, then move to the next model instead of waiting it out
-        // (waiting 4+8+12+16 s on every call made a full run take minutes). After the last model, keep retrying with waits.
-        if (e.status === 503) {
-          if (busyRetries < 2) {
-            busyRetries++;
-            attempt--;
-            await new Promise((r) => setTimeout(r, 2000 * busyRetries));
-            continue;
-          }
-          if (modelIdx < MODELS.length - 1) {
-            modelIdx++;
-            busyRetries = 0;
-            attempt--;
-            continue;
-          }
-          if (busyRetries < 4) {
-            busyRetries++;
-            attempt--;
-            await new Promise((r) => setTimeout(r, 4000 * busyRetries));
-            continue;
-          }
-        }
-        throw e;
+      const kind = classifyAiError(e);
+      const detail = e instanceof Error ? e.message.slice(0, 200) : String(e);
+      if (kind === "setup") throw new SetupError("Setup problem: Gemini rejected the API key. Check GEMINI_API_KEY.");
+      if (kind === "thinking" && useThinking) {
+        useThinking = false; // this model does not accept a thinking level
+        attempt--;
+        continue;
       }
-      lastError = e instanceof Error ? e.message : String(e);
+      if (kind === "rate_limit") {
+        pool.cool(model, rateLimitRestMs(e));
+        strikes = 0;
+        last = { kind: "busy", detail };
+        // Only a long wait (a daily quota) gives up at once, and the caller shows the rate-limit message. A short one is waited out.
+        if (pool.allCooling() && pool.waitMs() > 60_000) throw e;
+        continue;
+      }
+      if (kind === "gone") {
+        pool.cool(model, REST_MS.gone);
+        strikes = 0;
+        last = { kind: "busy", detail };
+        continue;
+      }
+      if (kind === "transient" || kind === "timeout") {
+        last = { kind: kind === "timeout" ? "timeout" : "busy", detail };
+        strikes++;
+        // A call that timed out is not tried again on the same model: it is already too slow.
+        if (kind === "timeout" || strikes >= 2) {
+          pool.cool(model, kind === "timeout" ? REST_MS.timeout : REST_MS.transient);
+          strikes = 0;
+        } else {
+          await sleep(1500);
+        }
+        continue;
+      }
+      throw e; // a bad request or a bug: trying again will not change it
+    }
+
+    try {
+      return validate(parseJson(text));
+    } catch (v) {
+      last = { kind: "bad_output", detail: v instanceof Error ? v.message.slice(0, 200) : String(v) };
+      strikes++;
+      if (strikes >= 2) {
+        pool.cool(model, REST_MS.bad_output);
+        strikes = 0;
+      }
     }
   }
-  throw new Error(`Gemini did not return usable JSON twice. ${lastError}`);
+  throw new AiError(last.kind, last.detail || "no answer in time");
 }
 
 const str = (x: unknown) => (typeof x === "string" && x.trim() ? x.trim() : null);
@@ -123,6 +165,8 @@ If it is not a real estate brochure, set is_real_estate_brochure to false and le
     [{ inlineData: { mimeType: "application/pdf", data: pdfBase64 } }, { text: prompt }],
     EXTRACT_SYSTEM,
     validateFacts,
+    ThinkingLevel.LOW,
+    { timeoutMs: 50_000 },
   );
 }
 
@@ -138,7 +182,7 @@ For configurations, say whether an area is the sale area or the carpet area exac
 
 DOCUMENT TEXT:
 ${text.slice(0, 120_000)}`;
-  const f = await askJson([{ text: prompt }], EXTRACT_SYSTEM, validateFacts);
+  const f = await askJson([{ text: prompt }], EXTRACT_SYSTEM, validateFacts, ThinkingLevel.LOW, { timeoutMs: 35_000 });
   // The model often leaves 'missing' empty. Add what is plainly absent so the brief and scripts do not treat it as known.
   const missing = new Set(f.missing);
   if (!f.price) missing.add("price");
@@ -215,7 +259,7 @@ Return JSON in this shape: ${SCRIPT_SHAPE}`;
     const s = validateScripts(x);
     if (s.length !== 3) throw new Error(`expected 3 scripts, got ${s.length}`);
     return s;
-  }, ThinkingLevel.LOW);
+  }, ThinkingLevel.LOW, { timeoutMs: 75_000 });
 }
 
 const BRIEF_SYSTEM = `You are a Bengaluru real estate analyst and content strategist preparing a property intelligence brief BEFORE any script is written. Reply with one JSON object and nothing else.
@@ -265,9 +309,8 @@ Give 3 to 5 selling_points ranked by relevance, 3 to 6 limitations, 2 to 3 perso
   let model = "";
   const raw = await askJson([{ text: prompt }], BRIEF_SYSTEM, (x) => {
     if (!x || typeof x !== "object") throw new Error("brief is not an object");
-    model = MODELS[modelIdx];
     return x as BriefRaw;
-  }, ThinkingLevel.LOW);
+  }, ThinkingLevel.LOW, { timeoutMs: 30_000, budgetMs: 35_000, onModel: (m) => { model = m; } });
   return { raw, model };
 }
 
@@ -298,6 +341,6 @@ Return JSON in this shape with exactly one script: ${SCRIPT_SHAPE}`;
     const s = validateScripts(x);
     if (s.length < 1) throw new Error("no script");
     return s;
-  });
+  }, ThinkingLevel.LOW, { timeoutMs: 45_000 });
   return out[0];
 }

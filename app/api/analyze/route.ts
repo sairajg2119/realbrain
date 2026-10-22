@@ -3,7 +3,7 @@ import { loadBrain, localityFacts, localityUnverified } from "@/lib/brain";
 import { anglesForScripts, avoidForScripts, buildBrief, factList } from "@/lib/brief";
 import { checkScript, fixCitation, hasDistinctHookTypes, hasMixedAudiences } from "@/lib/checks";
 import { applyCompliance, scanScript, withOnScreen } from "@/lib/compliance";
-import { extractFacts, extractFactsFromText, isRateLimit, rewriteScript, SetupError, writeBrief, writeScripts } from "@/lib/gemini";
+import { AiError, extractFacts, extractFactsFromText, isRateLimit, rewriteScript, SetupError, writeBrief, writeScripts } from "@/lib/gemini";
 import { TEXT_ONLY_NOTE, validateBrochureText } from "@/lib/textInput";
 import { BUYER_TYPES, type AnalyzeResponse, type BuyerChoice, type BuyerType, type CheckedScript, type PropertyBrief } from "@/lib/types";
 
@@ -121,13 +121,19 @@ export async function POST(request: Request) {
         },
       });
     }
+    // The brief is a bonus. When the AI has already been slow, skip it so the scripts still arrive in good time.
+    const slowStart = Date.now() - t0 > 45_000;
+    if (slowStart) notes.push("The AI was slow, so the property analysis was skipped this time. The scripts were written from the brochure facts.");
     try {
+      if (slowStart) throw new Error("skipped: slow start");
       brief = await buildBriefSafe();
       console.log(`[timing] brief done at ${Date.now() - t0}ms`);
     } catch (e) {
       if (e instanceof SetupError) throw e;
-      console.error("brief failed:", e instanceof Error ? e.message : e);
-      notes.push("The property brief could not be prepared this time, so the scripts were written from the brochure facts alone.");
+      if (!slowStart) {
+        console.error("brief failed:", e instanceof Error ? e.message : e);
+        notes.push("The property brief could not be prepared this time, so the scripts were written from the brochure facts alone.");
+      }
     }
 
     // AI call 3: write 3 scripts (once more if the hook types repeat).
@@ -135,7 +141,7 @@ export async function POST(request: Request) {
     let scripts = await writeScripts(common);
     console.log(`[timing] scripts done at ${Date.now() - t0}ms`);
     // When RealBrain chooses the audiences, one more try if every script is for the same one.
-    if (input.buyer === "auto" && !hasMixedAudiences(scripts)) {
+    if (input.buyer === "auto" && !hasMixedAudiences(scripts) && Date.now() - t0 < 150_000) {
       const retry = await writeScripts({ ...common, extraNote: "Every script was for the same audience. Write for at least two different audiences. For example first-time buyers (sizes, layouts, what is included) or everyone (open space, lifestyle), whichever the facts support." });
       if (hasMixedAudiences(retry)) scripts = retry;
     }
@@ -154,7 +160,8 @@ export async function POST(request: Request) {
     const checked: CheckedScript[] = await Promise.all(
       scripts.map(async (raw) => {
         let item = evaluate(raw);
-        if (item.checks.hardFailures.length) {
+        // A rewrite is another AI call. Late in a slow request the script is shown with its failure marked instead, so the request always finishes.
+        if (item.checks.hardFailures.length && Date.now() - t0 < 200_000) {
           try {
             const rewritten = await rewriteScript({ facts, buyer: input.buyer, script: item.script, failures: item.checks.hardFailures, teardowns: brain.teardowns });
             const again = evaluate(rewritten);
@@ -178,7 +185,18 @@ export async function POST(request: Request) {
     if (isRateLimit(e)) {
       return reply({ status: "error", message: "The AI service is busy (free-plan limit). Please wait a minute and try again." }, 429);
     }
-    console.error(e);
-    return reply({ status: "error", message: "Something went wrong while reading the brochure. Please try again." }, 500);
+    // A short reference printed in the server log and shown to the person, so a failure can be found afterwards.
+    const ref = Math.random().toString(36).slice(2, 8);
+    console.error(`[error ${ref}]`, e);
+    if (e instanceof AiError) {
+      const message =
+        e.kind === "timeout"
+          ? "The AI is taking too long to answer right now. Please try again in a minute."
+          : e.kind === "bad_output"
+            ? "The AI answered in a form we could not use. Please try again."
+            : "The AI service is overloaded or unreachable right now. Please try again in a minute.";
+      return reply({ status: "error", message: `${message} (reference ${ref})` }, 503);
+    }
+    return reply({ status: "error", message: `Something went wrong while creating your scripts. Please try again. (reference ${ref})` }, 500);
   }
 }
