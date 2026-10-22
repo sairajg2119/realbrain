@@ -1,0 +1,51 @@
+{
+  "pipeline_version": "social-brain-1.0.0",
+  "built_at": "2026-10-22T11:17:37.580Z",
+  "sources": {
+    "reels_dataset": "CB3SNYD4LPQW3BiyO",
+    "transcripts_dataset": "4XrYkhay87CuwWHgw",
+    "collection_dates": "2026-10-21 (reels and transcripts); read again 2026-10-22"
+  },
+  "counts": {
+    "raw_reel_rows": 487,
+    "duplicates_dropped": 0,
+    "reels_normalized": 487,
+    "pages_in_data": 25,
+    "pages_with_reliable_baseline": 25,
+    "pages_thin": 0,
+    "reels_used_for_pattern_stats": 487,
+    "transcript_rows": 52,
+    "reels_with_transcript": 41,
+    "llm_teardowns_applied": 486,
+    "llm_coverage": 0.998,
+    "transcript_coverage": 0.084,
+    "visual_analysis_coverage": 0,
+    "likes_hidden": 90,
+    "comments_missing": 0,
+    "collab_posts_attributed_to_source_page": 83,
+    "bengaluru_reels": 40,
+    "indian_pages_in_data": [
+      "inbengaluruproperties",
+      "invest_in_bengaluru"
+    ]
+  },
+  "thresholds": {
+    "breakout": 2,
+    "strong": 1.25,
+    "typical": 0.75,
+    "severe": 0.5
+  },
+  "minimum_baseline_sample": 8,
+  "baseline_definition": "Median plays of all reels collected for a page in this dataset (about the latest 20 per page). Observation window per page is in account_performance_baselines.json.",
+  "limitations": [
+    "Mostly US pages. Bengaluru is covered by 2 benchmark pages, so findings are not proven for Indian developers.",
+    "One-day snapshot. No metric history yet; each re-run should add a snapshot.",
+    "Rule-based classification of hooks, formats and CTAs from caption and transcript. No video, audio or on-screen text was analysed (visual coverage 0%).",
+    "LLM teardowns cover 486 of 487 reels; the rest use rule-based labels, which are coarser.",
+    "Only 41 of 487 reels have a transcript, so hook type for the rest comes from the caption's first line.",
+    "Likes are hidden (-1) on many reels and treated as unavailable, never zero. Shares, saves and follower counts at collection time are not in the dataset.",
+    "Follower counts, market and category labels come from project notes, not from the scrape.",
+    "Possible paid boosts are invisible in the data. Breakout reels may be boosted.",
+    "Associations only. Nothing here shows that a hook or format caused the views."
+  ]
+}

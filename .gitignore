@@ -10,3 +10,8 @@ next-env.d.ts
 
 # private planning docs (brief, scope, UI mock) - never commit
 docs/
+
+# Social Brain raw Instagram text (captions, transcripts) and LLM cache: regenerate locally, do not publish others' words
+social-brain/raw/
+social-brain/cache/
+social-brain/brain/instagram_reels_normalized.jsonl

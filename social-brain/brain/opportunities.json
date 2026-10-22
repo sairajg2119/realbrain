@@ -1,0 +1,135 @@
+{
+  "established": "None claimed beyond the hook, format and CTA statistics in winning_patterns.json.",
+  "emerging": [
+    "Bengaluru pages (40 reels) lean on: curiosity_superlative (4), plain_listing (18), bold_money_number (8)."
+  ],
+  "creative_hypotheses": [
+    {
+      "idea": "Developer math in rupees",
+      "why": "Strong abroad; no Bengaluru benchmark page uses it in this data.",
+      "audience": "investors and first-time buyers",
+      "hook": "We bought this land for ₹X Cr. Here's what each square foot costs us.",
+      "cta": "comment MATH",
+      "test": "3 reels, compare to page median"
+    },
+    {
+      "idea": "Construction spectacle with a record number",
+      "why": "Highest multiples in the dataset come from site content.",
+      "audience": "under-construction buyers",
+      "hook": "Why are 60 trucks outside our site at 5 a.m.?",
+      "cta": "comment SITE",
+      "test": "one slab-casting night"
+    },
+    {
+      "idea": "Founder answers one buyer objection on site",
+      "why": "People beat logos in the data.",
+      "audience": "families",
+      "hook": "Nobody tells you this about buying under-construction.",
+      "cta": "save for later",
+      "test": "five objections, five reels"
+    }
+  ],
+  "hook_mix_in_dataset": [
+    {
+      "hook": "news_or_celebrity",
+      "reels": 7,
+      "share_of_dataset": 0.014
+    },
+    {
+      "hook": "confession_insider",
+      "reels": 20,
+      "share_of_dataset": 0.041
+    },
+    {
+      "hook": "visual_only_no_hook",
+      "reels": 7,
+      "share_of_dataset": 0.014
+    },
+    {
+      "hook": "question_analogy",
+      "reels": 7,
+      "share_of_dataset": 0.014
+    },
+    {
+      "hook": "market_proof",
+      "reels": 11,
+      "share_of_dataset": 0.023
+    },
+    {
+      "hook": "announcement",
+      "reels": 25,
+      "share_of_dataset": 0.051
+    },
+    {
+      "hook": "relatable_humour",
+      "reels": 42,
+      "share_of_dataset": 0.086
+    },
+    {
+      "hook": "pattern_interrupt_question",
+      "reels": 22,
+      "share_of_dataset": 0.045
+    },
+    {
+      "hook": "rare_feature",
+      "reels": 17,
+      "share_of_dataset": 0.035
+    },
+    {
+      "hook": "list_promise",
+      "reels": 15,
+      "share_of_dataset": 0.031
+    },
+    {
+      "hook": "curiosity_superlative",
+      "reels": 78,
+      "share_of_dataset": 0.16
+    },
+    {
+      "hook": "bold_money_number",
+      "reels": 51,
+      "share_of_dataset": 0.105
+    },
+    {
+      "hook": "place_transformation",
+      "reels": 12,
+      "share_of_dataset": 0.025
+    },
+    {
+      "hook": "story_emotional",
+      "reels": 23,
+      "share_of_dataset": 0.047
+    },
+    {
+      "hook": "audience_callout",
+      "reels": 23,
+      "share_of_dataset": 0.047
+    },
+    {
+      "hook": "plain_listing",
+      "reels": 41,
+      "share_of_dataset": 0.084
+    },
+    {
+      "hook": "other",
+      "reels": 46,
+      "share_of_dataset": 0.094
+    },
+    {
+      "hook": "founder_insight",
+      "reels": 13,
+      "share_of_dataset": 0.027
+    },
+    {
+      "hook": "buyer_misconception",
+      "reels": 24,
+      "share_of_dataset": 0.049
+    },
+    {
+      "hook": "construction_spectacle",
+      "reels": 3,
+      "share_of_dataset": 0.006
+    }
+  ],
+  "note": "Saturation figures show what the dataset contains, not what the whole market does."
+}

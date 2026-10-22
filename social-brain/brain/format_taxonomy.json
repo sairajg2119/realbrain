@@ -1,0 +1,605 @@
+[
+  {
+    "name": "other",
+    "n": 14,
+    "pages": 8,
+    "median_multiple": 1.27,
+    "p25_multiple": 0.85,
+    "p75_multiple": 3.49,
+    "median_multiple_without_top_reel": 1.15,
+    "breakout_share": 0.43,
+    "underperform_share": 0.21,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3883256146811554280",
+        "url": "https://www.instagram.com/reel/DXkGOQijgno/",
+        "page": "ryanserhant",
+        "multiple": 41.55,
+        "opening_line": "What did I just witness?"
+      },
+      {
+        "reel_id": "4009197691524544541",
+        "url": "https://www.instagram.com/reel/DejiA8Novgd/",
+        "page": "unionsquarehouse",
+        "multiple": 22.52,
+        "opening_line": "Take a second, matter of fact, you should take 4B and think before you f*** a lil' skateboard P."
+      },
+      {
+        "reel_id": "4007302914208667166",
+        "url": "https://www.instagram.com/reel/DeczMTUy5Ye/",
+        "page": "thebrokeagent",
+        "multiple": 7.08,
+        "opening_line": "Has the U.S."
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4002755157690490385",
+        "url": "https://www.instagram.com/reel/DeMpJvBAR4R/",
+        "page": "themillerfam",
+        "multiple": 0.47,
+        "opening_line": "🚨GIVEAWAY!!🚨 Honestly meat is pretty insane right now and we wanna help! So we are joining forces with @goodranchers to give a box of meat to one of you! You deserve to know where your meat comes fr"
+      },
+      {
+        "reel_id": "4008620933094179010",
+        "url": "https://www.instagram.com/reel/Dehe4AERgDC/",
+        "page": "ryanserhant",
+        "multiple": 0.04,
+        "opening_line": "Ryan vs First Pitch"
+      }
+    ],
+    "median_duration_s": 28
+  },
+  {
+    "name": "humour_or_skit",
+    "n": 32,
+    "pages": 8,
+    "median_multiple": 1.11,
+    "p25_multiple": 0.83,
+    "p75_multiple": 2.08,
+    "median_multiple_without_top_reel": 1.09,
+    "breakout_share": 0.25,
+    "underperform_share": 0.22,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3639609459006379060",
+        "url": "https://www.instagram.com/reel/DKCfYT9OhQ0/",
+        "page": "ryanserhant",
+        "multiple": 385.3,
+        "opening_line": "yes So, you can do a certain amount of charges."
+      },
+      {
+        "reel_id": "3905670563204666382",
+        "url": "https://www.instagram.com/reel/DYzuq8hg5QO/",
+        "page": "themillerfam",
+        "multiple": 31.09,
+        "opening_line": "🤣 When you’re married to the guy who knows EVERYONE and to be fair it was closing day for some of his amazing clients ❤️🤣✨"
+      },
+      {
+        "reel_id": "4007928599973407434",
+        "url": "https://www.instagram.com/reel/DefBdOmiyrK/",
+        "page": "ryanserhant",
+        "multiple": 14.38,
+        "opening_line": "For some reason my FOB stopped working"
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4003523450718585280",
+        "url": "https://www.instagram.com/reel/DePX13qBwHA/",
+        "page": "thebrokeagent",
+        "multiple": 0,
+        "opening_line": "I wonder why!?"
+      },
+      {
+        "reel_id": "4007881075433478980",
+        "url": "https://www.instagram.com/reel/Dee2pp7ORtE/",
+        "page": "thebrokeagent",
+        "multiple": 0,
+        "opening_line": "You no longer have to show homes. Oliver will do it for you!!"
+      }
+    ],
+    "median_duration_s": 38
+  },
+  {
+    "name": "news_slides",
+    "n": 20,
+    "pages": 5,
+    "median_multiple": 1.1,
+    "p25_multiple": 0.79,
+    "p75_multiple": 2.05,
+    "median_multiple_without_top_reel": 1.04,
+    "breakout_share": 0.3,
+    "underperform_share": 0.25,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3833140433165922123",
+        "url": "https://www.instagram.com/reel/DUyDOpFCq9L/",
+        "page": "unionsquarehouse",
+        "multiple": 121.45,
+        "opening_line": "14 years of unwavering excellence. A distinction held by only one agency."
+      },
+      {
+        "reel_id": "4008640603596199287",
+        "url": "https://www.instagram.com/reel/DehjWPpjxV3/",
+        "page": "tradedmiami",
+        "multiple": 9.73,
+        "opening_line": "SALE"
+      },
+      {
+        "reel_id": "4011511383378654797",
+        "url": "https://www.instagram.com/reel/DerwFlquHZN/",
+        "page": "realtordotcom",
+        "multiple": 3.78,
+        "opening_line": "Kanye West has been ordered to pay an additional $181,433 following a lawsuit tied to the gut renovation of his former Malibu beach house, resulting in a $321,000 total award. Visit out link in bio to"
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4009320195356987988",
+        "url": "https://www.instagram.com/reel/Dej93mzDZJU/",
+        "page": "tradedmiami",
+        "multiple": 0.3,
+        "opening_line": "SALE"
+      },
+      {
+        "reel_id": "4006390896563896211",
+        "url": "https://www.instagram.com/reel/DeZj0stDL-T/",
+        "page": "tradedmiami",
+        "multiple": 0.28,
+        "opening_line": "LEASE"
+      }
+    ],
+    "median_duration_s": 30
+  },
+  {
+    "name": "talking_head",
+    "n": 33,
+    "pages": 12,
+    "median_multiple": 1.08,
+    "p25_multiple": 0.47,
+    "p75_multiple": 1.72,
+    "median_multiple_without_top_reel": 1.05,
+    "breakout_share": 0.21,
+    "underperform_share": 0.3,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3813784207676584377",
+        "url": "https://www.instagram.com/reel/DTtSIfUjrG5/",
+        "page": "ryanserhant",
+        "multiple": 62.73,
+        "opening_line": "Starting 2026 with a mustache."
+      },
+      {
+        "reel_id": "4009339918563584400",
+        "url": "https://www.instagram.com/reel/DekCWndxqmQ/",
+        "page": "ryanserhant",
+        "multiple": 14.85,
+        "opening_line": "The real estate market in San Francisco right now is insane."
+      },
+      {
+        "reel_id": "4009657649086693676",
+        "url": "https://www.instagram.com/reel/DelKmNEvYEs/",
+        "page": "luxurysocalrealty",
+        "multiple": 9.95,
+        "opening_line": "What would you add after living in your current house?"
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4006368808763260845",
+        "url": "https://www.instagram.com/reel/DeZezR1if-t/",
+        "page": "ryanserhant",
+        "multiple": 0.02,
+        "opening_line": "DAY IN THE LIFE OF A CEO | 4:30 AM - 11:00 PM "
+      },
+      {
+        "reel_id": "4006438911848688605",
+        "url": "https://www.instagram.com/reel/DeZuvabCyvd/",
+        "page": "luxurysocalrealty",
+        "multiple": 0.02,
+        "opening_line": "Some expenses are worth every dollar."
+      }
+    ],
+    "median_duration_s": 41
+  },
+  {
+    "name": "listing_announcement",
+    "n": 89,
+    "pages": 17,
+    "median_multiple": 1.03,
+    "p25_multiple": 0.72,
+    "p75_multiple": 1.68,
+    "median_multiple_without_top_reel": 1,
+    "breakout_share": 0.17,
+    "underperform_share": 0.27,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3274369659355150007",
+        "url": "https://www.instagram.com/reel/C1w5dtZLja3/",
+        "page": "realtordotcom",
+        "multiple": 2488.41,
+        "opening_line": "Kanye West bought this property for $57M all cash, gutted it, and is now listing it for $53M! 👀"
+      },
+      {
+        "reel_id": "3460095337064926757",
+        "url": "https://www.instagram.com/reel/DAEumBuvY4l/",
+        "page": "abby.young.home",
+        "multiple": 106.55,
+        "opening_line": "This home is so stunning! 🖤 Comment STONEMANOR for all the details! "
+      },
+      {
+        "reel_id": "3359323872582667544",
+        "url": "https://www.instagram.com/reel/C6et0N-x40Y/",
+        "page": "abby.young.home",
+        "multiple": 72.32,
+        "opening_line": "And it goes like, ooh, what I wouldn't do."
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4009995502068970047",
+        "url": "https://www.instagram.com/reel/DemXanLvDI_/",
+        "page": "atproperties",
+        "multiple": 0.3,
+        "opening_line": "Built in 1888, this three story Queen Anne Victorian was originally the residence of Beloit, WI’s very first native born mayor, Lawrence E. Cunningham. Located in the Bluff Street Historic District, i"
+      },
+      {
+        "reel_id": "4009956626211117758",
+        "url": "https://www.instagram.com/reel/DemOk5OCZq-/",
+        "page": "inbengaluruproperties",
+        "multiple": 0.22,
+        "opening_line": "3bhk for sale in Sobha city "
+      }
+    ],
+    "median_duration_s": 23
+  },
+  {
+    "name": "interview_or_conversation",
+    "n": 35,
+    "pages": 14,
+    "median_multiple": 0.99,
+    "p25_multiple": 0.69,
+    "p75_multiple": 7.84,
+    "median_multiple_without_top_reel": 0.98,
+    "breakout_share": 0.37,
+    "underperform_share": 0.31,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3766784498156287586",
+        "url": "https://www.instagram.com/reel/DRGTos2DbZi/",
+        "page": "tradedmiami",
+        "multiple": 153.14,
+        "opening_line": "Gil, what the hell is going on here right now?"
+      },
+      {
+        "reel_id": "3408520291284937999",
+        "url": "https://www.instagram.com/reel/C9NfyVTv-0P/",
+        "page": "brockandlori",
+        "multiple": 86.1,
+        "opening_line": "We got a little secret for you."
+      },
+      {
+        "reel_id": "3765932756481276664",
+        "url": "https://www.instagram.com/reel/DRDR-OmEvr4/",
+        "page": "tradedmiami",
+        "multiple": 36.46,
+        "opening_line": "Hey, wait."
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "3997890158250470537",
+        "url": "https://www.instagram.com/reel/Dd7W-rNjKyJ/",
+        "page": "jayroberts",
+        "multiple": 0.33,
+        "opening_line": "Sometimes your next chapter begins with a door you did not plan to walk through. | PART 2"
+      },
+      {
+        "reel_id": "3709799278349948049",
+        "url": "https://www.instagram.com/reel/DN72snODJSR/",
+        "page": "alliebethallman",
+        "multiple": 0.27,
+        "opening_line": "Meet the Allie Beth Allman & Associates agents named D Best in DFW by D Magazine this year. "
+      }
+    ],
+    "median_duration_s": 56
+  },
+  {
+    "name": "walkthrough_or_tour",
+    "n": 98,
+    "pages": 18,
+    "median_multiple": 0.97,
+    "p25_multiple": 0.6,
+    "p75_multiple": 1.44,
+    "median_multiple_without_top_reel": 0.95,
+    "breakout_share": 0.15,
+    "underperform_share": 0.34,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3988819584004246422",
+        "url": "https://www.instagram.com/reel/DdbIkcpscuW/",
+        "page": "jayroberts",
+        "multiple": 15.7,
+        "opening_line": "Legacy, elegance, and luxury converge in a celebration of joie de vivre."
+      },
+      {
+        "reel_id": "3994117861257089133",
+        "url": "https://www.instagram.com/reel/Ddt9Qh3RZBt/",
+        "page": "abby.young.home",
+        "multiple": 6.63,
+        "opening_line": "Open the gates, I'm here to prove I'm better than my father was And where he came from too Open the gates, I'm here to ride"
+      },
+      {
+        "reel_id": "3983197881191735609",
+        "url": "https://www.instagram.com/reel/DdHKV56haE5/",
+        "page": "enesyilmazer",
+        "multiple": 4.8,
+        "opening_line": "Behind these double doors is one of the craziest properties we've ever toured."
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4011439329699440930",
+        "url": "https://www.instagram.com/reel/DerftEcxCki/",
+        "page": "ryanserhant",
+        "multiple": 0.26,
+        "opening_line": "Just when you think you’ve seen it all…"
+      },
+      {
+        "reel_id": "3916412391373696661",
+        "url": "https://www.instagram.com/reel/DZZ5FHlxG6V/",
+        "page": "matt.lionetti",
+        "multiple": 0.01,
+        "opening_line": "It’s more than just a pretty house. It’s where moments are captured, and memories are made. "
+      }
+    ],
+    "median_duration_s": 48
+  },
+  {
+    "name": "lifestyle_or_story",
+    "n": 66,
+    "pages": 14,
+    "median_multiple": 0.97,
+    "p25_multiple": 0.54,
+    "p75_multiple": 1.79,
+    "median_multiple_without_top_reel": 0.96,
+    "breakout_share": 0.24,
+    "underperform_share": 0.36,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3321689579794078785",
+        "url": "https://www.instagram.com/reel/C4ZAxLhvhxB/",
+        "page": "realtordotcom",
+        "multiple": 1007.46,
+        "opening_line": "I look after you I look after you I look after you"
+      },
+      {
+        "reel_id": "3934688186491768065",
+        "url": "https://www.instagram.com/reel/Daa0g8JxI0B/",
+        "page": "abby.young.home",
+        "multiple": 26.15,
+        "opening_line": "This is the place where I feel at home."
+      },
+      {
+        "reel_id": "4006485623720004182",
+        "url": "https://www.instagram.com/reel/DeZ5XKPikpW/",
+        "page": "ryanserhant",
+        "multiple": 16.06,
+        "opening_line": "I have no time to waste today."
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4006437611975116182",
+        "url": "https://www.instagram.com/reel/DeZucf0ioWW/",
+        "page": "luxurysocalrealty",
+        "multiple": 0.02,
+        "opening_line": "People have opinions when you start choosing a life that fits you better."
+      },
+      {
+        "reel_id": "4006436426060779597",
+        "url": "https://www.instagram.com/reel/DeZuLPWidBN/",
+        "page": "luxurysocalrealty",
+        "multiple": 0,
+        "opening_line": "You know you have lived in San Diego awhile when the beach stops feeling like an event and starts becoming part of your routine."
+      }
+    ],
+    "median_duration_s": 26
+  },
+  {
+    "name": "education_or_advice",
+    "n": 59,
+    "pages": 14,
+    "median_multiple": 0.92,
+    "p25_multiple": 0.61,
+    "p75_multiple": 1.34,
+    "median_multiple_without_top_reel": 0.91,
+    "breakout_share": 0.15,
+    "underperform_share": 0.41,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3603496552988552414",
+        "url": "https://www.instagram.com/reel/DICMQXWOize/",
+        "page": "jayroberts",
+        "multiple": 202.54,
+        "opening_line": "Last year, I bought a site on the water for $30 million."
+      },
+      {
+        "reel_id": "3696969123893019257",
+        "url": "https://www.instagram.com/reel/DNORdSvOwJ5/",
+        "page": "jayroberts",
+        "multiple": 180.24,
+        "opening_line": "You can buy a $100 million building with $30 million of cash."
+      },
+      {
+        "reel_id": "3180963982768841237",
+        "url": "https://www.instagram.com/reel/CwlDeOMP6IV/",
+        "page": "brockandlori",
+        "multiple": 54.02,
+        "opening_line": "When we get a home ready for sale, 90% of the time we repaint the interiors and we paint it white."
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "3982751157549377438",
+        "url": "https://www.instagram.com/reel/DdFkxOGgaee/",
+        "page": "coffeecontracts",
+        "multiple": 0.01,
+        "opening_line": "Real estate agents: how to build your first dashboard in Claude 💻"
+      },
+      {
+        "reel_id": "3988893535352117910",
+        "url": "https://www.instagram.com/reel/DdbZYlNg9qW/",
+        "page": "coffeecontracts",
+        "multiple": 0.01,
+        "opening_line": "3 things I’d do first if I was a real estate agent looking to save time with AI / Claude "
+      }
+    ],
+    "median_duration_s": 43
+  },
+  {
+    "name": "market_commentary",
+    "n": 37,
+    "pages": 12,
+    "median_multiple": 0.85,
+    "p25_multiple": 0.53,
+    "p75_multiple": 1.31,
+    "median_multiple_without_top_reel": 0.85,
+    "breakout_share": 0.03,
+    "underperform_share": 0.43,
+    "evidence_level": "established",
+    "top_examples": [
+      {
+        "reel_id": "3622943778978551492",
+        "url": "https://www.instagram.com/reel/DJHSCv7OlbE/",
+        "page": "jayroberts",
+        "multiple": 47.92,
+        "opening_line": "This stretch of Miami River running from Biscayne Bay through Brickle and downtown is in the middle of a massive transformation."
+      },
+      {
+        "reel_id": "3999362308374285177",
+        "url": "https://www.instagram.com/reel/DeAltR2vEt5/",
+        "page": "thebrokeagent",
+        "multiple": 1.68,
+        "opening_line": "YOU TELL ME a better way to get your attention next time. Someone needs to let you know what’s happening in the market."
+      },
+      {
+        "reel_id": "3991095446252003432",
+        "url": "https://www.instagram.com/reel/DdjOCmih6Bo/",
+        "page": "espacerealestate",
+        "multiple": 1.62,
+        "opening_line": "What is actually happening in Dubai’s property market post-summer?"
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4012316878230440545",
+        "url": "https://www.instagram.com/reel/DeunPFNOsph/",
+        "page": "realtordotcom",
+        "multiple": 0.02,
+        "opening_line": "Is buying a condo smarter than renting in 2026? With housing affordability still a major concern, many renters are wondering whether buying a condo could be a better path to homeownership."
+      },
+      {
+        "reel_id": "4005730962502556411",
+        "url": "https://www.instagram.com/reel/DeXNxZNv5r7/",
+        "page": "luxurysocalrealty",
+        "multiple": 0,
+        "opening_line": "“You could get more house somewhere else.”"
+      }
+    ],
+    "median_duration_s": 40
+  },
+  {
+    "name": "construction_or_development",
+    "n": 3,
+    "pages": 3,
+    "median_multiple": 1.26,
+    "p25_multiple": 0.81,
+    "p75_multiple": 2.99,
+    "median_multiple_without_top_reel": 0.81,
+    "breakout_share": 0.33,
+    "underperform_share": 0.33,
+    "evidence_level": "hypothesis",
+    "top_examples": [
+      {
+        "reel_id": "3999122795848130957",
+        "url": "https://www.instagram.com/reel/Dd_vP6bseGN/",
+        "page": "jayroberts",
+        "multiple": 4.71,
+        "opening_line": "Since 1908, we’ve been mastering the art of building. "
+      },
+      {
+        "reel_id": "3955895106459134149",
+        "url": "https://www.instagram.com/reel/DbmKaPdM-jF/",
+        "page": "luxury_homes",
+        "multiple": 1.26,
+        "opening_line": "Welcome to the latest Mgdesyan Developments build. 🏡✨"
+      },
+      {
+        "reel_id": "4012141394506630648",
+        "url": "https://www.instagram.com/reel/Det_VdQNUX4/",
+        "page": "unionsquarehouse",
+        "multiple": 0.35,
+        "opening_line": "EP.03 of INSIDE GHAF WOODS — the engineering behind it:"
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "3955895106459134149",
+        "url": "https://www.instagram.com/reel/DbmKaPdM-jF/",
+        "page": "luxury_homes",
+        "multiple": 1.26,
+        "opening_line": "Welcome to the latest Mgdesyan Developments build. 🏡✨"
+      },
+      {
+        "reel_id": "4012141394506630648",
+        "url": "https://www.instagram.com/reel/Det_VdQNUX4/",
+        "page": "unionsquarehouse",
+        "multiple": 0.35,
+        "opening_line": "EP.03 of INSIDE GHAF WOODS — the engineering behind it:"
+      }
+    ],
+    "median_duration_s": 54
+  },
+  {
+    "name": "fast_visual_tour",
+    "n": 1,
+    "pages": 1,
+    "median_multiple": 0.86,
+    "p25_multiple": 0.86,
+    "p75_multiple": 0.86,
+    "median_multiple_without_top_reel": null,
+    "breakout_share": 0,
+    "underperform_share": 0,
+    "evidence_level": "hypothesis",
+    "top_examples": [
+      {
+        "reel_id": "4010644417672751270",
+        "url": "https://www.instagram.com/reel/Deoq9k7yaim/",
+        "page": "invest_in_bengaluru",
+        "multiple": 0.86,
+        "opening_line": "Luxury Villas"
+      }
+    ],
+    "lowest_examples": [
+      {
+        "reel_id": "4010644417672751270",
+        "url": "https://www.instagram.com/reel/Deoq9k7yaim/",
+        "page": "invest_in_bengaluru",
+        "multiple": 0.86,
+        "opening_line": "Luxury Villas"
+      }
+    ],
+    "median_duration_s": 10
+  }
+]

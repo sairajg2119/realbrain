@@ -1,0 +1,454 @@
+{
+  "version": "social-brain-1.0.0",
+  "built_at": "2026-10-22T11:17:37.580Z",
+  "based_on": {
+    "reels_used": 487,
+    "pages": 25
+  },
+  "honesty": "Findings are associations from a one-day, mostly-US snapshot with caption/transcript-only analysis. 'Established' means repeated in this dataset, not proven for Bengaluru.",
+  "patterns": [
+    {
+      "pattern": "news_or_celebrity",
+      "kind": "hook",
+      "evidence_level": "emerging",
+      "observations": 7,
+      "pages": 2,
+      "performance": {
+        "median_multiple": 3.25,
+        "p25": 1.33,
+        "p75": 505.62,
+        "median_without_top_reel": 2.31,
+        "breakout_share": 0.57,
+        "underperform_share": 0
+      },
+      "suggested_duration_s": 17,
+      "supporting_reels": [
+        {
+          "reel_id": "3274369659355150007",
+          "url": "https://www.instagram.com/reel/C1w5dtZLja3/",
+          "page": "realtordotcom",
+          "multiple": 2488.41,
+          "opening_line": "Kanye West bought this property for $57M all cash, gutted it, and is now listing it for $53M! 👀"
+        },
+        {
+          "reel_id": "3321689579794078785",
+          "url": "https://www.instagram.com/reel/C4ZAxLhvhxB/",
+          "page": "realtordotcom",
+          "multiple": 1007.46,
+          "opening_line": "I look after you I look after you I look after you"
+        },
+        {
+          "reel_id": "4011511383378654797",
+          "url": "https://www.instagram.com/reel/DerwFlquHZN/",
+          "page": "realtordotcom",
+          "multiple": 3.78,
+          "opening_line": "Kanye West has been ordered to pay an additional $181,433 following a lawsuit tied to the gut renovation of his former Malibu beach house, resulting in a $321,000 total award. Visit out link in bio to"
+        }
+      ],
+      "counterexamples": [
+        {
+          "reel_id": "4008181178485951451",
+          "url": "https://www.instagram.com/reel/Def64urD8vb/",
+          "page": "realtordotcom",
+          "multiple": 1.28,
+          "opening_line": "Dakota Johnson and Anne Hathaway star in \"Verity,\" but the film’s real design standout is a New York lake house known as Beckoning Path. The 27-acre Scandinavian modern wellness retreat features expos"
+        },
+        {
+          "reel_id": "3991348852731157277",
+          "url": "https://www.instagram.com/reel/DdkHqJttBsd/",
+          "page": "jayroberts",
+          "multiple": 1.04,
+          "opening_line": "@rondesantis just endorsed @byrondonalds for Governor of Florida, and the stakes couldn’t be higher."
+        }
+      ],
+      "hook_template": null,
+      "cta_options": [
+        "comment keyword (default)",
+        "save for later",
+        "send this to someone who..."
+      ],
+      "when_not_to_use": "When the brochure has no verifiable fact to back the hook, or the sample for this hook is a single page.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "confession_insider",
+      "kind": "hook",
+      "evidence_level": "established",
+      "observations": 20,
+      "pages": 11,
+      "performance": {
+        "median_multiple": 1.71,
+        "p25": 0.85,
+        "p75": 13.52,
+        "median_without_top_reel": 1.45,
+        "breakout_share": 0.45,
+        "underperform_share": 0.25
+      },
+      "suggested_duration_s": 55,
+      "supporting_reels": [
+        {
+          "reel_id": "3408520291284937999",
+          "url": "https://www.instagram.com/reel/C9NfyVTv-0P/",
+          "page": "brockandlori",
+          "multiple": 86.1,
+          "opening_line": "We got a little secret for you."
+        },
+        {
+          "reel_id": "3180963982768841237",
+          "url": "https://www.instagram.com/reel/CwlDeOMP6IV/",
+          "page": "brockandlori",
+          "multiple": 54.02,
+          "opening_line": "When we get a home ready for sale, 90% of the time we repaint the interiors and we paint it white."
+        },
+        {
+          "reel_id": "3977379724766249351",
+          "url": "https://www.instagram.com/reel/DcyfclfiIGH/",
+          "page": "tradedny",
+          "multiple": 28.07,
+          "opening_line": "Mr."
+        }
+      ],
+      "counterexamples": [
+        {
+          "reel_id": "4006426725972131339",
+          "url": "https://www.instagram.com/reel/DeZr-FcMz4L/",
+          "page": "thebrokeagent",
+          "multiple": 0.52,
+          "opening_line": "If you go to a real estate conference it is guaranteed that someone will use this line. And people will eat it up like barking seals. That changes today. We must call out the hot air when we hear it!!"
+        },
+        {
+          "reel_id": "4010841266659986612",
+          "url": "https://www.instagram.com/reel/DepXuG1vwy0/",
+          "page": "coffeecontracts",
+          "multiple": 0.44,
+          "opening_line": "Friendly reminder that your social media isn’t just for finding your next client. 👀"
+        }
+      ],
+      "hook_template": "Nobody tells you this about buying under-construction.",
+      "cta_options": [
+        "comment keyword (default)",
+        "save for later",
+        "send this to someone who..."
+      ],
+      "when_not_to_use": "When the brochure has no verifiable fact to back the hook, or the sample for this hook is a single page.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "visual_only_no_hook",
+      "kind": "hook",
+      "evidence_level": "emerging",
+      "observations": 7,
+      "pages": 5,
+      "performance": {
+        "median_multiple": 1.39,
+        "p25": 1.3,
+        "p75": 4.95,
+        "median_without_top_reel": 1.35,
+        "breakout_share": 0.29,
+        "underperform_share": 0.14
+      },
+      "suggested_duration_s": 17,
+      "supporting_reels": [
+        {
+          "reel_id": "3359323872582667544",
+          "url": "https://www.instagram.com/reel/C6et0N-x40Y/",
+          "page": "abby.young.home",
+          "multiple": 72.32,
+          "opening_line": "And it goes like, ooh, what I wouldn't do."
+        },
+        {
+          "reel_id": "3989797968990911879",
+          "url": "https://www.instagram.com/reel/DdenB0rRz2H/",
+          "page": "abby.young.home",
+          "multiple": 8.36,
+          "opening_line": "She keeps on loving me, loves me the way I am."
+        },
+        {
+          "reel_id": "3983398315616547706",
+          "url": "https://www.instagram.com/reel/DdH36nBNrN6/",
+          "page": "emilywalczak.realtor",
+          "multiple": 1.54,
+          "opening_line": "☀️🌊🍋🌸👙"
+        }
+      ],
+      "counterexamples": [
+        {
+          "reel_id": "3975225022536636049",
+          "url": "https://www.instagram.com/reel/Dcq1hiqilaR/",
+          "page": "enesyilmazer",
+          "multiple": 1.28,
+          "opening_line": "Casa Arco - Zihuatanejo, Mexico"
+        },
+        {
+          "reel_id": "3978979556987838596",
+          "url": "https://www.instagram.com/reel/Dc4LNNWzSCE/",
+          "page": "abby.young.home",
+          "multiple": 0.06,
+          "opening_line": "🥺🥺"
+        }
+      ],
+      "hook_template": null,
+      "cta_options": [
+        "comment keyword (default)",
+        "save for later",
+        "send this to someone who..."
+      ],
+      "when_not_to_use": "When the brochure has no verifiable fact to back the hook, or the sample for this hook is a single page.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "question_analogy",
+      "kind": "hook",
+      "evidence_level": "emerging",
+      "observations": 7,
+      "pages": 6,
+      "performance": {
+        "median_multiple": 1.37,
+        "p25": 0.86,
+        "p75": 1.64,
+        "median_without_top_reel": 1.17,
+        "breakout_share": 0.14,
+        "underperform_share": 0.14
+      },
+      "suggested_duration_s": 45,
+      "supporting_reels": [
+        {
+          "reel_id": "3765932756481276664",
+          "url": "https://www.instagram.com/reel/DRDR-OmEvr4/",
+          "page": "tradedmiami",
+          "multiple": 36.46,
+          "opening_line": "Hey, wait."
+        },
+        {
+          "reel_id": "3986368420806610444",
+          "url": "https://www.instagram.com/reel/DdSbPVCA04M/",
+          "page": "coffeecontracts",
+          "multiple": 1.69,
+          "opening_line": "Okay, serious question."
+        },
+        {
+          "reel_id": "4010817614581927008",
+          "url": "https://www.instagram.com/reel/DepSV7ICQxg/",
+          "page": "realtordotcom",
+          "multiple": 1.58,
+          "opening_line": "What happened to the historically low mortgage rates we saw in 2020? From inflation to Treasury yields, here's what's behind the dramatic shift in borrowing costs—and what it means for homebuyers in 2"
+        }
+      ],
+      "counterexamples": [
+        {
+          "reel_id": "3936967768738080043",
+          "url": "https://www.instagram.com/reel/Dai61Ojy6Ur/",
+          "page": "the.real.brad.mccallum",
+          "multiple": 0.75,
+          "opening_line": "Is the Insta360 Luna Ultra exactly what I’ve been waiting for? "
+        },
+        {
+          "reel_id": "3986316407410754352",
+          "url": "https://www.instagram.com/reel/DdSPabyB4Mw/",
+          "page": "jayroberts",
+          "multiple": 0.58,
+          "opening_line": "Planting seeds for success."
+        }
+      ],
+      "hook_template": "Would you buy a phone from a spec sheet? Then why buy a home from one?",
+      "cta_options": [
+        "comment keyword (default)",
+        "save for later",
+        "send this to someone who..."
+      ],
+      "when_not_to_use": "When the brochure has no verifiable fact to back the hook, or the sample for this hook is a single page.",
+      "confidence": "low"
+    },
+    {
+      "pattern": "market_proof",
+      "kind": "hook",
+      "evidence_level": "established",
+      "observations": 11,
+      "pages": 5,
+      "performance": {
+        "median_multiple": 1.23,
+        "p25": 0.93,
+        "p75": 1.63,
+        "median_without_top_reel": 1.19,
+        "breakout_share": 0.18,
+        "underperform_share": 0.18
+      },
+      "suggested_duration_s": 47,
+      "supporting_reels": [
+        {
+          "reel_id": "3833140433165922123",
+          "url": "https://www.instagram.com/reel/DUyDOpFCq9L/",
+          "page": "unionsquarehouse",
+          "multiple": 121.45,
+          "opening_line": "14 years of unwavering excellence. A distinction held by only one agency."
+        },
+        {
+          "reel_id": "4006431051471935669",
+          "url": "https://www.instagram.com/reel/DeZs9B4FFi1/",
+          "page": "realtordotcom",
+          "multiple": 2.05,
+          "opening_line": "Millions of homes could change hands over the next decade as baby boomers and older generations age, but will that actually ease the housing shortage? Our research projects 13.9 million homes could be"
+        },
+        {
+          "reel_id": "3874527069459685102",
+          "url": "https://www.instagram.com/reel/DXFFddvx57u/",
+          "page": "alliebethallman",
+          "multiple": 1.89,
+          "opening_line": "A record-setting start to the year."
+        }
+      ],
+      "counterexamples": [
+        {
+          "reel_id": "4007229976676208550",
+          "url": "https://www.instagram.com/reel/Decim69FQ-m/",
+          "page": "realtordotcom",
+          "multiple": 0.68,
+          "opening_line": "Home sales just dropped below 4 million. Why aren't Americans buying homes? High prices? Mortgage rates? Affordability? Here's what's really happening in the 2026 housing market, and why it matters if"
+        },
+        {
+          "reel_id": "4007434323829861326",
+          "url": "https://www.instagram.com/reel/DedREkElivO/",
+          "page": "realtordotcom",
+          "multiple": 0.64,
+          "opening_line": "Just when homebuyers are ready to make their move, rising mortgage rates could make buying a home even more expensive. Higher rates mean bigger monthly payments, less buying power, and tougher decisio"
+        }
+      ],
+      "hook_template": "Here is the real number for [area] right now: [fact from a document].",
+      "cta_options": [
+        "comment keyword (default)",
+        "save for later",
+        "send this to someone who..."
+      ],
+      "when_not_to_use": "When the brochure has no verifiable fact to back the hook, or the sample for this hook is a single page.",
+      "confidence": "medium"
+    },
+    {
+      "pattern": "announcement",
+      "kind": "hook",
+      "evidence_level": "established",
+      "observations": 25,
+      "pages": 11,
+      "performance": {
+        "median_multiple": 1.21,
+        "p25": 0.95,
+        "p75": 1.97,
+        "median_without_top_reel": 1.18,
+        "breakout_share": 0.24,
+        "underperform_share": 0.16
+      },
+      "suggested_duration_s": 53,
+      "supporting_reels": [
+        {
+          "reel_id": "4002662245562821877",
+          "url": "https://www.instagram.com/reel/DeMUBr2o6z1/",
+          "page": "unionsquarehouse",
+          "multiple": 13.37,
+          "opening_line": "Recognised by Binghatti."
+        },
+        {
+          "reel_id": "4002922094005991581",
+          "url": "https://www.instagram.com/reel/DeNPG-kyjid/",
+          "page": "sothebysrealty",
+          "multiple": 3.89,
+          "opening_line": "To mark 50 years of Sotheby’s International Realty, we partnered with @assouline to create something timeless."
+        },
+        {
+          "reel_id": "3987774865924323345",
+          "url": "https://www.instagram.com/reel/DdXbBzHpngR/",
+          "page": "emilywalczak.realtor",
+          "multiple": 3.12,
+          "opening_line": "new listing, going live tomorrow: thursday, september 17th!"
+        }
+      ],
+      "counterexamples": [
+        {
+          "reel_id": "4006390896563896211",
+          "url": "https://www.instagram.com/reel/DeZj0stDL-T/",
+          "page": "tradedmiami",
+          "multiple": 0.28,
+          "opening_line": "LEASE"
+        },
+        {
+          "reel_id": "3844104830075275092",
+          "url": "https://www.instagram.com/reel/DVZAPncAAdU/",
+          "page": "matt.lionetti",
+          "multiple": 0.27,
+          "opening_line": "In her MV beige era, with a sharp sense of humour and a whole lot of experience behind the scenes… we’re so excited to officially introduce Rebecca 🥂"
+        }
+      ],
+      "hook_template": null,
+      "cta_options": [
+        "comment keyword (default)",
+        "save for later",
+        "send this to someone who..."
+      ],
+      "when_not_to_use": "When the brochure has no verifiable fact to back the hook, or the sample for this hook is a single page.",
+      "confidence": "medium"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "rule": "Open on a hook type, never the project name, a spec line or 'Presenting'.",
+      "evidence": [
+        {
+          "failure_id": "F1",
+          "lift": 1.06,
+          "verdict": "no clear association"
+        },
+        {
+          "failure_id": "F3",
+          "lift": 0.98,
+          "verdict": "no clear association"
+        },
+        {
+          "failure_id": "F2",
+          "lift": 0.51,
+          "verdict": "not associated with underperformance"
+        }
+      ],
+      "type": "evidence-checked"
+    },
+    {
+      "id": "R2",
+      "rule": "Use one comment-keyword CTA per lead-focused reel.",
+      "evidence": [
+        {
+          "comments_per_play_with_keyword": 0.00297,
+          "without": 0.0009
+        }
+      ],
+      "type": "evidence-checked; comments are not qualified leads"
+    },
+    {
+      "id": "R3",
+      "rule": "Put the specific number or fact in the first line, then add a new fact every 3 to 5 seconds.",
+      "evidence": [],
+      "type": "carried from project playbook v1; transcripts too few to verify here"
+    },
+    {
+      "id": "R4",
+      "rule": "Prefer a person on camera over brand-only visuals.",
+      "evidence": [],
+      "type": "carried from project playbook v1; presenter presence not measurable without video"
+    }
+  ],
+  "segments": {
+    "note": "Analytical segments, not a requirement that every reel target all of them. Hook suggestions are creative hypotheses until tested on Indian audiences.",
+    "under_construction": "construction-spectacle and developer-math hooks (number first, then the build milestone).",
+    "apartments_and_villas": "rare-feature or audience call-out hooks; one unusual feature per reel.",
+    "new_launches": "audience call-out with a locality fact; avoid 'Presenting'.",
+    "construction_updates": "pattern-interrupt question about something visible on site.",
+    "locality_and_infrastructure": "place-and-transformation hook with a dated fact.",
+    "investment_education": "bold money number, then the arithmetic.",
+    "first_time_homebuyers": "audience call-out naming the commute or budget.",
+    "families_upgrading": "lifestyle story with one concrete room or school fact.",
+    "nris_and_investors": "rental yield or e-Khata explainer with a number.",
+    "luxury": "curiosity plus one rare feature; show restraint on specs."
+  },
+  "experiments_to_run": [
+    "Same footage, two hooks: spec line vs number-led. Compare plays against the page median.",
+    "Comment-keyword CTA vs phone number CTA on matched reels; compare comments per play and DMs received.",
+    "Indian developer math reel (land cost to price per sq ft) since no Bengaluru page in the data uses it."
+  ]
+}

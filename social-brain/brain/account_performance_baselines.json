@@ -1,0 +1,652 @@
+[
+  {
+    "page": "luxury_listings",
+    "n_reels": 12,
+    "n_with_plays": 12,
+    "observation_window": {
+      "from": "2025-04-09T12:30:00.000Z",
+      "to": "2026-02-07T16:45:58.000Z"
+    },
+    "median_plays": 249655,
+    "p25_plays": 209895,
+    "p75_plays": 306887,
+    "median_likes": 7053,
+    "median_comments": 80,
+    "likes_coverage": 0.33,
+    "posts_per_30_days": 1.1,
+    "reliable": true,
+    "reliability_note": "Baseline from 12 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.92,
+      "breakouts": 1,
+      "top_reel_share_of_total_plays": 0.27,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.069,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "thebrokeagent",
+    "n_reels": 19,
+    "n_with_plays": 19,
+    "observation_window": {
+      "from": "2026-09-23T22:47:30.000Z",
+      "to": "2026-10-19T23:25:20.000Z"
+    },
+    "median_plays": 113026,
+    "p25_plays": 55971,
+    "p75_plays": 171371,
+    "median_likes": 1444,
+    "median_comments": 85,
+    "likes_coverage": 1,
+    "posts_per_30_days": 20.7,
+    "reliable": true,
+    "reliability_note": "Baseline from 19 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.58,
+      "breakouts": 2,
+      "top_reel_share_of_total_plays": 0.28,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.209,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "ryanserhant",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2025-05-24T14:02:35.000Z",
+      "to": "2026-10-20T19:31:21.000Z"
+    },
+    "median_plays": 65883,
+    "p25_plays": 4177,
+    "p75_plays": 954988,
+    "median_likes": 1091,
+    "median_comments": 9,
+    "likes_coverage": 1,
+    "posts_per_30_days": 1.1,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.5,
+      "breakouts": 9,
+      "top_reel_share_of_total_plays": 0.7,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.019,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "enesyilmazer",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-08-20T19:26:28.000Z",
+      "to": "2026-10-20T17:35:45.000Z"
+    },
+    "median_plays": 62560,
+    "p25_plays": 51890,
+    "p75_plays": 94772,
+    "median_likes": 2431,
+    "median_comments": 57,
+    "likes_coverage": 1,
+    "posts_per_30_days": 9.4,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.9,
+      "breakouts": 4,
+      "top_reel_share_of_total_plays": 0.17,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.076,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "matt.lionetti",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-03-02T17:40:01.000Z",
+      "to": "2026-10-08T16:16:47.000Z"
+    },
+    "median_plays": 55319,
+    "p25_plays": 17066,
+    "p75_plays": 73007,
+    "median_likes": 1290,
+    "median_comments": 166,
+    "likes_coverage": 1,
+    "posts_per_30_days": 2.6,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.6,
+      "breakouts": 2,
+      "top_reel_share_of_total_plays": 0.39,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.748,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "themillerfam",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-05-19T14:34:43.000Z",
+      "to": "2026-10-07T15:11:06.000Z"
+    },
+    "median_plays": 37228,
+    "p25_plays": 29861,
+    "p75_plays": 82151,
+    "median_likes": 841,
+    "median_comments": 32,
+    "likes_coverage": 1,
+    "posts_per_30_days": 4,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.8,
+      "breakouts": 6,
+      "top_reel_share_of_total_plays": 0.52,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.348,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "abby.young.home",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2024-04-27T18:18:55.000Z",
+      "to": "2026-10-11T17:47:35.000Z"
+    },
+    "median_plays": 27060,
+    "p25_plays": 12707,
+    "p75_plays": 191071,
+    "median_likes": 840,
+    "median_comments": 140,
+    "likes_coverage": 1,
+    "posts_per_30_days": 0.6,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.6,
+      "breakouts": 8,
+      "top_reel_share_of_total_plays": 0.37,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 1.127,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "sothebysrealty",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-05-04T14:01:32.000Z",
+      "to": "2026-10-20T18:26:56.000Z"
+    },
+    "median_plays": 22679,
+    "p25_plays": 14440,
+    "p75_plays": 49355,
+    "median_likes": 658,
+    "median_comments": 20,
+    "likes_coverage": 0.85,
+    "posts_per_30_days": 3.4,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.65,
+      "breakouts": 6,
+      "top_reel_share_of_total_plays": 0.15,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.039,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "coffeecontracts",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-08-28T13:41:20.000Z",
+      "to": "2026-10-18T18:57:04.000Z"
+    },
+    "median_plays": 15317,
+    "p25_plays": 8429,
+    "p75_plays": 17714,
+    "median_likes": 276,
+    "median_comments": 94,
+    "likes_coverage": 1,
+    "posts_per_30_days": 11.1,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.6,
+      "breakouts": 0,
+      "top_reel_share_of_total_plays": 0.09,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.093,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "jayroberts",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2025-04-04T18:12:25.000Z",
+      "to": "2026-10-20T16:02:57.000Z"
+    },
+    "median_plays": 14538,
+    "p25_plays": 11646,
+    "p75_plays": 108423,
+    "median_likes": 492,
+    "median_comments": 28,
+    "likes_coverage": 0.9,
+    "posts_per_30_days": 1,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.75,
+      "breakouts": 7,
+      "top_reel_share_of_total_plays": 0.42,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.077,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "luxury_homes",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-07-14T16:32:10.000Z",
+      "to": "2026-10-21T01:01:20.000Z"
+    },
+    "median_plays": 13310,
+    "p25_plays": 9841,
+    "p75_plays": 17381,
+    "median_likes": 486,
+    "median_comments": 7,
+    "likes_coverage": 0.2,
+    "posts_per_30_days": 5.8,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.7,
+      "breakouts": 1,
+      "top_reel_share_of_total_plays": 0.13,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.011,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "atproperties",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-08-20T16:57:56.000Z",
+      "to": "2026-10-19T20:57:08.000Z"
+    },
+    "median_plays": 12697,
+    "p25_plays": 6959,
+    "p75_plays": 15034,
+    "median_likes": 482,
+    "median_comments": 16,
+    "likes_coverage": 0.6,
+    "posts_per_30_days": 9.5,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.65,
+      "breakouts": 1,
+      "top_reel_share_of_total_plays": 0.12,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.244,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "chadcarroll",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-06-09T21:53:46.000Z",
+      "to": "2026-10-02T12:15:05.000Z"
+    },
+    "median_plays": 12045,
+    "p25_plays": 7253,
+    "p75_plays": 28194,
+    "median_likes": 163,
+    "median_comments": 29,
+    "likes_coverage": 0.05,
+    "posts_per_30_days": 5,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.65,
+      "breakouts": 7,
+      "top_reel_share_of_total_plays": 0.17,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.026,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "tradedny",
+    "n_reels": 16,
+    "n_with_plays": 16,
+    "observation_window": {
+      "from": "2026-08-10T16:00:48.000Z",
+      "to": "2026-10-16T19:31:37.000Z"
+    },
+    "median_plays": 10675,
+    "p25_plays": 6539,
+    "p75_plays": 16217,
+    "median_likes": 7844,
+    "median_comments": 8,
+    "likes_coverage": 0.13,
+    "posts_per_30_days": 6.7,
+    "reliable": true,
+    "reliability_note": "Baseline from 16 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.63,
+      "breakouts": 3,
+      "top_reel_share_of_total_plays": 0.39,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.094,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "tradedmiami",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2025-11-14T21:06:02.000Z",
+      "to": "2026-10-20T21:15:54.000Z"
+    },
+    "median_plays": 10043,
+    "p25_plays": 3940,
+    "p75_plays": 39989,
+    "median_likes": 8193,
+    "median_comments": 12,
+    "likes_coverage": 0.2,
+    "posts_per_30_days": 1.7,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.65,
+      "breakouts": 7,
+      "top_reel_share_of_total_plays": 0.65,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.097,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "alliebethallman",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2024-08-19T10:55:00.000Z",
+      "to": "2026-10-05T12:25:05.000Z"
+    },
+    "median_plays": 9369,
+    "p25_plays": 4957,
+    "p75_plays": 13058,
+    "median_likes": 102,
+    "median_comments": 6,
+    "likes_coverage": 1,
+    "posts_per_30_days": 0.7,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.6,
+      "breakouts": 1,
+      "top_reel_share_of_total_plays": 0.11,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.721,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "inbengaluruproperties",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-09-27T08:48:03.000Z",
+      "to": "2026-10-21T04:37:33.000Z"
+    },
+    "median_plays": 8466,
+    "p25_plays": 5441,
+    "p75_plays": 11174,
+    "median_likes": 26,
+    "median_comments": 13,
+    "likes_coverage": 1,
+    "posts_per_30_days": 23.9,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.65,
+      "breakouts": 1,
+      "top_reel_share_of_total_plays": 0.1,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.242,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "brockandlori",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2023-08-30T18:35:07.000Z",
+      "to": "2026-10-08T16:00:06.000Z"
+    },
+    "median_plays": 8357,
+    "p25_plays": 6733,
+    "p75_plays": 22448,
+    "median_likes": 183,
+    "median_comments": 12,
+    "likes_coverage": 1,
+    "posts_per_30_days": 0.5,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.75,
+      "breakouts": 5,
+      "top_reel_share_of_total_plays": 0.44,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.155,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "invest_in_bengaluru",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-09-29T16:08:21.000Z",
+      "to": "2026-10-20T12:40:43.000Z"
+    },
+    "median_plays": 8077,
+    "p25_plays": 6261,
+    "p75_plays": 18902,
+    "median_likes": 65,
+    "median_comments": 3,
+    "likes_coverage": 1,
+    "posts_per_30_days": 27.3,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.75,
+      "breakouts": 6,
+      "top_reel_share_of_total_plays": 0.14,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.176,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "luxurysocalrealty",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-10-09T04:42:46.000Z",
+      "to": "2026-10-21T01:21:21.000Z"
+    },
+    "median_plays": 7595,
+    "p25_plays": 222,
+    "p75_plays": 9910,
+    "median_likes": 202,
+    "median_comments": 14,
+    "likes_coverage": 0.95,
+    "posts_per_30_days": 48.1,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.6,
+      "breakouts": 2,
+      "top_reel_share_of_total_plays": 0.35,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.146,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "the.real.brad.mccallum",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-06-19T16:52:01.000Z",
+      "to": "2026-10-20T17:55:52.000Z"
+    },
+    "median_plays": 6572,
+    "p25_plays": 5491,
+    "p75_plays": 7960,
+    "median_likes": 186,
+    "median_comments": 20,
+    "likes_coverage": 1,
+    "posts_per_30_days": 4.6,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.8,
+      "breakouts": 2,
+      "top_reel_share_of_total_plays": 0.13,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.178,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "espacerealestate",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-09-16T13:00:13.000Z",
+      "to": "2026-10-19T14:45:03.000Z"
+    },
+    "median_plays": 6388,
+    "p25_plays": 4462,
+    "p75_plays": 7940,
+    "median_likes": 87,
+    "median_comments": 9,
+    "likes_coverage": 1,
+    "posts_per_30_days": 17.2,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.6,
+      "breakouts": 0,
+      "top_reel_share_of_total_plays": 0.09,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.206,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "realtordotcom",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2024-01-06T15:36:40.000Z",
+      "to": "2026-10-21T01:00:02.000Z"
+    },
+    "median_plays": 5290,
+    "p25_plays": 2393,
+    "p75_plays": 12432,
+    "median_likes": 31,
+    "median_comments": 2,
+    "likes_coverage": 1,
+    "posts_per_30_days": 0.6,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.5,
+      "breakouts": 6,
+      "top_reel_share_of_total_plays": 0.7,
+      "pattern": "mixed"
+    },
+    "follower_relative_median": 0.008,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "emilywalczak.realtor",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2026-08-27T00:27:11.000Z",
+      "to": "2026-10-18T21:37:43.000Z"
+    },
+    "median_plays": 5110,
+    "p25_plays": 4080,
+    "p75_plays": 7913,
+    "median_likes": 194,
+    "median_comments": 8,
+    "likes_coverage": 0.85,
+    "posts_per_30_days": 10.8,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.75,
+      "breakouts": 3,
+      "top_reel_share_of_total_plays": 0.26,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.232,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  },
+  {
+    "page": "unionsquarehouse",
+    "n_reels": 20,
+    "n_with_plays": 20,
+    "observation_window": {
+      "from": "2025-05-29T14:34:02.000Z",
+      "to": "2026-10-20T14:00:36.000Z"
+    },
+    "median_plays": 2620,
+    "p25_plays": 1774,
+    "p75_plays": 25125,
+    "median_likes": 74,
+    "median_comments": 3,
+    "likes_coverage": 1,
+    "posts_per_30_days": 1.1,
+    "reliable": true,
+    "reliability_note": "Baseline from 20 reels (minimum 8).",
+    "consistency": {
+      "share_at_or_above_typical": 0.65,
+      "breakouts": 7,
+      "top_reel_share_of_total_plays": 0.58,
+      "pattern": "repeatable: several breakouts and mostly at-or-above typical"
+    },
+    "follower_relative_median": 0.073,
+    "collected_at": "2026-10-22T11:17:37.580Z"
+  }
+]

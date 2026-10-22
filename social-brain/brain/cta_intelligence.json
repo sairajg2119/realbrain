@@ -1,0 +1,662 @@
+{
+  "by_cta_type": [
+    {
+      "name": "phone_number",
+      "n": 27,
+      "pages": 6,
+      "median_multiple": 1.28,
+      "p25_multiple": 0.86,
+      "p75_multiple": 2,
+      "median_multiple_without_top_reel": 1.21,
+      "breakout_share": 0.26,
+      "underperform_share": 0.19,
+      "evidence_level": "established",
+      "top_examples": [
+        {
+          "reel_id": "4007085494911195996",
+          "url": "https://www.instagram.com/reel/DecBwb0zVtc/",
+          "page": "unionsquarehouse",
+          "multiple": 17.96,
+          "opening_line": "Modern living. Thoughtful details. A connected Dubai address."
+        },
+        {
+          "reel_id": "3997668806335578925",
+          "url": "https://www.instagram.com/reel/Dd6kplLSsMt/",
+          "page": "invest_in_bengaluru",
+          "multiple": 4.56,
+          "opening_line": "Ultra luxury villa for sale in prestige golf shire , Nandi hills road"
+        },
+        {
+          "reel_id": "3998406584627108996",
+          "url": "https://www.instagram.com/reel/Dd9MZqwSByE/",
+          "page": "invest_in_bengaluru",
+          "multiple": 4.4,
+          "opening_line": "Luxury 4bhk villa for sale in North bangalore"
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4003391730669465840",
+          "url": "https://www.instagram.com/reel/DeO55FzSjDw/",
+          "page": "invest_in_bengaluru",
+          "multiple": 0.58,
+          "opening_line": "🏡 Purva Sparkling Springs | Bannerghatta Road"
+        },
+        {
+          "reel_id": "4007825391003491777",
+          "url": "https://www.instagram.com/reel/Deep_Vwjd3B/",
+          "page": "espacerealestate",
+          "multiple": 0.35,
+          "opening_line": "A new opportunity on Saadiyat Island, Abu Dhabi."
+        }
+      ],
+      "median_duration_s": 38
+    },
+    {
+      "name": "none_visible",
+      "n": 294,
+      "pages": 24,
+      "median_multiple": 1.03,
+      "p25_multiple": 0.65,
+      "p75_multiple": 1.87,
+      "median_multiple_without_top_reel": 1.03,
+      "breakout_share": 0.23,
+      "underperform_share": 0.31,
+      "evidence_level": "established",
+      "top_examples": [
+        {
+          "reel_id": "3274369659355150007",
+          "url": "https://www.instagram.com/reel/C1w5dtZLja3/",
+          "page": "realtordotcom",
+          "multiple": 2488.41,
+          "opening_line": "Kanye West bought this property for $57M all cash, gutted it, and is now listing it for $53M! 👀"
+        },
+        {
+          "reel_id": "3321689579794078785",
+          "url": "https://www.instagram.com/reel/C4ZAxLhvhxB/",
+          "page": "realtordotcom",
+          "multiple": 1007.46,
+          "opening_line": "I look after you I look after you I look after you"
+        },
+        {
+          "reel_id": "3639609459006379060",
+          "url": "https://www.instagram.com/reel/DKCfYT9OhQ0/",
+          "page": "ryanserhant",
+          "multiple": 385.3,
+          "opening_line": "yes So, you can do a certain amount of charges."
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4005730962502556411",
+          "url": "https://www.instagram.com/reel/DeXNxZNv5r7/",
+          "page": "luxurysocalrealty",
+          "multiple": 0,
+          "opening_line": "“You could get more house somewhere else.”"
+        },
+        {
+          "reel_id": "4006436426060779597",
+          "url": "https://www.instagram.com/reel/DeZuLPWidBN/",
+          "page": "luxurysocalrealty",
+          "multiple": 0,
+          "opening_line": "You know you have lived in San Diego awhile when the beach stops feeling like an event and starts becoming part of your routine."
+        }
+      ],
+      "median_duration_s": 43
+    },
+    {
+      "name": "ask_question",
+      "n": 19,
+      "pages": 9,
+      "median_multiple": 1.03,
+      "p25_multiple": 0.54,
+      "p75_multiple": 1.65,
+      "median_multiple_without_top_reel": 0.94,
+      "breakout_share": 0.21,
+      "underperform_share": 0.32,
+      "evidence_level": "established",
+      "top_examples": [
+        {
+          "reel_id": "3934688186491768065",
+          "url": "https://www.instagram.com/reel/Daa0g8JxI0B/",
+          "page": "abby.young.home",
+          "multiple": 26.15,
+          "opening_line": "This is the place where I feel at home."
+        },
+        {
+          "reel_id": "3941206289832841957",
+          "url": "https://www.instagram.com/reel/Dax-j08BZLl/",
+          "page": "brockandlori",
+          "multiple": 15.12,
+          "opening_line": "We have always warned against overpaying for design because for the most part, design trends can come and go. Here’s our opinion on current design trends - a lot that we currently use in our own homes"
+        },
+        {
+          "reel_id": "4006480170079641799",
+          "url": "https://www.instagram.com/reel/DeZ4HzJPmDH/",
+          "page": "the.real.brad.mccallum",
+          "multiple": 2.95,
+          "opening_line": "How to sell five homes in the next 30 days on Instagram simply by posting?"
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4012314487099708853",
+          "url": "https://www.instagram.com/reel/DeumsSSu1W1/",
+          "page": "realtordotcom",
+          "multiple": 0.02,
+          "opening_line": "Smaller mortgages might sound like the perfect solution to today’s housing affordability challenges, but getting approved isn’t always as simple as you’d think."
+        },
+        {
+          "reel_id": "4012316878230440545",
+          "url": "https://www.instagram.com/reel/DeunPFNOsph/",
+          "page": "realtordotcom",
+          "multiple": 0.02,
+          "opening_line": "Is buying a condo smarter than renting in 2026? With housing affordability still a major concern, many renters are wondering whether buying a condo could be a better path to homeownership."
+        }
+      ],
+      "median_duration_s": 44
+    },
+    {
+      "name": "request_information",
+      "n": 17,
+      "pages": 7,
+      "median_multiple": 1.02,
+      "p25_multiple": 0.79,
+      "p75_multiple": 1.42,
+      "median_multiple_without_top_reel": 0.92,
+      "breakout_share": 0,
+      "underperform_share": 0.24,
+      "evidence_level": "established",
+      "top_examples": [
+        {
+          "reel_id": "4000977437391027689",
+          "url": "https://www.instagram.com/reel/DeGU8f-C33p/",
+          "page": "inbengaluruproperties",
+          "multiple": 1.8,
+          "opening_line": "As the upcoming new launch property right next to Outer Ring Road, it's a three acre development, limited three bedroom and four bedroom residences starting from about 2000 square feet to 2900 square "
+        },
+        {
+          "reel_id": "3996898125245778996",
+          "url": "https://www.instagram.com/reel/Dd31asesww0/",
+          "page": "espacerealestate",
+          "multiple": 1.8,
+          "opening_line": "New to the market in Meadows 1."
+        },
+        {
+          "reel_id": "3995316430144430019",
+          "url": "https://www.instagram.com/reel/DdyNyAICl_D/",
+          "page": "inbengaluruproperties",
+          "multiple": 1.57,
+          "opening_line": "Luxury 4bhk near Hennur ₹3.95cr "
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4004819028320811427",
+          "url": "https://www.instagram.com/reel/DeT-bAUyXmj/",
+          "page": "invest_in_bengaluru",
+          "multiple": 0.6,
+          "opening_line": "🏙️ LUXURY 4 BHK SKY BUNGALOW FOR SALE | SNN CLERMONT"
+        },
+        {
+          "reel_id": "4007825391003491777",
+          "url": "https://www.instagram.com/reel/Deep_Vwjd3B/",
+          "page": "espacerealestate",
+          "multiple": 0.35,
+          "opening_line": "A new opportunity on Saadiyat Island, Abu Dhabi."
+        }
+      ],
+      "median_duration_s": 41
+    },
+    {
+      "name": "comment_keyword",
+      "n": 57,
+      "pages": 14,
+      "median_multiple": 0.99,
+      "p25_multiple": 0.63,
+      "p75_multiple": 1.67,
+      "median_multiple_without_top_reel": 0.99,
+      "breakout_share": 0.18,
+      "underperform_share": 0.33,
+      "evidence_level": "established",
+      "top_examples": [
+        {
+          "reel_id": "3460095337064926757",
+          "url": "https://www.instagram.com/reel/DAEumBuvY4l/",
+          "page": "abby.young.home",
+          "multiple": 106.55,
+          "opening_line": "This home is so stunning! 🖤 Comment STONEMANOR for all the details! "
+        },
+        {
+          "reel_id": "3359323872582667544",
+          "url": "https://www.instagram.com/reel/C6et0N-x40Y/",
+          "page": "abby.young.home",
+          "multiple": 72.32,
+          "opening_line": "And it goes like, ooh, what I wouldn't do."
+        },
+        {
+          "reel_id": "3355625501971181475",
+          "url": "https://www.instagram.com/reel/C6Rk518O--j/",
+          "page": "abby.young.home",
+          "multiple": 57.58,
+          "opening_line": "Country living! 🤍"
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4005733325674497269",
+          "url": "https://www.instagram.com/reel/DeXOTyFxcT1/",
+          "page": "abby.young.home",
+          "multiple": 0.2,
+          "opening_line": "Step 2: Hit the roadside stands.🧡"
+        },
+        {
+          "reel_id": "3978979556987838596",
+          "url": "https://www.instagram.com/reel/Dc4LNNWzSCE/",
+          "page": "abby.young.home",
+          "multiple": 0.06,
+          "opening_line": "🥺🥺"
+        }
+      ],
+      "median_duration_s": 22
+    },
+    {
+      "name": "save",
+      "n": 4,
+      "pages": 3,
+      "median_multiple": 0.94,
+      "p25_multiple": 0.65,
+      "p75_multiple": 1.2,
+      "median_multiple_without_top_reel": 0.85,
+      "breakout_share": 0,
+      "underperform_share": 0.25,
+      "evidence_level": "emerging",
+      "top_examples": [
+        {
+          "reel_id": "3986368420806610444",
+          "url": "https://www.instagram.com/reel/DdSbPVCA04M/",
+          "page": "coffeecontracts",
+          "multiple": 1.69,
+          "opening_line": "Okay, serious question."
+        },
+        {
+          "reel_id": "4005027293042334233",
+          "url": "https://www.instagram.com/reel/DeUtxp9iFoZ/",
+          "page": "luxurysocalrealty",
+          "multiple": 1.03,
+          "opening_line": "Send this to the friend you’re convincing to take these fall road trips from San Diego 🛻 🍁"
+        },
+        {
+          "reel_id": "4008028985047373544",
+          "url": "https://www.instagram.com/reel/DefYSBfN9bo/",
+          "page": "emilywalczak.realtor",
+          "multiple": 0.85,
+          "opening_line": "i’m still swoooning over her!!!! "
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4008028985047373544",
+          "url": "https://www.instagram.com/reel/DefYSBfN9bo/",
+          "page": "emilywalczak.realtor",
+          "multiple": 0.85,
+          "opening_line": "i’m still swoooning over her!!!! "
+        },
+        {
+          "reel_id": "4006466369700234766",
+          "url": "https://www.instagram.com/reel/DeZ0--iiAYO/",
+          "page": "luxurysocalrealty",
+          "multiple": 0.03,
+          "opening_line": "The patio looked perfect at 10 a.m. Would you still want to sit there at 4?"
+        }
+      ],
+      "median_duration_s": 13
+    },
+    {
+      "name": "direct_message",
+      "n": 44,
+      "pages": 13,
+      "median_multiple": 0.92,
+      "p25_multiple": 0.61,
+      "p75_multiple": 1.41,
+      "median_multiple_without_top_reel": 0.9,
+      "breakout_share": 0.18,
+      "underperform_share": 0.39,
+      "evidence_level": "established",
+      "top_examples": [
+        {
+          "reel_id": "4009197691524544541",
+          "url": "https://www.instagram.com/reel/DejiA8Novgd/",
+          "page": "unionsquarehouse",
+          "multiple": 22.52,
+          "opening_line": "Take a second, matter of fact, you should take 4B and think before you f*** a lil' skateboard P."
+        },
+        {
+          "reel_id": "3997668806335578925",
+          "url": "https://www.instagram.com/reel/Dd6kplLSsMt/",
+          "page": "invest_in_bengaluru",
+          "multiple": 4.56,
+          "opening_line": "Ultra luxury villa for sale in prestige golf shire , Nandi hills road"
+        },
+        {
+          "reel_id": "3998406584627108996",
+          "url": "https://www.instagram.com/reel/Dd9MZqwSByE/",
+          "page": "invest_in_bengaluru",
+          "multiple": 4.4,
+          "opening_line": "Luxury 4bhk villa for sale in North bangalore"
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "3921598381419724771",
+          "url": "https://www.instagram.com/reel/DZsUPNMRP_j/",
+          "page": "matt.lionetti",
+          "multiple": 0.18,
+          "opening_line": "Out of office for the forseeable future."
+        },
+        {
+          "reel_id": "3916412391373696661",
+          "url": "https://www.instagram.com/reel/DZZ5FHlxG6V/",
+          "page": "matt.lionetti",
+          "multiple": 0.01,
+          "opening_line": "It’s more than just a pretty house. It’s where moments are captured, and memories are made. "
+        }
+      ],
+      "median_duration_s": 23
+    },
+    {
+      "name": "visit_website",
+      "n": 36,
+      "pages": 8,
+      "median_multiple": 0.91,
+      "p25_multiple": 0.63,
+      "p75_multiple": 1.67,
+      "median_multiple_without_top_reel": 0.9,
+      "breakout_share": 0.22,
+      "underperform_share": 0.33,
+      "evidence_level": "established",
+      "top_examples": [
+        {
+          "reel_id": "3758115696724105720",
+          "url": "https://www.instagram.com/reel/DQnglCYD1n4/",
+          "page": "realtordotcom",
+          "multiple": 39.24,
+          "opening_line": "Here are the three safest states to live in in the U.S."
+        },
+        {
+          "reel_id": "4009197691524544541",
+          "url": "https://www.instagram.com/reel/DejiA8Novgd/",
+          "page": "unionsquarehouse",
+          "multiple": 22.52,
+          "opening_line": "Take a second, matter of fact, you should take 4B and think before you f*** a lil' skateboard P."
+        },
+        {
+          "reel_id": "3988819584004246422",
+          "url": "https://www.instagram.com/reel/DdbIkcpscuW/",
+          "page": "jayroberts",
+          "multiple": 15.7,
+          "opening_line": "Legacy, elegance, and luxury converge in a celebration of joie de vivre."
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "3999075078356096513",
+          "url": "https://www.instagram.com/reel/Dd_kZiDiFYB/",
+          "page": "espacerealestate",
+          "multiple": 0.47,
+          "opening_line": "Buyers are still active in Dubai’s property market, but they’re taking more time, looking closer at value and becoming increasingly selective."
+        },
+        {
+          "reel_id": "4011441739021485212",
+          "url": "https://www.instagram.com/reel/DergQITjQSc/",
+          "page": "espacerealestate",
+          "multiple": 0.33,
+          "opening_line": "Dubai has AED 2.1 trillion in active development projects, with 350,000 residential units expected by 2030. But what does this mean for the off-plan market?"
+        }
+      ],
+      "median_duration_s": 35
+    },
+    {
+      "name": "follow_series",
+      "n": 12,
+      "pages": 6,
+      "median_multiple": 0.61,
+      "p25_multiple": 0.03,
+      "p75_multiple": 0.89,
+      "median_multiple_without_top_reel": 0.54,
+      "breakout_share": 0.08,
+      "underperform_share": 0.67,
+      "evidence_level": "established",
+      "top_examples": [
+        {
+          "reel_id": "4007302914208667166",
+          "url": "https://www.instagram.com/reel/DeczMTUy5Ye/",
+          "page": "thebrokeagent",
+          "multiple": 7.08,
+          "opening_line": "Has the U.S."
+        },
+        {
+          "reel_id": "3986368420806610444",
+          "url": "https://www.instagram.com/reel/DdSbPVCA04M/",
+          "page": "coffeecontracts",
+          "multiple": 1.69,
+          "opening_line": "Okay, serious question."
+        },
+        {
+          "reel_id": "3973719793206435060",
+          "url": "https://www.instagram.com/reel/DclfRknAhz0/",
+          "page": "coffeecontracts",
+          "multiple": 1.02,
+          "opening_line": "when I was an active real estate agent in 2018, this story concept helped me start so many conversations with potential clients 🤳"
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4006437611975116182",
+          "url": "https://www.instagram.com/reel/DeZucf0ioWW/",
+          "page": "luxurysocalrealty",
+          "multiple": 0.02,
+          "opening_line": "People have opinions when you start choosing a life that fits you better."
+        },
+        {
+          "reel_id": "3988893535352117910",
+          "url": "https://www.instagram.com/reel/DdbZYlNg9qW/",
+          "page": "coffeecontracts",
+          "multiple": 0.01,
+          "opening_line": "3 things I’d do first if I was a real estate agent looking to save time with AI / Claude "
+        }
+      ],
+      "median_duration_s": 28
+    },
+    {
+      "name": "follow",
+      "n": 1,
+      "pages": 1,
+      "median_multiple": 1.14,
+      "p25_multiple": 1.14,
+      "p75_multiple": 1.14,
+      "median_multiple_without_top_reel": null,
+      "breakout_share": 0,
+      "underperform_share": 0,
+      "evidence_level": "hypothesis",
+      "top_examples": [
+        {
+          "reel_id": "3988882497839576466",
+          "url": "https://www.instagram.com/reel/DdbW39ugDWS/",
+          "page": "coffeecontracts",
+          "multiple": 1.14,
+          "opening_line": "Real estate agents: here’s how you can connect Claude to your CRM or any website that is not in the directory. "
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "3988882497839576466",
+          "url": "https://www.instagram.com/reel/DdbW39ugDWS/",
+          "page": "coffeecontracts",
+          "multiple": 1.14,
+          "opening_line": "Real estate agents: here’s how you can connect Claude to your CRM or any website that is not in the directory. "
+        }
+      ],
+      "median_duration_s": 41
+    },
+    {
+      "name": "share",
+      "n": 2,
+      "pages": 2,
+      "median_multiple": 1.13,
+      "p25_multiple": 1.07,
+      "p75_multiple": 1.19,
+      "median_multiple_without_top_reel": 1.01,
+      "breakout_share": 0,
+      "underperform_share": 0,
+      "evidence_level": "hypothesis",
+      "top_examples": [
+        {
+          "reel_id": "4007434478959464265",
+          "url": "https://www.instagram.com/reel/DedRG0jCA9J/",
+          "page": "luxurysocalrealty",
+          "multiple": 1.25,
+          "opening_line": "Best date night spot in coastal SD? I’ll start: Rustic Root in Solana Beach."
+        },
+        {
+          "reel_id": "3998460814359096114",
+          "url": "https://www.instagram.com/reel/Dd9Yu0IMWsy/",
+          "page": "atproperties",
+          "multiple": 1.01,
+          "opening_line": "CLOSED! Kicking off October with a porch makeover! We’re teaming up with @harvesthaus.co , a small woman-owned pumpkin porch styling business, to give one lucky homeowner a pumpkin package for their e"
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4007434478959464265",
+          "url": "https://www.instagram.com/reel/DedRG0jCA9J/",
+          "page": "luxurysocalrealty",
+          "multiple": 1.25,
+          "opening_line": "Best date night spot in coastal SD? I’ll start: Rustic Root in Solana Beach."
+        },
+        {
+          "reel_id": "3998460814359096114",
+          "url": "https://www.instagram.com/reel/Dd9Yu0IMWsy/",
+          "page": "atproperties",
+          "multiple": 1.01,
+          "opening_line": "CLOSED! Kicking off October with a porch makeover! We’re teaming up with @harvesthaus.co , a small woman-owned pumpkin porch styling business, to give one lucky homeowner a pumpkin package for their e"
+        }
+      ],
+      "median_duration_s": 21
+    },
+    {
+      "name": "other",
+      "n": 3,
+      "pages": 3,
+      "median_multiple": 1.06,
+      "p25_multiple": 0.82,
+      "p75_multiple": 1.13,
+      "median_multiple_without_top_reel": 0.82,
+      "breakout_share": 0,
+      "underperform_share": 0.33,
+      "evidence_level": "hypothesis",
+      "top_examples": [
+        {
+          "reel_id": "4000260057039775463",
+          "url": "https://www.instagram.com/reel/DeDx1PdCibn/",
+          "page": "inbengaluruproperties",
+          "multiple": 1.2,
+          "opening_line": "2bhk just for 1.2cr in Hennur 👀"
+        },
+        {
+          "reel_id": "4003430114972367818",
+          "url": "https://www.instagram.com/reel/DePCnp-B3vK/",
+          "page": "espacerealestate",
+          "multiple": 1.06,
+          "opening_line": "A statement residence on Palm Jumeirah’s West Crescent."
+        },
+        {
+          "reel_id": "4011624050704493476",
+          "url": "https://www.instagram.com/reel/DesJtHSp6uk/",
+          "page": "atproperties",
+          "multiple": 0.58,
+          "opening_line": "WHO WANTS COURTSIDE SEATS TO THE BULLS HOME OPENER?! 🏀🔥"
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "4003430114972367818",
+          "url": "https://www.instagram.com/reel/DePCnp-B3vK/",
+          "page": "espacerealestate",
+          "multiple": 1.06,
+          "opening_line": "A statement residence on Palm Jumeirah’s West Crescent."
+        },
+        {
+          "reel_id": "4011624050704493476",
+          "url": "https://www.instagram.com/reel/DesJtHSp6uk/",
+          "page": "atproperties",
+          "multiple": 0.58,
+          "opening_line": "WHO WANTS COURTSIDE SEATS TO THE BULLS HOME OPENER?! 🏀🔥"
+        }
+      ],
+      "median_duration_s": 54
+    },
+    {
+      "name": "book_site_visit",
+      "n": 2,
+      "pages": 2,
+      "median_multiple": 0.95,
+      "p25_multiple": 0.88,
+      "p75_multiple": 1.01,
+      "median_multiple_without_top_reel": 0.81,
+      "breakout_share": 0,
+      "underperform_share": 0,
+      "evidence_level": "hypothesis",
+      "top_examples": [
+        {
+          "reel_id": "3991813378920222382",
+          "url": "https://www.instagram.com/reel/DdlxR5cMQ6u/",
+          "page": "jayroberts",
+          "multiple": 1.08,
+          "opening_line": "Meet Versluys Group, a leading real estate company that has been offering luxury real estate for more than 118 years in Belgium, the Netherlands and now also in Miami US."
+        },
+        {
+          "reel_id": "4005537145569351710",
+          "url": "https://www.instagram.com/reel/DeWhs_ISxge/",
+          "page": "invest_in_bengaluru",
+          "multiple": 0.81,
+          "opening_line": "✨ Ultra-Luxury Independent Villas"
+        }
+      ],
+      "lowest_examples": [
+        {
+          "reel_id": "3991813378920222382",
+          "url": "https://www.instagram.com/reel/DdlxR5cMQ6u/",
+          "page": "jayroberts",
+          "multiple": 1.08,
+          "opening_line": "Meet Versluys Group, a leading real estate company that has been offering luxury real estate for more than 118 years in Belgium, the Netherlands and now also in Miami US."
+        },
+        {
+          "reel_id": "4005537145569351710",
+          "url": "https://www.instagram.com/reel/DeWhs_ISxge/",
+          "page": "invest_in_bengaluru",
+          "multiple": 0.81,
+          "opening_line": "✨ Ultra-Luxury Independent Villas"
+        }
+      ],
+      "median_duration_s": 50
+    }
+  ],
+  "comment_keyword_comparison": {
+    "with_keyword_cta": {
+      "n": 57,
+      "median_comments_per_play": 0.00297,
+      "median_multiple": 0.99
+    },
+    "without": {
+      "n": 430,
+      "median_comments_per_play": 0.0009,
+      "median_multiple": 1
+    }
+  },
+  "limitations": [
+    "High comment counts are not qualified leads.",
+    "Likes hidden on many reels; comments per play is the only engagement ratio with decent coverage.",
+    "Shares and saves not available."
+  ]
+}

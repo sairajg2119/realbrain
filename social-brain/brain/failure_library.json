@@ -1,0 +1,464 @@
+[
+  {
+    "id": "F6",
+    "pattern": "Very short or empty caption",
+    "why_it_may_fail": "No story, keyword or context in the caption.",
+    "evidence_type": "hypothesis checked against data",
+    "underperformers_with_pattern": 9,
+    "underperformers_total": 158,
+    "prevalence_among_underperformers": 0.057,
+    "prevalence_among_all_reels": 0.037,
+    "lift_vs_base_rate": 1.54,
+    "median_multiple_when_present": 0.91,
+    "breakouts_that_still_have_pattern": 2,
+    "verdict": "more common among underperformers",
+    "confidence": "medium",
+    "supporting_examples": [
+      {
+        "reel_id": "4003523450718585280",
+        "url": "https://www.instagram.com/reel/DePX13qBwHA/",
+        "page": "thebrokeagent",
+        "multiple": 0,
+        "opening_line": "I wonder why!?"
+      },
+      {
+        "reel_id": "4008620933094179010",
+        "url": "https://www.instagram.com/reel/Dehe4AERgDC/",
+        "page": "ryanserhant",
+        "multiple": 0.04,
+        "opening_line": "Ryan vs First Pitch"
+      },
+      {
+        "reel_id": "4008016339620496755",
+        "url": "https://www.instagram.com/reel/DefVaAhCoVz/",
+        "page": "ryanserhant",
+        "multiple": 0.06,
+        "opening_line": "The cost of winning"
+      },
+      {
+        "reel_id": "4003494316004878140",
+        "url": "https://www.instagram.com/reel/DePRN51xCc8/",
+        "page": "ryanserhant",
+        "multiple": 0.06,
+        "opening_line": "He is never this nice…"
+      }
+    ],
+    "counterexamples": [
+      {
+        "reel_id": "3883256146811554280",
+        "url": "https://www.instagram.com/reel/DXkGOQijgno/",
+        "page": "ryanserhant",
+        "multiple": 41.55,
+        "opening_line": "What did I just witness?"
+      },
+      {
+        "reel_id": "4009339918563584400",
+        "url": "https://www.instagram.com/reel/DekCWndxqmQ/",
+        "page": "ryanserhant",
+        "multiple": 14.85,
+        "opening_line": "The real estate market in San Francisco right now is insane."
+      }
+    ],
+    "prevention_rule": "Put the story and CTA keyword in the caption.",
+    "improved_alternative": "Two or three lines with the project fact and one keyword."
+  },
+  {
+    "id": "F1",
+    "pattern": "Spec-line or project-name opening",
+    "why_it_may_fail": "Opens with facts the viewer has no reason to care about yet, so there is no curiosity or promise.",
+    "evidence_type": "hypothesis checked against data",
+    "underperformers_with_pattern": 25,
+    "underperformers_total": 158,
+    "prevalence_among_underperformers": 0.158,
+    "prevalence_among_all_reels": 0.15,
+    "lift_vs_base_rate": 1.06,
+    "median_multiple_when_present": 0.94,
+    "breakouts_that_still_have_pattern": 7,
+    "verdict": "no clear association",
+    "confidence": "low",
+    "supporting_examples": [
+      {
+        "reel_id": "3982751157549377438",
+        "url": "https://www.instagram.com/reel/DdFkxOGgaee/",
+        "page": "coffeecontracts",
+        "multiple": 0.01,
+        "opening_line": "Real estate agents: how to build your first dashboard in Claude 💻"
+      },
+      {
+        "reel_id": "4006368808763260845",
+        "url": "https://www.instagram.com/reel/DeZezR1if-t/",
+        "page": "ryanserhant",
+        "multiple": 0.02,
+        "opening_line": "DAY IN THE LIFE OF A CEO | 4:30 AM - 11:00 PM "
+      },
+      {
+        "reel_id": "4006385880050375637",
+        "url": "https://www.instagram.com/reel/DeZirstixvV/",
+        "page": "ryanserhant",
+        "multiple": 0.03,
+        "opening_line": "DAY IN THE LIFE OF A CEO | 4:30 AM - 11:00 PM"
+      },
+      {
+        "reel_id": "4006381793036496967",
+        "url": "https://www.instagram.com/reel/DeZhwOYiHBH/",
+        "page": "ryanserhant",
+        "multiple": 0.1,
+        "opening_line": "DAY IN THE LIFE OF A CEO | 4:30 AM - 11:00 PM"
+      }
+    ],
+    "counterexamples": [
+      {
+        "reel_id": "3998406584627108996",
+        "url": "https://www.instagram.com/reel/Dd9MZqwSByE/",
+        "page": "invest_in_bengaluru",
+        "multiple": 4.4,
+        "opening_line": "Luxury 4bhk villa for sale in North bangalore"
+      },
+      {
+        "reel_id": "4004429876135698018",
+        "url": "https://www.instagram.com/reel/DeSl8GHB55i/",
+        "page": "sothebysrealty",
+        "multiple": 2.75,
+        "opening_line": "This is what well-connected looks like."
+      },
+      {
+        "reel_id": "4002022138193653542",
+        "url": "https://www.instagram.com/reel/DeKCe5aSC8m/",
+        "page": "invest_in_bengaluru",
+        "multiple": 2.73,
+        "opening_line": "Luxury 4 bhk for sale in chandapura Bangalore."
+      }
+    ],
+    "prevention_rule": "Never open on the project name, BHK or area spec. Open on a person, a number with a story, or a question.",
+    "improved_alternative": "Replace '3 & 4 BHK from 1,850 sq ft' with a buyer-specific hook such as 'Working near Manyata and tired of a 90-minute drive?'"
+  },
+  {
+    "id": "F3",
+    "pattern": "Plain listing description as the hook",
+    "why_it_may_fail": "A description with no tension or number; the viewer learns what it is but not why to keep watching.",
+    "evidence_type": "hypothesis checked against data",
+    "underperformers_with_pattern": 13,
+    "underperformers_total": 158,
+    "prevalence_among_underperformers": 0.082,
+    "prevalence_among_all_reels": 0.084,
+    "lift_vs_base_rate": 0.98,
+    "median_multiple_when_present": 0.89,
+    "breakouts_that_still_have_pattern": 6,
+    "verdict": "no clear association",
+    "confidence": "low",
+    "supporting_examples": [
+      {
+        "reel_id": "4009956626211117758",
+        "url": "https://www.instagram.com/reel/DemOk5OCZq-/",
+        "page": "inbengaluruproperties",
+        "multiple": 0.22,
+        "opening_line": "3bhk for sale in Sobha city "
+      },
+      {
+        "reel_id": "4006451302627841505",
+        "url": "https://www.instagram.com/reel/DeZxjuPCJXh/",
+        "page": "tradedmiami",
+        "multiple": 0.3,
+        "opening_line": "LEASE"
+      },
+      {
+        "reel_id": "4009426076946437663",
+        "url": "https://www.instagram.com/reel/DekV8YtlJYf/",
+        "page": "tradedmiami",
+        "multiple": 0.35,
+        "opening_line": "LEASE"
+      },
+      {
+        "reel_id": "3986746785153974276",
+        "url": "https://www.instagram.com/reel/DdTxRQSiIAE/",
+        "page": "tradedmiami",
+        "multiple": 0.41,
+        "opening_line": "SALE"
+      }
+    ],
+    "counterexamples": [
+      {
+        "reel_id": "4008640603596199287",
+        "url": "https://www.instagram.com/reel/DehjWPpjxV3/",
+        "page": "tradedmiami",
+        "multiple": 9.73,
+        "opening_line": "SALE"
+      },
+      {
+        "reel_id": "3998406584627108996",
+        "url": "https://www.instagram.com/reel/Dd9MZqwSByE/",
+        "page": "invest_in_bengaluru",
+        "multiple": 4.4,
+        "opening_line": "Luxury 4bhk villa for sale in North bangalore"
+      },
+      {
+        "reel_id": "4002022138193653542",
+        "url": "https://www.instagram.com/reel/DeKCe5aSC8m/",
+        "page": "invest_in_bengaluru",
+        "multiple": 2.73,
+        "opening_line": "Luxury 4 bhk for sale in chandapura Bangalore."
+      }
+    ],
+    "prevention_rule": "A listing fact is a supporting beat, not the hook.",
+    "improved_alternative": "Turn the single most unusual fact into a question or a number with a consequence."
+  },
+  {
+    "id": "F5",
+    "pattern": "No visible CTA",
+    "why_it_may_fail": "Nothing invites the next step; may be fine for pure reach content, not for lead generation.",
+    "evidence_type": "hypothesis checked against data",
+    "underperformers_with_pattern": 98,
+    "underperformers_total": 158,
+    "prevalence_among_underperformers": 0.62,
+    "prevalence_among_all_reels": 0.643,
+    "lift_vs_base_rate": 0.97,
+    "median_multiple_when_present": 1,
+    "breakouts_that_still_have_pattern": 66,
+    "verdict": "no clear association",
+    "confidence": "low",
+    "supporting_examples": [
+      {
+        "reel_id": "4003523450718585280",
+        "url": "https://www.instagram.com/reel/DePX13qBwHA/",
+        "page": "thebrokeagent",
+        "multiple": 0,
+        "opening_line": "I wonder why!?"
+      },
+      {
+        "reel_id": "4007881075433478980",
+        "url": "https://www.instagram.com/reel/Dee2pp7ORtE/",
+        "page": "thebrokeagent",
+        "multiple": 0,
+        "opening_line": "You no longer have to show homes. Oliver will do it for you!!"
+      },
+      {
+        "reel_id": "3982751157549377438",
+        "url": "https://www.instagram.com/reel/DdFkxOGgaee/",
+        "page": "coffeecontracts",
+        "multiple": 0.01,
+        "opening_line": "Real estate agents: how to build your first dashboard in Claude 💻"
+      },
+      {
+        "reel_id": "4012314487099708853",
+        "url": "https://www.instagram.com/reel/DeumsSSu1W1/",
+        "page": "realtordotcom",
+        "multiple": 0.02,
+        "opening_line": "Smaller mortgages might sound like the perfect solution to today’s housing affordability challenges, but getting approved isn’t always as simple as you’d think."
+      }
+    ],
+    "counterexamples": [
+      {
+        "reel_id": "3274369659355150007",
+        "url": "https://www.instagram.com/reel/C1w5dtZLja3/",
+        "page": "realtordotcom",
+        "multiple": 2488.41,
+        "opening_line": "Kanye West bought this property for $57M all cash, gutted it, and is now listing it for $53M! 👀"
+      },
+      {
+        "reel_id": "3321689579794078785",
+        "url": "https://www.instagram.com/reel/C4ZAxLhvhxB/",
+        "page": "realtordotcom",
+        "multiple": 1007.46,
+        "opening_line": "I look after you I look after you I look after you"
+      },
+      {
+        "reel_id": "3639609459006379060",
+        "url": "https://www.instagram.com/reel/DKCfYT9OhQ0/",
+        "page": "ryanserhant",
+        "multiple": 385.3,
+        "opening_line": "yes So, you can do a certain amount of charges."
+      }
+    ],
+    "prevention_rule": "Add exactly one CTA to every lead-focused reel.",
+    "improved_alternative": "One keyword CTA at the end."
+  },
+  {
+    "id": "F7",
+    "pattern": "Long runtime (90s or more) without a strong hook",
+    "why_it_may_fail": "Long videos need a hook that earns attention across the length.",
+    "evidence_type": "hypothesis checked against data",
+    "underperformers_with_pattern": 13,
+    "underperformers_total": 158,
+    "prevalence_among_underperformers": 0.082,
+    "prevalence_among_all_reels": 0.094,
+    "lift_vs_base_rate": 0.87,
+    "median_multiple_when_present": 1.11,
+    "breakouts_that_still_have_pattern": 13,
+    "verdict": "no clear association",
+    "confidence": "low",
+    "supporting_examples": [
+      {
+        "reel_id": "4006368808763260845",
+        "url": "https://www.instagram.com/reel/DeZezR1if-t/",
+        "page": "ryanserhant",
+        "multiple": 0.02,
+        "opening_line": "DAY IN THE LIFE OF A CEO | 4:30 AM - 11:00 PM "
+      },
+      {
+        "reel_id": "4006385880050375637",
+        "url": "https://www.instagram.com/reel/DeZirstixvV/",
+        "page": "ryanserhant",
+        "multiple": 0.03,
+        "opening_line": "DAY IN THE LIFE OF A CEO | 4:30 AM - 11:00 PM"
+      },
+      {
+        "reel_id": "3860692936966094077",
+        "url": "https://www.instagram.com/reel/DWT78V2uTz9/",
+        "page": "matt.lionetti",
+        "multiple": 0.13,
+        "opening_line": "Part 2. The work ethic story. I think some things are engrained from early routine. I learnt very quickly that if I waned something, I needed to figure out how to get it. 🤘 I saw @kevion talk about h"
+      },
+      {
+        "reel_id": "4003567262677504140",
+        "url": "https://www.instagram.com/reel/DePhzauRpCM/",
+        "page": "ryanserhant",
+        "multiple": 0.17,
+        "opening_line": "Reasons why I should never open my dms"
+      }
+    ],
+    "counterexamples": [
+      {
+        "reel_id": "3813784207676584377",
+        "url": "https://www.instagram.com/reel/DTtSIfUjrG5/",
+        "page": "ryanserhant",
+        "multiple": 62.73,
+        "opening_line": "Starting 2026 with a mustache."
+      },
+      {
+        "reel_id": "3622943778978551492",
+        "url": "https://www.instagram.com/reel/DJHSCv7OlbE/",
+        "page": "jayroberts",
+        "multiple": 47.92,
+        "opening_line": "This stretch of Miami River running from Biscayne Bay through Brickle and downtown is in the middle of a massive transformation."
+      },
+      {
+        "reel_id": "3765932756481276664",
+        "url": "https://www.instagram.com/reel/DRDR-OmEvr4/",
+        "page": "tradedmiami",
+        "multiple": 36.46,
+        "opening_line": "Hey, wait."
+      }
+    ],
+    "prevention_rule": "Keep under 60 seconds unless the hook is a number, interruption or call-out.",
+    "improved_alternative": "Cut to the best 30 to 45 seconds."
+  },
+  {
+    "id": "F2",
+    "pattern": "Presenting / announcement opening",
+    "why_it_may_fail": "Announcement language signals an advert, which viewers swipe past.",
+    "evidence_type": "hypothesis checked against data",
+    "underperformers_with_pattern": 5,
+    "underperformers_total": 158,
+    "prevalence_among_underperformers": 0.032,
+    "prevalence_among_all_reels": 0.062,
+    "lift_vs_base_rate": 0.51,
+    "median_multiple_when_present": 1.21,
+    "breakouts_that_still_have_pattern": 8,
+    "verdict": "not associated with underperformance",
+    "confidence": "low",
+    "supporting_examples": [
+      {
+        "reel_id": "3844104830075275092",
+        "url": "https://www.instagram.com/reel/DVZAPncAAdU/",
+        "page": "matt.lionetti",
+        "multiple": 0.27,
+        "opening_line": "In her MV beige era, with a sharp sense of humour and a whole lot of experience behind the scenes… we’re so excited to officially introduce Rebecca 🥂"
+      },
+      {
+        "reel_id": "4006390896563896211",
+        "url": "https://www.instagram.com/reel/DeZj0stDL-T/",
+        "page": "tradedmiami",
+        "multiple": 0.28,
+        "opening_line": "LEASE"
+      },
+      {
+        "reel_id": "3992695772516315613",
+        "url": "https://www.instagram.com/reel/Ddo56ahCfHd/",
+        "page": "tradedmiami",
+        "multiple": 0.29,
+        "opening_line": "LEASE"
+      },
+      {
+        "reel_id": "4007825391003491777",
+        "url": "https://www.instagram.com/reel/Deep_Vwjd3B/",
+        "page": "espacerealestate",
+        "multiple": 0.35,
+        "opening_line": "A new opportunity on Saadiyat Island, Abu Dhabi."
+      }
+    ],
+    "counterexamples": [
+      {
+        "reel_id": "4002662245562821877",
+        "url": "https://www.instagram.com/reel/DeMUBr2o6z1/",
+        "page": "unionsquarehouse",
+        "multiple": 13.37,
+        "opening_line": "Recognised by Binghatti."
+      },
+      {
+        "reel_id": "4002922094005991581",
+        "url": "https://www.instagram.com/reel/DeNPG-kyjid/",
+        "page": "sothebysrealty",
+        "multiple": 3.89,
+        "opening_line": "To mark 50 years of Sotheby’s International Realty, we partnered with @assouline to create something timeless."
+      },
+      {
+        "reel_id": "3987774865924323345",
+        "url": "https://www.instagram.com/reel/DdXbBzHpngR/",
+        "page": "emilywalczak.realtor",
+        "multiple": 3.12,
+        "opening_line": "new listing, going live tomorrow: thursday, september 17th!"
+      }
+    ],
+    "prevention_rule": "Do not start with 'Presenting', 'Introducing' or 'New launch'.",
+    "improved_alternative": "Lead with the reason the launch matters to one buyer type."
+  },
+  {
+    "id": "F4",
+    "pattern": "Phone number as the only CTA",
+    "why_it_may_fail": "Asks for a high-effort action with no engagement signal.",
+    "evidence_type": "hypothesis checked against data",
+    "underperformers_with_pattern": 1,
+    "underperformers_total": 158,
+    "prevalence_among_underperformers": 0.006,
+    "prevalence_among_all_reels": 0.031,
+    "lift_vs_base_rate": 0.21,
+    "median_multiple_when_present": 1.8,
+    "breakouts_that_still_have_pattern": 5,
+    "verdict": "not associated with underperformance",
+    "confidence": "low",
+    "supporting_examples": [
+      {
+        "reel_id": "4007825391003491777",
+        "url": "https://www.instagram.com/reel/Deep_Vwjd3B/",
+        "page": "espacerealestate",
+        "multiple": 0.35,
+        "opening_line": "A new opportunity on Saadiyat Island, Abu Dhabi."
+      }
+    ],
+    "counterexamples": [
+      {
+        "reel_id": "4007085494911195996",
+        "url": "https://www.instagram.com/reel/DecBwb0zVtc/",
+        "page": "unionsquarehouse",
+        "multiple": 17.96,
+        "opening_line": "Modern living. Thoughtful details. A connected Dubai address."
+      },
+      {
+        "reel_id": "3997668806335578925",
+        "url": "https://www.instagram.com/reel/Dd6kplLSsMt/",
+        "page": "invest_in_bengaluru",
+        "multiple": 4.56,
+        "opening_line": "Ultra luxury villa for sale in prestige golf shire , Nandi hills road"
+      },
+      {
+        "reel_id": "3998406584627108996",
+        "url": "https://www.instagram.com/reel/Dd9MZqwSByE/",
+        "page": "invest_in_bengaluru",
+        "multiple": 4.4,
+        "opening_line": "Luxury 4bhk villa for sale in North bangalore"
+      }
+    ],
+    "prevention_rule": "Pair any phone number with a comment-keyword or save CTA.",
+    "improved_alternative": "Comment a keyword; the DM carries the number."
+  }
+]
