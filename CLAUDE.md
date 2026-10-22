@@ -21,7 +21,7 @@ AI content intelligence and creation platform for Bengaluru real estate develope
 ## Commands
 ```
 npm run dev             app on :3000
-npm test                app checks, compliance, brief, full scripts and text input (56 tests)
+npm test                app checks, compliance, brief, scripts, text input and house layout (67 tests)
 npm run brain:all       enrich (LLM), build, test, export
 npm run brain:build     raw -> derived research files
 npm run brain:enrich    LLM teardown pass (needs GEMINI_API_KEY; cached)

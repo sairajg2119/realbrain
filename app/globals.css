@@ -238,12 +238,6 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
   .scripts { grid-template-columns: 1fr; max-width: 760px; }
 }
 @media (max-width: 1020px) {
-  .nav, .hero, .how, .site-foot { padding-left: 24px; padding-right: 24px; }
-  .hero { grid-template-columns: 1fr; gap: 44px; padding-top: 28px; }
-  .hero-frame { aspect-ratio: 4 / 3; max-height: 440px; }
-  .preview-card { left: 16px; }
-  .how-grid { grid-template-columns: 1fr; }
-  .how-item { border-right: 0; margin-right: 0; border-bottom: 1px solid var(--line-soft); padding: 28px 0; }
   .project-grid { grid-template-columns: 1fr; gap: 44px; }
   .approval-grid { grid-template-columns: 1fr; }
   .approval-side { position: static; }
@@ -255,14 +249,6 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
 }
 @media (max-width: 760px) {
   body { font-size: 16px; }
-  .nav { padding: 16px 18px; }
-  .nav-link { display: none; }
-  .hero, .how, .site-foot { padding-left: 18px; padding-right: 18px; }
-  .hero-cta .btn { width: 100%; }
-  .hero-visual { padding-bottom: 0; }
-  .preview-card { position: relative; left: 0; width: 100%; margin-top: -48px; max-width: 94%; margin-left: auto; margin-right: auto; }
-  .trust { padding: 20px 18px; margin-top: 28px; }
-  .statement { padding: 64px 20px; }
   .app-header { grid-template-columns: auto 1fr; padding: 12px 16px; gap: 10px; }
   .app-header .steps { order: 3; grid-column: 1 / -1; justify-content: space-between; gap: 4px; }
   .app-header-r { order: 2; }
@@ -285,7 +271,6 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
   .action-bar-in p { font-size: 0.85rem; }
   .file-card { flex-wrap: wrap; }
   .file-actions { width: 100%; justify-content: flex-end; }
-  .closing .btn { width: 100%; }
 }
 @media (max-width: 400px) {
   .buyers { grid-template-columns: 1fr; }
