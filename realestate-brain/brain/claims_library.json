@@ -58,7 +58,7 @@
       "name": "Approval, khata, title or loan claims",
       "class": "conditional",
       "action": "needs_evidence",
-      "patterns": ["\\b(bda|bbmp|gba|bmrda|bmrcl|dtcp|bescom|bwssb)\\s+approved", "a[- ]?khata", "e[- ]?khata", "b[- ]?khata", "\\b(oc|occupancy\\s+certificate|completion\\s+certificate|cc)\\s+(received|obtained|ready|in\\s+hand)", "clear\\s+title", "(100\\s*%|fully)\\s+legal", "bank\\s+approved", "loans?\\s+(approved|available)\\s+(by|from)", "rera\\s+registered"],
+      "patterns": ["\\b(bda|bbmp|gba|bmrda|bmrcl|dtcp|bescom|bwssb)\\s+approved", "a[- ]?khata", "e[- ]?khata", "b[- ]?khata", "\\b(oc|occupancy\\s+certificate|completion\\s+certificate|cc)\\s+(received|obtained|ready|in\\s+hand)", "clear\\s+title", "(100\\s*%|fully)\\s+legal", "bank\\s+approved", "loans?\\s+(approved|available)\\s+(by|from)"],
       "rule_ids": ["APPROVALS-NEED-DOCUMENTS", "BROCHURE-NOT-PROOF"],
       "why": "These are the claims buyers trust most, and the ones most costly if wrong. A brochure statement is not proof.",
       "safer_wording": "Name the approval, the authority and the document number only when you hold the document. Example: 'RERA registered, number shown on screen.'",

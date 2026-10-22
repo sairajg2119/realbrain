@@ -15,6 +15,14 @@ export interface Facts {
   missing: string[];
 }
 
+/** What must be on screen in the video. Built by code from the verified brochure facts, never written by the model. */
+export interface OnScreen {
+  lines: string[];
+  position: string;
+  size_note: string;
+  basis: string;
+}
+
 export interface Script {
   hook_type: string;
   format: string;
@@ -24,6 +32,7 @@ export interface Script {
   caption: string;
   target_duration_s: number;
   facts_used: string[];
+  on_screen?: OnScreen;
   why_this_works: {
     reel_id: string;
     page: string;
@@ -32,7 +41,7 @@ export interface Script {
   };
 }
 
-export type CheckCode = "rera" | "website" | "numbers" | "length" | "citation";
+export type CheckCode = "rera" | "website" | "numbers" | "length" | "citation" | "compliance";
 
 export interface ScriptChecks {
   failedCodes: CheckCode[];
@@ -42,9 +51,32 @@ export interface ScriptChecks {
   rewritten: boolean;
 }
 
+/** One item the person must confirm or take to a legal advisor. A flag, never a legal finding. */
+export interface ComplianceItem {
+  claim_id: string;
+  name: string;
+  matched: string;
+  where: string;
+  action: "block" | "flag" | "needs_evidence";
+  evidence_needed: string;
+  safer_wording: string;
+}
+
+export interface ComplianceReport {
+  blocked: boolean;
+  summary: string;
+  block_messages: string[];
+  confirm_before_posting: ComplianceItem[];
+  ask_advisor: string[];
+  required: { id: string; ok: boolean; message: string }[];
+  disclaimer: string;
+}
+
 export interface CheckedScript {
   script: Script;
   checks: ScriptChecks;
+  /** Absent in saved sample results made before the compliance layer was added. */
+  compliance?: ComplianceReport;
 }
 
 export interface Teardown {

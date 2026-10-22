@@ -19,7 +19,8 @@ Last updated 2026-10-22. Status words: **done**, **partial**, **not started**. A
 - Done (2026-10-22): `realestate-brain/` with a source register (12 sources), 25 rules (17 verified from primary sources, 8 secondary), 15 claim classes with a scanner, misleading-script examples, RERA verification and advertisement checklists, an escalation process, glossary and knowledge base, 17 tests. Exported to `brain/rules.json` and `brain/compliance_claims.json`.
 - Primary sources read: RERA Act text, Karnataka Rules FAQ, K-RERA advertisement circular of 14 Nov 2019, K-RERA advertisement-violation list.
 - Not done: Karnataka Rules full text (Kannada copy unreadable), newer K-RERA circulars, khata/e-khata/GBA, land conversion and planning approvals, stamp duty, CPA and CCPA official text, ASCI, the AI-label duty of advertisers, 5 verified localities (`brain/localities.json` still empty and unverified).
-- Not wired: `scanText()` is not yet called by the app. The app enforces only its existing code checks. The new rule that the RERA number must be on screen is not yet in the script spec.
+- Wired (2026-10-22): `/api/analyze` builds an on-screen RERA plan from the verified facts (number, K-RERA website, AI label; top right, whole video), runs `scanScript()` on every script, treats blocked claims as hard failures (one rewrite attempt), and returns a `compliance` report. The script card and approval screen show on-screen text, 'confirm before you post' items and advisor questions; approval needs a tick when there are items. The preview overlays the on-screen RERA text.
+- Not verified live: the full PDF upload path through the new route (Gemini overload during the last attempts). Script writing plus scan was run against the live model and the screens were checked in the browser using the sample project. The on-screen text is shown in the preview only; the real video render does not burn it in yet (video is not built).
 
 ### Stage 3: Additional layers: **not started**
 Buyer-type models, factual validation extensions, video script constraints, news and market context.
@@ -35,6 +36,6 @@ Buyer-type models, factual validation extensions, video script constraints, news
 ## Next steps, in order
 1. Push, redeploy, run one full brochure upload on the live link.
 2. Avatar video with fallback (`lib/video.ts`), then the demo-day assets.
-3. Wire the compliance layer into the script engine: on-screen RERA number in the script spec, `scanText()` in `/api/analyze` and the approval screen, escalation message.
+3. Burn the on-screen RERA text and AI label into the rendered video (with the avatar step). Store escalation records when a data store exists.
 4. Finish Stage 2 gaps (localities, khata and approvals, newer circulars) with a human check of each rule.
 5. Spot-check teardown labels; add Indian pages to the Social Brain.

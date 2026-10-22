@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import type { CheckedScript } from "@/lib/types";
 import type { VideoState } from "@/lib/video";
 import { MAX_IMAGE_BYTES } from "@/lib/workflow";
+import { needsAcknowledgement } from "@/lib/compliance";
 import { DEMO_NOTICE } from "@/lib/mock";
 import { IconAlert, IconBack, IconCheck } from "./Icons";
+import { ComplianceNotes } from "./ComplianceNotes";
 import { Marked, CopyButton } from "./ScriptCard";
 import { UploadZone } from "./UploadZone";
 import { VideoPanel } from "./VideoPanel";
@@ -58,6 +60,8 @@ export function ApprovalScreen({
   const { script: s, checks } = item;
   const red = new Set(checks.redNumbers);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [ack, setAck] = useState(false);
+  const mustAck = needsAcknowledgement(item.compliance);
   useEffect(() => {
     if (!image) return setImageUrl(null);
     const u = URL.createObjectURL(image);
@@ -94,16 +98,23 @@ export function ApprovalScreen({
           <div className="block"><h4>Call to action</h4><p><Marked text={s.cta} red={red} /></p></div>
           <div className="block"><h4>Instagram caption</h4><p className="caption"><Marked text={s.caption} red={red} /></p></div>
           <CopyButton text={s.caption} label="Copy caption" done="Caption copied" />
+          <ComplianceNotes item={item} open />
         </article>
 
         <div className="approval-side">
           <section className="panel" aria-labelledby="approve-title">
             <h2 id="approve-title" className="h3">1. Approve your script</h2>
             <p className="hint">Under RERA Section 12 you are responsible for what is posted. Read every number before you approve.</p>
+            {!approved && mustAck && (
+              <label className="ack">
+                <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} />
+                <span>I have checked the compliance notes with the project documents or my legal advisor.</span>
+              </label>
+            )}
             {approved ? (
               <p className="pill good approved-pill"><IconCheck size={14} /> Script approved</p>
             ) : (
-              <button className="btn btn-gold btn-lg full" onClick={onApprove}>Approve this script</button>
+              <button className="btn btn-gold btn-lg full" onClick={onApprove} disabled={mustAck && !ack}>Approve this script</button>
             )}
           </section>
 
@@ -127,7 +138,7 @@ export function ApprovalScreen({
         </div>
       </div>
 
-      <VideoPanel state={video} imageUrl={imageUrl} caption={s.caption} hook={s.hook} onRetry={onCreateVideo} />
+      <VideoPanel state={video} imageUrl={imageUrl} caption={s.caption} hook={s.hook} onScreen={s.on_screen} onRetry={onCreateVideo} />
     </div>
   );
 }

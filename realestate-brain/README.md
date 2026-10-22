@@ -43,4 +43,4 @@ npm run re:export   # refresh brain/rules.json and brain/compliance_claims.json
 import { scanText, checkRequiredElements } from "./realestate-brain/lib/claims.ts";
 const result = scanText({ hook, body, cta, caption }, claims, rules); // flags only
 ```
-Wiring `scanText` into the approval screen is a Stage 4 task (see `docs/ROADMAP.md`). Until then the app enforces only its existing code checks.
+Wired into the app on 2026-10-22: `lib/compliance.ts` calls `scanText` and `checkRequiredElements` for every script in `/api/analyze`, builds the on-screen RERA plan, and the script card and approval screen show the result (see `docs/ARCHITECTURE.md`).

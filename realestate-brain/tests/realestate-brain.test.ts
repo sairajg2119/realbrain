@@ -71,6 +71,18 @@ test("approval and possession claims need evidence, not a block", () => {
   assert.equal(r.blocked, false);
 });
 
+test("price and approval mentions need evidence but do not escalate to a legal question", () => {
+  const r = scan("3 BHK starting at Rs 1.62 Cr. A-khata.");
+  const price = r.findings.find((f) => f.claim_id === "C-PRICE");
+  assert.ok(price);
+  assert.equal(price!.escalate, false);
+  assert.deepEqual(price!.escalation_questions, []);
+});
+
+test("'RERA registered' with a number is not flagged", () => {
+  assert.equal(scan("RERA registered: PRM/KA/RERA/1251/309/PR/999999").findings.length, 0);
+});
+
 test("superlatives, urgency and distances are flagged", () => {
   const r = scan("The best 3 BHK. Only 4 flats left. Metro 5 minutes away.");
   for (const id of ["C-SUPERLATIVE", "C-URGENCY", "C-DISTANCE-INFRA"]) assert.ok(r.findings.some((f) => f.claim_id === id), id);

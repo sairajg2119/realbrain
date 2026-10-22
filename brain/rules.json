@@ -20,6 +20,10 @@
         "campaign"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act 2016, section 3(1): 'No promoter shall advertise, market, book, sell or offer for sale, or invite persons to purchase in any manner",
       "last_checked": "2026-10-22"
     },
@@ -33,6 +37,11 @@
         "intake"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT",
+        "SRC-KRERA-FAQ-RULES"
+      ],
+      "escalation_question": "Secondary sources disagree on whether the 500 sq m and eight-apartment tests are 'either or'. Is this project exempt, and on what documents?",
       "source_name": "RERA Act s3(2): no registration needed (a) where land does not exceed 500 sq m or apartments do not exceed eight, inclusive of all phases (a state may lower the",
       "last_checked": "2026-10-22"
     },
@@ -48,6 +57,11 @@
         "end_card"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT",
+        "SRC-KRERA-ADVERT-LIST"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act s11(2): the advertisement or prospectus 'shall mention prominently the website address of the Authority",
       "last_checked": "2026-10-22"
     },
@@ -63,6 +77,11 @@
         "end_card"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT",
+        "SRC-KRERA-CIRCULAR-ADS-2019"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act s11(2)",
       "last_checked": "2026-10-22"
     },
@@ -76,6 +95,10 @@
         "on_screen_text"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-KRERA-CIRCULAR-ADS-2019"
+      ],
+      "escalation_question": "The circular does not name social-media video. Does K-RERA expect the print placement rules (top right, half font size) to apply to Instagram reels, or only the 'prominently mentioned' standard?",
       "source_name": "K-RERA circular RERA/ADM/CR-4/2019-20 dated 14/11/2019, clauses 1(a), 1(d), 1(e): number 'in the top right corner of the advertisement'; lettering 'not less tha",
       "last_checked": "2026-10-22"
     },
@@ -91,6 +114,10 @@
         "on_screen_text"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-KRERA-CIRCULAR-ADS-2019"
+      ],
+      "escalation_question": null,
       "source_name": "K-RERA circular of 2019-11-14, clause 1(c): 'No disclaimer clause should be mentioned stating that the information is subject to change",
       "last_checked": "2026-10-22"
     },
@@ -105,6 +132,11 @@
         "caption"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-KRERA-CIRCULAR-ADS-2019",
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": null,
       "source_name": "None cited",
       "last_checked": "2026-10-22"
     },
@@ -119,6 +151,11 @@
         "caption"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT",
+        "SRC-KRERA-FAQ-RULES"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act s12: compensation for loss 'by reason of any incorrect, false statement'; a buyer who wants to withdraw gets 'his entire investment along with interest",
       "last_checked": "2026-10-22"
     },
@@ -133,6 +170,10 @@
         "script"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": null,
       "source_name": "None",
       "last_checked": "2026-10-22"
     },
@@ -147,6 +188,10 @@
         "caption"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act s4(2)(l)(C): promoter declares the time period within which the project will be completed",
       "last_checked": "2026-10-22"
     },
@@ -161,6 +206,10 @@
         "visuals"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act s14(1): project must be developed 'in accordance with the sanctioned plans, layout plans and specifications as approved by the competent authorities'",
       "last_checked": "2026-10-22"
     },
@@ -174,6 +223,11 @@
         "intake"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT",
+        "SRC-KRERA-FAQ-RULES"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act s9(1): no real estate agent shall facilitate the sale or purchase of a plot, apartment or building in a registered project 'without obtaining registrat",
       "last_checked": "2026-10-22"
     },
@@ -187,6 +241,10 @@
         "educational_content"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act s13(1)",
       "last_checked": "2026-10-22"
     },
@@ -200,6 +258,10 @@
         "educational_content"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": null,
       "source_name": "RERA Act s4(2)(l)(D)",
       "last_checked": "2026-10-22"
     },
@@ -214,6 +276,12 @@
         "caption"
       ],
       "status": "secondary_reported",
+      "source_ids": [
+        "SRC-BUDS-ASSURED-RETURNS",
+        "SRC-CPA-2019",
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": "Is this specific assured-rent or buy-back arrangement a 'deposit' or 'collective investment scheme', and may it be advertised at all?",
       "source_name": "Secondary sources: assured-return schemes can fall under the Banning of Unregulated Deposit Schemes Act 2019 or SEBI's collective investment rules; SEBI describ",
       "last_checked": "2026-10-22"
     },
@@ -228,6 +296,11 @@
         "caption"
       ],
       "status": "secondary_reported",
+      "source_ids": [
+        "SRC-CPA-2019",
+        "SRC-RERA-ACT"
+      ],
+      "escalation_question": null,
       "source_name": "Related law: CPA 2019 s2(28) (false description; deliberate concealment) and RERA s12",
       "last_checked": "2026-10-22"
     },
@@ -242,6 +315,11 @@
         "caption"
       ],
       "status": "secondary_reported",
+      "source_ids": [
+        "SRC-RERA-ACT",
+        "SRC-KHATA-GBA"
+      ],
+      "escalation_question": "Which document proves this approval for this project, and is it current?",
       "source_name": "s12 RERA (false statement liability); s14(1) (approved plans)",
       "last_checked": "2026-10-22"
     },
@@ -256,6 +334,11 @@
         "caption"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-RERA-ACT",
+        "SRC-KRERA-CIRCULAR-ADS-2019"
+      ],
+      "escalation_question": "How should a price that may change be shown if a 'subject to change' disclaimer is not allowed? Date-stamp it?",
       "source_name": "RERA s12; K-RERA circular clause 1(c) bans 'subject to change' disclaimers",
       "last_checked": "2026-10-22"
     },
@@ -270,6 +353,11 @@
         "caption"
       ],
       "status": "secondary_reported",
+      "source_ids": [
+        "SRC-RERA-ACT",
+        "SRC-CPA-2019"
+      ],
+      "escalation_question": null,
       "source_name": "RERA s12 (statements in advertisements); CPA s2(28) (deliberate concealment of important information)",
       "last_checked": "2026-10-22"
     },
@@ -284,6 +372,10 @@
         "caption"
       ],
       "status": "secondary_reported",
+      "source_ids": [
+        "SRC-CCPA-MISLEADING-ADS-2022"
+      ],
+      "escalation_question": null,
       "source_name": "CCPA 2022 guidelines (secondary) address bait and misleading advertisements; exact clause not checked",
       "last_checked": "2026-10-22"
     },
@@ -298,6 +390,11 @@
         "video"
       ],
       "status": "secondary_reported",
+      "source_ids": [
+        "SRC-IT-RULES-2026",
+        "SRC-CPA-2019"
+      ],
+      "escalation_question": null,
       "source_name": "IT Amendment Rules 2026 reported to prohibit misleading depiction of real people through synthetic media (secondary)",
       "last_checked": "2026-10-22"
     },
@@ -311,6 +408,10 @@
         "video"
       ],
       "status": "secondary_reported",
+      "source_ids": [
+        "SRC-IT-RULES-2026"
+      ],
+      "escalation_question": "Does an advertiser who uses an avatar tool have a direct labelling duty, and does the label have to run for the whole video?",
       "source_name": "IT (Intermediary Guidelines and Digital Media Ethics Code) Amendment Rules, 2026, notified 2026-02-10, in force 2026-02-20, per secondary sources: synthetically",
       "last_checked": "2026-10-22"
     },
@@ -324,6 +425,10 @@
         "video"
       ],
       "status": "secondary_reported",
+      "source_ids": [
+        "SRC-IT-RULES-2026"
+      ],
+      "escalation_question": null,
       "source_name": "A further draft amendment (noticed April 2026, per a May 2026 law-firm article) proposes a continuously visible label",
       "last_checked": "2026-10-22"
     },
@@ -337,6 +442,11 @@
         "video"
       ],
       "status": "verified_primary",
+      "source_ids": [
+        "SRC-KRERA-CIRCULAR-ADS-2019",
+        "SRC-OTHER-STATE-QR"
+      ],
+      "escalation_question": null,
       "source_name": "Not found in the K-RERA circular of 2019-11-14 or in searches",
       "last_checked": "2026-10-22"
     },
@@ -350,6 +460,8 @@
         "process"
       ],
       "status": "verified_primary",
+      "source_ids": [],
+      "escalation_question": null,
       "source_name": "None",
       "last_checked": "2026-10-22"
     }

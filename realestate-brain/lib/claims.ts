@@ -8,7 +8,7 @@ export interface Claim {
 }
 export interface Rule {
   id: string; rule: string; plain_english: string; level: string; enforcement: string; status: string;
-  escalation_question?: string; source_ids: string[]; [k: string]: unknown;
+  escalation_question?: string | null; source_ids: string[]; [k: string]: unknown;
 }
 export interface Finding {
   claim_id: string; claim_name: string; class: Claim["class"]; action: Claim["action"];
@@ -40,8 +40,9 @@ export function scanText(input: ScanInput, claims: Claim[], rules: Rule[]): Scan
         findings.push({
           claim_id: c.id, claim_name: c.name, class: c.class, action: c.action, matched: m[0].trim(), where,
           rule_ids: c.rule_ids, why: c.why, safer_wording: c.safer_wording, evidence_needed: c.evidence_needed,
-          escalate: c.action === "block" || unresolved.length > 0,
-          escalation_questions: [...new Set(unresolved.map((r) => r.escalation_question).filter((q): q is string => !!q))],
+          // Only blocks and flags raise a legal question. 'needs_evidence' items are a confirm-before-posting list, not an escalation.
+          escalate: c.action === "block" || (c.action === "flag" && unresolved.length > 0),
+          escalation_questions: c.action === "needs_evidence" ? [] : [...new Set(unresolved.map((r) => r.escalation_question).filter((q): q is string => !!q))],
         });
         break; // one finding per claim per field
       }

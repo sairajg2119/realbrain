@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { loadBrain, localityFacts } from "@/lib/brain";
 import { checkScript, fixCitation, hasDistinctHookTypes } from "@/lib/checks";
+import { applyCompliance, scanScript, withOnScreen } from "@/lib/compliance";
 import { extractFacts, isRateLimit, rewriteScript, SetupError, writeScripts } from "@/lib/gemini";
 import { BUYER_TYPES, type AnalyzeResponse, type BuyerType, type CheckedScript } from "@/lib/types";
 
@@ -85,25 +86,27 @@ export async function POST(request: Request) {
       if (!hasDistinctHookTypes(scripts)) notes.push("Two scripts use the same hook type.");
     }
 
-    // Logic 2: check every script; rewrite failures once.
+    // Logic 2: code checks plus the compliance scan. The on-screen RERA plan is built by code from the facts.
+    // A rewrite is attempted once for hard failures, including blocked claims (guaranteed returns, pre-launch selling, invented people).
+    const evaluate = (s: Parameters<typeof withOnScreen>[0]): CheckedScript => {
+      const script = withOnScreen(fixCitation(s, brain.teardowns), facts);
+      const compliance = scanScript(script, facts, brain.claims, brain.rules);
+      return { script, checks: applyCompliance(checkScript(script, facts, brain.teardowns), compliance), compliance };
+    };
     const checked: CheckedScript[] = await Promise.all(
       scripts.map(async (raw) => {
-        let script = fixCitation(raw, brain.teardowns);
-        let checks = checkScript(script, facts, brain.teardowns);
-        if (checks.hardFailures.length) {
+        let item = evaluate(raw);
+        if (item.checks.hardFailures.length) {
           try {
-            const rewritten = fixCitation(
-              await rewriteScript({ facts, buyer: input.buyer, script, failures: checks.hardFailures, teardowns: brain.teardowns }),
-              brain.teardowns,
-            );
-            script = rewritten;
-            checks = { ...checkScript(rewritten, facts, brain.teardowns), rewritten: true };
+            const rewritten = await rewriteScript({ facts, buyer: input.buyer, script: item.script, failures: item.checks.hardFailures, teardowns: brain.teardowns });
+            const again = evaluate(rewritten);
+            item = { ...again, checks: { ...again.checks, rewritten: true } };
           } catch (e) {
             if (e instanceof SetupError || isRateLimit(e)) throw e;
             // keep the original script with its failures showing
           }
         }
-        return { script, checks };
+        return item;
       }),
     );
 

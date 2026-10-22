@@ -95,8 +95,7 @@
         "clear\\s+title",
         "(100\\s*%|fully)\\s+legal",
         "bank\\s+approved",
-        "loans?\\s+(approved|available)\\s+(by|from)",
-        "rera\\s+registered"
+        "loans?\\s+(approved|available)\\s+(by|from)"
       ],
       "rule_ids": [
         "APPROVALS-NEED-DOCUMENTS",

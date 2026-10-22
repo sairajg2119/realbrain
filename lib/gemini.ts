@@ -145,7 +145,8 @@ Hard rules:
 - Use ONLY facts and numbers from the brochure facts and locality facts you are given. Do not write any other number anywhere (no "3 reasons", no years, no distances) unless it appears in the facts.
 - Never promise returns, appreciation, refunds, dates or prices that are not in the facts.
 - Follow the playbook's 10 rules. Each script uses a different hook type from the playbook.
-- The caption must contain the RERA number exactly as given and the text rera.karnataka.gov.in.
+- The caption must contain the RERA number exactly as given and the text rera.karnataka.gov.in. The app adds the RERA number, the K-RERA website and an AI-generated label on screen itself, so do not write them into the spoken text.
+- Never write: guaranteed, assured or committed returns; price-rise or appreciation forecasts; promised handover dates; 'pre-launch', 'book now' or other booking pressure; 'RERA approved' (say 'RERA registered'); 'subject to change' or similar disclaimers; invented urgency ('only 3 left'); 'best', 'only' or 'first' claims; invented customers or testimonials; approvals, khata or title claims that are not in the brochure facts.
 - hook + body + cta together must be at most 2.5 spoken words per second of target_duration_s.
 - why_this_works.reel_id must be an "id" copied from the teardowns, for a reel with the same hook type or format; reason is one plain sentence.`;
 

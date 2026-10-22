@@ -30,7 +30,7 @@ writeFileSync(join(APP, "rules.json"), JSON.stringify({
   verification_summary: counts,
   rules: rules.rules.map((r: any) => ({
     id: r.id, rule: r.rule, plain_english: r.plain_english, level: r.level, enforcement: r.enforcement, applies_to: r.applies_to,
-    status: r.status, source_name: r.legal_basis.split(".")[0].slice(0, 160), last_checked: r.last_verified,
+    status: r.status, source_ids: r.source_ids, escalation_question: r.escalation_question ?? null, source_name: r.legal_basis.split(".")[0].slice(0, 160), last_checked: r.last_verified,
   })),
 }, null, 2) + "\n");
 

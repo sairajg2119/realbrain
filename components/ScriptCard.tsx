@@ -4,6 +4,7 @@ import { useState } from "react";
 import { normaliseNumber } from "@/lib/checks";
 import { getEvidence } from "@/lib/evidence";
 import type { CheckedScript } from "@/lib/types";
+import { ComplianceNotes } from "./ComplianceNotes";
 import { IconAlert, IconCheck, IconCopy, IconLink } from "./Icons";
 
 /** Show text with any number that is not in the brochure highlighted in red. */
@@ -128,6 +129,7 @@ export function ScriptCard({
         </div>
       )}
       {checks.rewritten && status.ok && <p className="hint">This script was rewritten once to pass the checks.</p>}
+      <ComplianceNotes item={item} />
 
       <div className="script-actions">
         <CopyButton text={s.caption} label="Copy caption" done="Caption copied" />

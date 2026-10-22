@@ -37,6 +37,7 @@ Last updated 2026-10-22. Every item is tagged: **[verified]** checked in this re
 
 ## Engineering lessons
 - Gemini free-tier quotas are per model and the service returned 503 and 429 during testing. The app falls back across models, so the full PDF upload can be slow (observed 25 to 105 s earlier, and a 295 s timeout during the brain-integration test). [verified]
+- Latency swings: the same script-writing call took 9 s, 11 s and once 128 s on `gemini-3.1-flash-lite`, so any time limit depends on Google's load, not only on prompt size. [verified]
 - After the brain change, script writing was verified directly (3 scripts, all citing new teardowns, no hard-check failures). The full upload path was not re-verified. [verified]
 - Apify tool results exceed the model's size limit, so large datasets are pulled in pages of 100 with selected fields. [verified]
 

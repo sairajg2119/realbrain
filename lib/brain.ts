@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { Teardown } from "./types.ts";
 import { rulesAreStale } from "./checks.ts";
+import type { Claim, Rule } from "../realestate-brain/lib/claims.ts";
 
 interface Locality {
   name: string;
@@ -27,7 +28,11 @@ export function loadBrain() {
     rules: unknown[];
   };
   const localities = (JSON.parse(readBrain("localities.json")) as { localities: Locality[] }).localities;
+  // Exported by realestate-brain/scripts/export.ts. The app reads only brain/, never realestate-brain/.
+  const claims = (JSON.parse(readBrain("compliance_claims.json")) as { claims: Claim[] }).claims;
   return {
+    claims,
+    rules: rules.rules as Rule[],
     playbook,
     teardowns: teardownFile.reels,
     rulesJson: JSON.stringify(rules.rules),

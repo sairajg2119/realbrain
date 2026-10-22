@@ -1,5 +1,6 @@
 "use client";
 
+import type { OnScreen } from "@/lib/types";
 import type { VideoState } from "@/lib/video";
 import { CopyButton } from "./ScriptCard";
 import { IconAlert } from "./Icons";
@@ -13,12 +14,14 @@ export function VideoPanel({
   imageUrl,
   caption,
   hook,
+  onScreen,
   onRetry,
 }: {
   state: VideoState;
   imageUrl: string | null;
   caption: string;
   hook: string;
+  onScreen?: OnScreen;
   onRetry: () => void;
 }) {
   if (state.kind === "idle") return null;
@@ -71,6 +74,11 @@ export function VideoPanel({
           ) : null}
           {isReady ? <span className="ai-label">AI-generated</span> : <span className="ai-label muted">Preview · not a video</span>}
           {!isReady && <p className="phone-hook">{hook}</p>}
+          {!isReady && onScreen && (
+            <div className="onscreen-rera" aria-label="On-screen compliance text, shown for the whole video">
+              {onScreen.lines.filter((l) => l !== "AI-generated").map((l) => <span key={l}>{l}</span>)}
+            </div>
+          )}
         </div>
         <div className="video-side">
           <h3 className="h3">Caption</h3>

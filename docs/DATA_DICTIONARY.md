@@ -46,6 +46,8 @@ Last updated 2026-10-22. "null" means unavailable, never zero. Counts are from t
 | `glossary.json`, `knowledge_base.json` | term / item | plain-English entries tagged verified_primary, secondary_reported or general_knowledge; known_uncertainties |
 | `realestate-brain/sources/` | | `RERA_Act_2016.text.txt`, `Karnataka_RERA_Rules_FAQ.text.txt`, `KRERA_circular_2019-11-14_p1.jpg` and `_p2.jpg` |
 
+App types added 2026-10-22 (`lib/types.ts`): `Script.on_screen` (`lines`, `position`, `size_note`, `basis`; built by code from the verified RERA number, never by the model), `CheckedScript.compliance` (`blocked`, `summary`, `block_messages`, `confirm_before_posting[]`, `ask_advisor[]`, `required[]`, `disclaimer`; absent in sample results saved before this change), and check code `compliance` in `ScriptChecks.failedCodes`.
+
 App-facing exports: `brain/rules.json` (version 2, compact rules with level and status, `last_checked` = latest verification date) and `brain/compliance_claims.json` (claims, checklist, escalation, source summary; not read by the app yet). The previous draft rules.json is in `realestate-brain/backup/rules.json`.
 
 ## Backups
