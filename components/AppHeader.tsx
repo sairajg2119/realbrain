@@ -3,7 +3,7 @@ import { StepIndicator } from "./StepIndicator";
 export function Wordmark({ onClick }: { onClick?: () => void }) {
   const inner = (
     <>
-      <span className="wm-name">RealBrain</span>
+      <span className="wm-name"><span className="wm-light">Real</span><span className="wm-bold">Brain</span></span>
       <span className="wm-desc">The real estate marketing studio</span>
     </>
   );
