@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "written_at": "2026-10-22T11:37:27.367Z",
+  "note": "Checksums of research data that is not committed to git. Raw files are append-only source records and must never be edited.",
+  "apify_retention_warning": "The Apify datasets are unnamed and are deleted after the account's retention period. This local copy may become the only copy.",
+  "files": [
+    {
+      "path": "raw/instagram_reels_raw.jsonl",
+      "kind": "raw",
+      "source": "apify dataset CB3SNYD4LPQW3BiyO (selected fields)",
+      "in_git": false,
+      "sha256": "3f8cef8f4aa9f91f20749bd80b6c605788f3203fdd8fc2f6e1021bb98f71e31e",
+      "rows": 487,
+      "bytes": 558256
+    },
+    {
+      "path": "raw/instagram_transcripts_raw.jsonl",
+      "kind": "raw",
+      "source": "apify dataset 4XrYkhay87CuwWHgw",
+      "in_git": false,
+      "sha256": "70b4ae508ef212a38c376314e6541310c2401a4d0509689dd2e6e09b8dfa9a9e",
+      "rows": 52,
+      "bytes": 58986
+    },
+    {
+      "path": "cache/llm_teardowns.jsonl",
+      "kind": "llm_cache",
+      "source": "gemini teardown-v1 over normalized reels",
+      "in_git": false,
+      "sha256": "52f53208ed1189138fbd13d182d2ccd5391b65b6079d0f518162d07ac0a33543",
+      "rows": 486,
+      "bytes": 281549
+    },
+    {
+      "path": "brain/instagram_reels_normalized.jsonl",
+      "kind": "derived_full_text",
+      "source": "build.ts from raw",
+      "in_git": false,
+      "sha256": "9f87be2221c234a03900f04d191eb5cbf1a9b7feb68f7c3db61f928e73082607",
+      "rows": 487,
+      "bytes": 786640
+    }
+  ]
+}

@@ -8,8 +8,14 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 
-# private planning docs (brief, scope, UI mock) - never commit
-docs/
+# private planning docs (brief, scope, UI mock) - never commit. Project documentation files are un-ignored below.
+docs/*
+!docs/PROJECT_VISION.md
+!docs/ROADMAP.md
+!docs/PROJECT_KNOWLEDGE.md
+!docs/ARCHITECTURE.md
+!docs/DATA_DICTIONARY.md
+!docs/DECISIONS.md
 
 # Social Brain raw Instagram text (captions, transcripts) and LLM cache: regenerate locally, do not publish others' words
 social-brain/raw/

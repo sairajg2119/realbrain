@@ -133,3 +133,7 @@ lib/brain.ts              loads the /brain files on the server
 brain/                    playbook, teardowns, rules, localities
 test-inputs/              fictional sample PDFs
 ```
+
+## Documentation and data
+
+Project docs are in `docs/` (vision, roadmap, architecture, data dictionary, decisions, knowledge) and `CLAUDE.md` holds the working rules. Research data lives in `social-brain/`; the app reads only `brain/`. Run `npm run brain:verify` to check the untracked research data against `social-brain/MANIFEST.json`.
