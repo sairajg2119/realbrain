@@ -2,6 +2,8 @@
 
 An AI reel agent for real estate developers. Upload a project brochure, pick a buyer type, and get three ready-to-post Instagram reel scripts built on patterns from top-performing real estate reels. No agency, no shoot.
 
+**Live demo:** https://realbrain-five.vercel.app
+
 **Status (22 Oct 2026, hackathon build):** Phase 1 works end to end (brochure → facts → 3 checked scripts). Phase 2 (AI avatar video) is **not built yet**: the "Make video" button is shown but disabled.
 
 ## Job to be done
@@ -12,7 +14,7 @@ An AI reel agent for real estate developers. Upload a project brochure, pick a b
 
 | # | Test | Status |
 |---|------|--------|
-| 1 | Upload a real brochure PDF + choose a buyer type, and within 60 seconds see the extracted facts and 3 scripts with 3 different hook patterns. Each has hook, body, CTA, a caption with the RERA number and rera.karnataka.gov.in, and a "why this works" line citing a real reel. | **Passes** on the fictional sample brochure (28 s in the last run; 25–105 s across runs, depends on the free Gemini plan's speed) |
+| 1 | Upload a real brochure PDF + choose a buyer type, and within 60 seconds see the extracted facts and 3 scripts with 3 different hook patterns. Each has hook, body, CTA, a caption with the RERA number and rera.karnataka.gov.in, and a "why this works" line citing a real reel. | **Passes** on the fictional sample brochure (28 s locally; 50 s and 67 s on the live site; 25–105 s across all runs. It depends on the free Gemini plan's speed, so it can miss the 60 s target) |
 | 2 | Approve a script, upload a render image, click "Make video", and within about 5 minutes get a playable avatar video labelled "AI-generated". | **Not built** (Phase 2) |
 | 3 | A non-brochure PDF, or a brochure with no RERA number, gives a clear message and no scripts. Any number in a script that is not in the brochure is flagged in red. | **Passes** for both bad inputs. Red flagging is covered by unit tests; I have not yet seen it fire on a live model output. |
 
