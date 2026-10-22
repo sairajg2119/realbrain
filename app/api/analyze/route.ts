@@ -142,13 +142,22 @@ export async function POST(request: Request) {
     console.log(`[timing] scripts done at ${Date.now() - t0}ms`);
     // When RealBrain chooses the audiences, one more try if every script is for the same one.
     if (input.buyer === "auto" && !hasMixedAudiences(scripts) && Date.now() - t0 < 150_000) {
-      const retry = await writeScripts({ ...common, extraNote: "Every script was for the same audience. Write for at least two different audiences. For example first-time buyers (sizes, layouts, what is included) or everyone (open space, lifestyle), whichever the facts support." });
-      if (hasMixedAudiences(retry)) scripts = retry;
+      try {
+        const retry = await writeScripts({ ...common, extraNote: "Every script was for the same audience. Write for at least two different audiences. For example first-time buyers (sizes, layouts, what is included) or everyone (open space, lifestyle), whichever the facts support." });
+        if (hasMixedAudiences(retry)) scripts = retry;
+      } catch (e) {
+        if (e instanceof SetupError) throw e; // the scripts we already have are kept
+      }
     }
-    if (!hasDistinctHookTypes(scripts)) {
-      scripts = await writeScripts({ ...common, extraNote: "Last time two scripts shared a hook type. Every script must use a different hook type." });
-      if (!hasDistinctHookTypes(scripts)) notes.push("Two scripts use the same hook type.");
+    if (!hasDistinctHookTypes(scripts) && Date.now() - t0 < 150_000) {
+      try {
+        const retry = await writeScripts({ ...common, extraNote: "Last time two scripts shared a hook type. Every script must use a different hook type." });
+        if (hasDistinctHookTypes(retry)) scripts = retry;
+      } catch (e) {
+        if (e instanceof SetupError) throw e;
+      }
     }
+    if (!hasDistinctHookTypes(scripts)) notes.push("Two scripts use the same hook type.");
 
     // Logic 2: code checks plus the compliance scan. The on-screen RERA plan is built by code from the facts.
     // A rewrite is attempted once for hard failures, including blocked claims (guaranteed returns, pre-launch selling, invented people).
@@ -161,14 +170,14 @@ export async function POST(request: Request) {
       scripts.map(async (raw) => {
         let item = evaluate(raw);
         // A rewrite is another AI call. Late in a slow request the script is shown with its failure marked instead, so the request always finishes.
-        if (item.checks.hardFailures.length && Date.now() - t0 < 200_000) {
+        for (let round = 0; round < 2 && item.checks.hardFailures.length && Date.now() - t0 < (round === 0 ? 200_000 : 170_000); round++) {
           try {
             const rewritten = await rewriteScript({ facts, buyer: input.buyer, script: item.script, failures: item.checks.hardFailures, teardowns: brain.teardowns });
             const again = evaluate(rewritten);
             item = { ...again, checks: { ...again.checks, rewritten: true } };
           } catch (e) {
             if (e instanceof SetupError || isRateLimit(e)) throw e;
-            // keep the original script with its failures showing
+            break; // keep the script we have, with its failures showing
           }
         }
         return item;

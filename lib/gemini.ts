@@ -7,7 +7,20 @@ import type { BuyerChoice, BuyerType, Facts, Script, Teardown } from "./types.ts
 // Free-plan quotas are counted per model, so a model that is over quota, busy or too slow is rested for a while and the next
 // one is used. The light model goes first: it has been the fastest and the most available, and it wrote every script we have checked.
 const pool = new ModelPool(
-  [process.env.GEMINI_MODEL, "gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash", "gemini-3.8-flash"].filter((m, i, a): m is string => !!m && a.indexOf(m) === i),
+  [
+    process.env.GEMINI_MODEL,
+    // Free-plan keys have a small daily quota per model and the lite models are often overloaded, so the pool is wide.
+    // Checked against the live model list for this key: these answered when the older default (3.1-flash-lite) returned 503.
+    "gemini-3-flash-preview",
+    "gemini-flash-lite-latest",
+    "gemini-3.1-flash-lite-preview",
+    "gemini-3.5-flash-lite",
+    "gemini-3.1-flash-lite",
+    "gemini-3.5-flash",
+    "gemini-3.6-flash",
+    "gemini-3.7-flash",
+    "gemini-3.8-flash",
+  ].filter((m, i, a): m is string => !!m && a.indexOf(m) === i),
 );
 
 /** The AI could not give a usable answer after trying. 'busy' = overloaded or unreachable, 'timeout' = too slow, 'bad_output' = answered in a form we could not use. */
@@ -90,6 +103,7 @@ async function askJson<T>(parts: Part[], system: string, validate: (x: unknown) 
         continue;
       }
       if (kind === "rate_limit") {
+        console.warn(`[ai] ${model}: over quota, trying the next model`);
         pool.cool(model, rateLimitRestMs(e));
         strikes = 0;
         last = { kind: "busy", detail };
@@ -106,8 +120,11 @@ async function askJson<T>(parts: Part[], system: string, validate: (x: unknown) 
       if (kind === "transient" || kind === "timeout") {
         last = { kind: kind === "timeout" ? "timeout" : "busy", detail };
         strikes++;
+        // "High demand" (503) lasts longer than a retry, so the model is rested straight away and the next one is tried.
+        const overloaded = /503|UNAVAILABLE|high demand/i.test(detail);
+        console.warn(`[ai] ${model}: ${kind}${overloaded ? " (overloaded)" : ""}, trying the next model`);
         // A call that timed out is not tried again on the same model: it is already too slow.
-        if (kind === "timeout" || strikes >= 2) {
+        if (kind === "timeout" || overloaded || strikes >= 2) {
           pool.cool(model, kind === "timeout" ? REST_MS.timeout : REST_MS.transient);
           strikes = 0;
         } else {
@@ -199,7 +216,7 @@ function validateScripts(x: unknown): Script[] {
 const SCRIPT_SYSTEM = `You write complete Instagram reel scripts for Bengaluru real estate developers, spoken by an AI avatar over the project's renders. Write the way a real person talks to a friend: short sentences, contractions, plain warm words. No corporate phrases, no brochure language.
 Reply with one JSON object and nothing else.
 What a full script is: a list of beats in order. Each beat has: label, spoken (exactly what is said), visual (what is on screen, using only the project's renders, plans or amenities named in the facts), on_screen_text (a short caption overlay, or empty).
-Structure: beat 1 is the Hook (at most 7 spoken words, lands in under 3 seconds). Then 3 to 5 middle beats (label them Build or Proof): each brings one new fact or scene, a new beat every 3 to 5 seconds, ending with the single strongest fact. The last beat is the CTA (a comment-keyword CTA, or share bait for lifestyle reels). Each script is 30 to 45 seconds. That means between 80 and 110 spoken words in total (the app times it at 2.5 words a second). Fewer than 80 words fails as too short; over 150 fails as too long. Use 6 to 8 beats, full sentences, and make every middle beat teach the viewer one specific thing from the facts. The beat before the CTA must be the strongest concrete fact, not a feeling. Do not describe an avatar in the visuals; describe the project's renders, plans or amenities.
+Structure: beat 1 is the Hook (at most 7 spoken words, lands in under 3 seconds). Then 3 to 5 middle beats (label them Build or Proof): each brings one new fact or scene, a new beat every 3 to 5 seconds, ending with the single strongest fact. The last beat is the CTA (a comment-keyword CTA, or share bait for lifestyle reels). Each script is 30 to 45 seconds. That means between 80 and 110 spoken words in total (the app times it at 2.5 words a second). Fewer than 75 words fails as too short, and most failures are scripts that are too short, so aim for about 95 spoken words: count them before you answer. Over 150 fails as too long. Use 6 to 8 beats, full sentences, and make every middle beat teach the viewer one specific thing from the facts. The beat before the CTA must be the strongest concrete fact, not a feeling. Do not describe an avatar in the visuals; describe the project's renders, plans or amenities.
 Hard rules:
 - Use ONLY facts and numbers from the brochure facts and locality facts you are given. Do not write any other number anywhere, in the spoken words, the on-screen text or the visual notes (no "3 reasons", no years, no distances), unless it appears in the facts. Copy figures as written, including a trailing "+" (write "3500+ trees", never "3,500 trees").
 - A sale area is not a carpet area. Only call an area carpet area if the facts say carpet. Never describe something outside the home (a sports facility, a clubhouse) as being "inside your home".
@@ -326,7 +343,14 @@ export async function rewriteScript(args: {
   const shown = s.beats
     ? { audience: s.audience, audience_reason: s.audience_reason, hook_type: s.hook_type, format: s.format, beats: s.beats.map((b) => ({ label: b.label, spoken: b.spoken, visual: b.visual, on_screen_text: b.on_screen_text })), caption: s.caption, facts_used: s.facts_used, why_this_works: s.why_this_works }
     : s;
-  const prompt = `This reel script failed checks. Fix only what failed; keep the hook type, the audience, the beat structure and the idea.
+  const spoken = (s.beats ?? []).reduce((n, b) => n + b.spoken.trim().split(/s+/).filter(Boolean).length, 0);
+  const tooShort = args.failures.some((f) => f.startsWith("Too short"));
+  const lengthNote = tooShort
+    ? `
+LENGTH: the script has only ${spoken} spoken words. It must have between 85 and 110. Add about ${Math.max(15, 95 - spoken)} words: lengthen two or three of the middle beats with one more concrete fact or scene each, taken only from the brochure facts. Do not pad with filler. Keep the hook short. Count the words before you answer.
+`
+    : "";
+  const prompt = `This reel script failed checks. Fix only what failed; keep the hook type, the audience, the beat structure and the idea.${lengthNote}
 
 AUDIENCE: ${audienceLine(args.buyer)}
 BROCHURE FACTS: ${JSON.stringify(args.facts)}
