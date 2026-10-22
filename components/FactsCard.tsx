@@ -1,53 +1,65 @@
-import type { Facts } from "@/lib/types";
+"use client";
 
-function Item({ label, value }: { label: string; value: string | null }) {
+import { useState } from "react";
+import type { Facts } from "@/lib/types";
+import { IconChevron } from "./Icons";
+
+const MISSING = "Not found in brochure";
+
+function Row({ label, value }: { label: string; value: string | null }) {
   return (
-    <div>
+    <div className="fact">
       <dt>{label}</dt>
-      <dd>{value ?? <span className="missing">Not found in the brochure</span>}</dd>
+      <dd>{value ?? <span className="missing">{MISSING}</span>}</dd>
     </div>
   );
 }
 
-function ChipList({ label, items }: { label: string; items: string[] }) {
+function ChipRow({ label, items }: { label: string; items: string[] }) {
   return (
-    <div className="wide">
+    <div className="fact wide">
       <dt>{label}</dt>
       <dd>
         {items.length ? (
-          <div className="chips">
+          <ul className="chips">
             {items.map((x) => (
-              <span key={x} className="chip">{x}</span>
+              <li key={x} className="chip">{x}</li>
             ))}
-          </div>
+          </ul>
         ) : (
-          <span className="missing">Not found in the brochure</span>
+          <span className="missing">{MISSING}</span>
         )}
       </dd>
     </div>
   );
 }
 
-export function FactsCard({ facts, title = "What I read from your brochure" }: { facts: Facts; title?: string }) {
+/** Compact by default (name, developer, location, RERA); expands to every extracted fact. */
+export function FactsCard({ facts, defaultOpen = false }: { facts: Facts; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
   return (
-    <section className="card" aria-label="Project facts">
-      <div className="facts-head">
+    <section className="facts-card" aria-labelledby="facts-title">
+      <p className="eyebrow" id="facts-title">What we found in your brochure</p>
+      <div className="facts-top">
         <div>
-          <h3>{facts.project_name ?? "Unnamed project"}</h3>
-          <div className="sub">{[facts.developer, facts.location].filter(Boolean).join(" · ") || title}</div>
+          <h3 className="facts-name">{facts.project_name ?? "Unnamed project"}</h3>
+          <p className="facts-sub">{[facts.developer, facts.location].filter(Boolean).join(" · ") || MISSING}</p>
         </div>
-        {facts.rera_number ? (
-          <span className="badge good">✓ RERA number found</span>
-        ) : (
-          <span className="badge bad">✕ RERA number missing</span>
-        )}
+        <span className={`pill ${facts.rera_number ? "good" : "bad"}`}>{facts.rera_number ? "RERA number found" : "RERA number missing"}</span>
       </div>
-      <dl className="facts">
-        <Item label="RERA number" value={facts.rera_number} />
-        <Item label="Price" value={facts.price} />
-        <ChipList label="Configurations" items={facts.configurations} />
-        <ChipList label="Top amenities" items={facts.amenities.slice(0, 10)} />
-      </dl>
+      {open && (
+        <dl className="facts-grid" id="facts-more">
+          <Row label="Developer" value={facts.developer} />
+          <Row label="Location" value={facts.location} />
+          <Row label="Price" value={facts.price} />
+          <Row label="RERA registration number" value={facts.rera_number} />
+          <ChipRow label="Configurations" items={facts.configurations} />
+          <ChipRow label="Key amenities" items={facts.amenities.slice(0, 10)} />
+        </dl>
+      )}
+      <button className="text-btn facts-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="facts-more">
+        {open ? "Show less" : "Show all details"} <span className={`chev${open ? " up" : ""}`}><IconChevron size={16} /></span>
+      </button>
     </section>
   );
 }

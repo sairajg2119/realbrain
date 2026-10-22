@@ -1,21 +1,22 @@
-const STAGES = ["Uploading your brochure", "Reading the brochure", "Writing three scripts", "Checking every number against your brochure"];
-
-/** stage: index of the stage currently running. */
-export function ProgressPanel({ stage, seconds }: { stage: number; seconds: number }) {
+/**
+ * Honest progress: the upload is a real, separate step. After that the server reads the brochure,
+ * writes the scripts and checks the numbers in ONE request, so we show that as one working stage
+ * with the real elapsed time, not invented sub-steps.
+ */
+export function ProgressPanel({ uploaded, seconds }: { uploaded: boolean; seconds: number }) {
   return (
-    <section className="card progress" role="status" aria-live="polite">
-      <strong>Working on it…</strong>
-      <ol>
-        {STAGES.map((label, i) => (
-          <li key={label} className={i < stage ? "done" : i === stage ? "active" : ""}>
-            <span className="dot" aria-hidden="true">{i < stage ? "✓" : ""}</span>
-            {label}
-          </li>
-        ))}
+    <section className="progress" role="status" aria-live="polite">
+      <p className="eyebrow">Working on your project</p>
+      <h2 className="h2">{uploaded ? "Reading your project brochure…" : "Uploading your brochure…"}</h2>
+      <ol className="stages">
+        <li className={uploaded ? "done" : "active"}>
+          <span className="dot" aria-hidden="true">{uploaded ? "✓" : ""}</span>Uploading your brochure
+        </li>
+        <li className={uploaded ? "active" : ""}>
+          <span className="dot" aria-hidden="true" />Reading the details, building three script options and checking every number
+        </li>
       </ol>
-      <span className="hint">
-        {seconds}s so far. This usually takes 20 to 60 seconds. Please keep this page open.
-      </span>
+      <p className="hint">{seconds}s so far. This usually takes 20 to 60 seconds. Please keep this page open.</p>
     </section>
   );
 }

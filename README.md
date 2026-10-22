@@ -6,6 +6,14 @@ An AI reel agent for real estate developers. Upload a project brochure, pick a b
 
 **Status (22 Oct 2026, hackathon build):** Phase 1 works end to end (brochure → facts → 3 checked scripts). Phase 2 (AI avatar video) is **not built yet**: the "Make video" button is shown but disabled.
 
+## Frontend (luxury dark redesign, 22 Oct 2026)
+
+Four screens in one Next.js page: landing, project (brochure + buyer type), script studio (facts + 3 scripts) and approval (approve, add a render, create video). Components are in `components/`, the journey state is in `app/page.tsx`, and the types and helpers are in `lib/workflow.ts`, `lib/video.ts`, `lib/evidence.ts` and `lib/mock.ts`.
+
+- **Real:** brochure upload, fact extraction, script writing, number and RERA checks, and the "why this works" evidence (read from `brain/teardowns.json`).
+- **Sample only:** "Explore with a sample project" loads `public/_fixture.json` (a saved result for a fictional project) and labels it as a sample.
+- **Not connected:** avatar video. `lib/video.ts` returns an honest "Preview mode" state and no video is made. Wire HeyGen or D-ID into `startVideo()` there to go live.
+
 ## Job to be done
 
 > When a mid-size Bengaluru developer is marketing a project, I want to upload the project brochure and get ready-to-post reel scripts and an AI avatar video, so I can post data-backed reels without briefing an agency or booking a shoot.

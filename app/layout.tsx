@@ -1,13 +1,13 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Montserrat, Roboto_Slab } from "next/font/google";
+import { DM_Serif_Display, Inter } from "next/font/google";
 
-const sans = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-sans", display: "swap" });
-const serif = Roboto_Slab({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-serif", display: "swap" });
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const serif = DM_Serif_Display({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "RealBrain",
-  description: "Upload a project brochure. Get three data-backed reel scripts.",
+  title: "RealBrain · The real estate marketing studio",
+  description: "Turn a project brochure into data-backed reel scripts and an AI-presenter video, ready for your review.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
