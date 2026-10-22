@@ -171,6 +171,18 @@ export function buildBrief(raw: RawBrief, ctx: BuildCtx): PropertyBrief {
   };
 }
 
+/**
+ * Brochure facts the brief found contradictory or unclear (for example a clubhouse given as both 7 acres and 2.5+ acres).
+ * The script writer is told not to use them, so a script never repeats a figure the brochure itself disagrees on.
+ */
+export function avoidForScripts(brief: PropertyBrief | null): string {
+  if (!brief) return "";
+  return brief.limitations
+    .filter((l) => l.kind === "contradiction" || l.kind === "question")
+    .map((l) => `- ${l.item}`)
+    .join("\n");
+}
+
 /** A short plain-text version of the usable angles, for the script-writing prompt. */
 export function anglesForScripts(brief: PropertyBrief | null): string {
   if (!brief) return "";

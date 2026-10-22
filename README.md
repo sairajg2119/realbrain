@@ -134,6 +134,10 @@ brain/                    playbook, teardowns, rules, localities
 test-inputs/              fictional sample PDFs
 ```
 
+## Any size of PDF
+
+PDFs up to 4 MB go to the server as they are, so the model also sees the drawings. Bigger ones (the live site has no Blob store, and Vercel rejects bodies over about 4.5 MB) are read in the visitor's browser with pdf.js and only the text is sent. The person sees a note that images were not read. Scanned PDFs with no text layer are refused with a message.
+
 ## Documentation and data
 
 Project docs are in `docs/` (vision, roadmap, architecture, data dictionary, decisions, knowledge) and `CLAUDE.md` holds the working rules. Research data lives in `social-brain/`; the app reads only `brain/`. Run `npm run brain:verify` to check the untracked research data against `social-brain/MANIFEST.json`.

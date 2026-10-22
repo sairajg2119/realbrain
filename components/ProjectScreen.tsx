@@ -16,6 +16,8 @@ export function ProjectScreen({
   busy,
   uploaded,
   seconds,
+  onDevice,
+  pages,
   result,
   onSubmit,
   onDemo,
@@ -28,6 +30,8 @@ export function ProjectScreen({
   busy: boolean;
   uploaded: boolean;
   seconds: number;
+  onDevice?: boolean;
+  pages?: { done: number; total: number } | null;
   result: AnalyzeResponse | null;
   onSubmit: () => void;
   onDemo: () => void;
@@ -36,7 +40,7 @@ export function ProjectScreen({
   if (busy) {
     return (
       <div className="screen narrow">
-        <ProgressPanel uploaded={uploaded} seconds={seconds} />
+        <ProgressPanel uploaded={uploaded} seconds={seconds} onDevice={onDevice} pages={pages} />
       </div>
     );
   }

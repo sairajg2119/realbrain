@@ -15,7 +15,7 @@ interface Props {
 const COPY = {
   pdf: {
     title: "Drop your project brochure here",
-    hint: "PDF format · Up to 20 MB",
+    hint: "PDF format · Any size, big files are read on your device",
     accept: "application/pdf,.pdf",
     wrong: "That is not a PDF. Please choose your brochure as a PDF file.",
     label: "Project brochure",

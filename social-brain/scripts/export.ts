@@ -79,7 +79,12 @@ const header = `# RealBrain playbook (evidence-backed v2)
 
 > Patterns below are checked against ${meta.counts.reels_normalized} reels from ${meta.counts.pages_in_data} Instagram pages, each reel compared with its own page's median plays. They are associations from a mostly-US, one-day snapshot, not proof of cause. The hook templates and 10 rules carry over from playbook v1.
 `;
-const body = base.replace(/^# .*\n+(> .*\n+)?/, "");
+// Template fix (2026-10-22): the v1 template read 'A <feature> inside a <config>', which made the model say a shared facility is inside the home.
+const TEMPLATE_FIXES: [string, string][] = [
+  ['- **rare feature**: "A <feature> inside a <config>. Yes, really."', '- **rare feature**: "<Feature>, right here at <project or locality>. Yes, really." Say where the feature is. Shared amenities (sports grounds, clubhouse, pools) are in the community, never "inside your home".'],
+];
+let body = base.replace(/^# .*\n+(> .*\n+)?/, "");
+for (const [from, to] of TEMPLATE_FIXES) body = body.split(from).join(to);
 const topHooks = hookTax.filter((h) => h.n >= 8 && h.evidence_level === "established" && HOOK_NAME[h.name] && !SKIP.has(h.name)).sort((a, b) => b.median_multiple - a.median_multiple).slice(0, 5);
 const ck = cta.comment_keyword_comparison;
 const spec = failures.find((f: any) => f.id === "F1");

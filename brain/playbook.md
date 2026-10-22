@@ -18,7 +18,7 @@
 - **pattern-interrupt question**: "Why would anyone pick a <config> in <locality>?"
 - **place + transformation**: "<Locality> looked like this a few years ago. Look at it now."
 - **curiosity + superlative**: "The one thing in <locality> nobody tells you about."
-- **rare feature**: "A <feature> inside a <config>. Yes, really."
+- **rare feature**: "<Feature>, right here at <project or locality>. Yes, really." Say where the feature is. Shared amenities (sports grounds, clubhouse, pools) are in the community, never "inside your home".
 - **audience call-out**: "If you are a <buyer type> looking in <locality>, watch this."
 - **question + analogy**: "Is a home like a <analogy>? Here is why it might be."
 - **confession**: "We almost did not include this in the project. Here is why we did."

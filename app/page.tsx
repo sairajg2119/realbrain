@@ -8,9 +8,10 @@ import { Landing } from "@/components/Landing";
 import { ProjectScreen } from "@/components/ProjectScreen";
 import { ScriptStudio } from "@/components/ScriptStudio";
 import { loadDemoResult } from "@/lib/mock";
+import { extractPdfText } from "@/lib/pdftext";
 import type { AnalyzeResponse, BuyerChoice } from "@/lib/types";
 import { startVideo, type VideoState } from "@/lib/video";
-import { activeStep, type Stage } from "@/lib/workflow";
+import { activeStep, SERVER_PDF_BYTES, type Stage } from "@/lib/workflow";
 
 const DIRECT_LIMIT = 4 * 1024 * 1024; // what we can send through the server without Blob
 
@@ -20,6 +21,8 @@ export default function Home() {
   const [buyer, setBuyer] = useState<BuyerChoice>("auto");
   const [busy, setBusy] = useState(false);
   const [uploaded, setUploaded] = useState(false);
+  const [onDevice, setOnDevice] = useState(false);
+  const [pages, setPages] = useState<{ done: number; total: number } | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [result, setResult] = useState<AnalyzeResponse | null>(null);
   const [demo, setDemo] = useState(false);
@@ -70,30 +73,45 @@ export default function Home() {
     if (!file) return;
     setBusy(true);
     setUploaded(false);
+    setOnDevice(false);
+    setPages(null);
     setResult(null);
     setDemo(false);
     setSelected(null);
     setApproved(false);
     try {
+      // Big PDFs are read in the browser and only their text is sent, so any real estate PDF works with or without Blob.
+      async function viaText(): Promise<Response> {
+        setOnDevice(true);
+        setPages(null);
+        const text = await extractPdfText(file!, (done, total) => setPages({ done, total }));
+        setUploaded(true);
+        return fetch("/api/analyze", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, buyer }) });
+      }
       let res: Response;
-      try {
-        const blob = await upload(file.name, file, { access: "public", handleUploadUrl: "/api/upload" });
-        setUploaded(true);
-        res = await fetch("/api/analyze", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pdfUrl: blob.url, buyer }),
-        });
-      } catch {
-        // No Blob token (local testing or not set up): send small files straight to the server.
-        if (file.size > DIRECT_LIMIT) {
-          throw new Error("Large file upload is not set up yet (missing BLOB_READ_WRITE_TOKEN). Please try a PDF under 4 MB.");
+      if (file.size > SERVER_PDF_BYTES) {
+        res = await viaText();
+      } else {
+        try {
+          const blob = await upload(file.name, file, { access: "public", handleUploadUrl: "/api/upload" });
+          setUploaded(true);
+          res = await fetch("/api/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pdfUrl: blob.url, buyer }),
+          });
+        } catch {
+          // No Blob store: small files go straight to the server, bigger ones are read on the device.
+          if (file.size > DIRECT_LIMIT) {
+            res = await viaText();
+          } else {
+            setUploaded(true);
+            const form = new FormData();
+            form.set("file", file);
+            form.set("buyer", buyer);
+            res = await fetch("/api/analyze", { method: "POST", body: form });
+          }
         }
-        setUploaded(true);
-        const form = new FormData();
-        form.set("file", file);
-        form.set("buyer", buyer);
-        res = await fetch("/api/analyze", { method: "POST", body: form });
       }
       const data = (await res.json()) as AnalyzeResponse;
       setResult(data);
@@ -160,6 +178,8 @@ export default function Home() {
             onBuyer={setBuyer}
             busy={busy}
             uploaded={uploaded}
+            onDevice={onDevice}
+            pages={pages}
             seconds={seconds}
             result={result}
             onSubmit={createScripts}

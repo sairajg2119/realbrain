@@ -126,3 +126,18 @@ test("checks: the old flat shape is never called too short", () => {
   const flat = normaliseRawScript({ hook_type: "h", format: "f", hook: "Hook", body: "Body", cta: "Cta", caption: "c", target_duration_s: 12, why_this_works: why });
   assert.ok(!checkScript(flat, facts, teardowns).hardFailures.some((m) => /Too short/.test(m)));
 });
+
+import { hasMixedAudiences } from "./checks.ts";
+test("audience variety: three scripts for the same audience are not mixed, two audiences are", () => {
+  const mk = (audience?: string) => normaliseRawScript(raw([beat("Hook words here now."), beat("Middle."), beat("Comment HOME.")], audience ? { audience } : { audience: "" }));
+  assert.equal(hasMixedAudiences([mk("families"), mk("Families"), mk("families")]), false);
+  assert.equal(hasMixedAudiences([mk("families"), mk("first-time buyers"), mk("families")]), true);
+  assert.equal(hasMixedAudiences([mk(), mk(), mk()]), false, "no audience counts as everyone");
+});
+
+test("checks: a long middle beat warns but does not fail", () => {
+  const s = normaliseRawScript(raw([beat("Hook words here now."), beat("w ".repeat(30).trim()), beat("w ".repeat(20).trim()), beat("Comment HOME.")]));
+  const c = checkScript(s, facts, teardowns);
+  assert.ok(c.warnings.some((w) => /longer than 9 seconds/.test(w)), JSON.stringify(c.warnings));
+  assert.ok(!c.hardFailures.some((m) => /beat/i.test(m)));
+});

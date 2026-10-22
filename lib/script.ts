@@ -8,6 +8,8 @@ export const MAX_SCRIPT_SECONDS = 60;
 export const MIN_SCRIPT_SECONDS = 28;
 /** The hook must land fast (playbook rule 1: under 3 seconds). A little slack is allowed before warning. */
 export const HOOK_WARN_SECONDS = 4;
+/** A new fact or scene every 3 to 5 seconds (playbook rule 6). A beat much longer than this is probably several ideas in one. */
+export const BEAT_WARN_SECONDS = 9;
 
 const countWords = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
 /** Round UP to the next half second, so the total can never be shorter than the words need. */

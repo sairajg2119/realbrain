@@ -3,14 +3,14 @@
  * writes the scripts and checks the numbers in ONE request, so we show that as one working stage
  * with the real elapsed time, not invented sub-steps.
  */
-export function ProgressPanel({ uploaded, seconds }: { uploaded: boolean; seconds: number }) {
+export function ProgressPanel({ uploaded, seconds, onDevice, pages }: { uploaded: boolean; seconds: number; onDevice?: boolean; pages?: { done: number; total: number } | null }) {
   return (
     <section className="progress" role="status" aria-live="polite">
       <p className="eyebrow">Working on your project</p>
-      <h2 className="h2">{uploaded ? "Reading your project brochure…" : "Uploading your brochure…"}</h2>
+      <h2 className="h2">{uploaded ? "Reading your project brochure…" : onDevice ? "Reading your brochure on this device…" : "Uploading your brochure…"}</h2>
       <ol className="stages">
         <li className={uploaded ? "done" : "active"}>
-          <span className="dot" aria-hidden="true">{uploaded ? "✓" : ""}</span>Uploading your brochure
+          <span className="dot" aria-hidden="true">{uploaded ? "✓" : ""}</span>{onDevice ? `Reading the pages on this device${pages ? ` (${pages.done} of ${pages.total})` : ""}` : "Uploading your brochure"}
         </li>
         <li className={uploaded ? "active" : ""}>
           <span className="dot" aria-hidden="true" />Reading the details, building three script options and checking every number

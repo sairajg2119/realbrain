@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { anglesForScripts, buildBrief, factList, type BuildCtx, type RawBrief } from "./brief.ts";
+import { anglesForScripts, avoidForScripts, buildBrief, factList, type BuildCtx, type RawBrief } from "./brief.ts";
 import type { Claim, Rule } from "../realestate-brain/lib/claims.ts";
 import type { Facts } from "./types.ts";
 
@@ -112,4 +112,13 @@ test("price and amenity mentions in an angle surface as compliance flags once", 
 
 test("no brief means no angles in the prompt", () => {
   assert.equal(anglesForScripts(null), "");
+});
+
+test("contradictions and unclear figures are handed to the script writer as things not to use", () => {
+  const b = buildBrief({ limitations: [{ item: "Clubhouse is 7 acres in one place and 2.5+ acres in another.", kind: "contradiction" }, { item: "No pricing.", kind: "missing" }, { item: "'8 minutes' has no context.", kind: "question" }] }, ctx());
+  const avoid = avoidForScripts(b);
+  assert.match(avoid, /7 acres/);
+  assert.match(avoid, /8 minutes/);
+  assert.ok(!/No pricing/.test(avoid), "plain gaps are not figures to avoid");
+  assert.equal(avoidForScripts(null), "");
 });

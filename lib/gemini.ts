@@ -138,7 +138,12 @@ For configurations, say whether an area is the sale area or the carpet area exac
 
 DOCUMENT TEXT:
 ${text.slice(0, 120_000)}`;
-  return askJson([{ text: prompt }], EXTRACT_SYSTEM, validateFacts);
+  const f = await askJson([{ text: prompt }], EXTRACT_SYSTEM, validateFacts);
+  // The model often leaves 'missing' empty. Add what is plainly absent so the brief and scripts do not treat it as known.
+  const missing = new Set(f.missing);
+  if (!f.price) missing.add("price");
+  if (f.configurations.length === 0) missing.add("configurations");
+  return { ...f, missing: [...missing] };
 }
 
 function validateScripts(x: unknown): Script[] {
@@ -184,6 +189,7 @@ export async function writeScripts(args: {
   localityFacts: string[];
   rulesJson: string;
   angles?: string;
+  avoid?: string;
   extraNote?: string;
 }): Promise<Script[]> {
   const prompt = `AUDIENCE: ${audienceLine(args.buyer)}
@@ -202,7 +208,7 @@ ${compactTeardowns(args.teardowns)}
 
 COMPLIANCE RULES:
 ${args.rulesJson}
-${args.angles ? `\nPROPERTY BRIEF ANGLES (built from this brochure; let each script follow a different angle, still using only the facts above):\n${args.angles}\n` : ""}
+${args.angles ? `\nPROPERTY BRIEF ANGLES (built from this brochure; let each script follow a different angle, still using only the facts above):\n${args.angles}\n` : ""}${args.avoid ? `\nDO NOT USE these figures or claims. The brochure contradicts itself or leaves them unclear, so any script that repeats them is wrong:\n${args.avoid}\n` : ""}
 Write exactly 3 complete scripts (full timed beats: hook, middle, CTA), each with a different hook type and a different angle. For BEST FIT, give each script the audience it suits best and use at least two different audiences across the three (for example families, first-time buyers, everyone), whenever the facts genuinely support them; use 'everyone' for at most one. For a named audience, write all three for that audience. ${args.extraNote ?? ""}
 Return JSON in this shape: ${SCRIPT_SHAPE}`;
   return askJson([{ text: prompt }], SCRIPT_SYSTEM, (x) => {

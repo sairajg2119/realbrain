@@ -1,4 +1,4 @@
-import { HOOK_WARN_SECONDS, MAX_SCRIPT_SECONDS, MIN_SCRIPT_SECONDS } from "./script.ts";
+import { BEAT_WARN_SECONDS, HOOK_WARN_SECONDS, MAX_SCRIPT_SECONDS, MIN_SCRIPT_SECONDS } from "./script.ts";
 import type { CheckCode, Facts, Script, ScriptChecks, Teardown } from "./types.ts";
 
 const NUMBER_RE = /\d[\d,]*(?:\.\d+)?/g;
@@ -119,6 +119,10 @@ export function checkScript(script: Script, facts: Facts, teardowns: Teardown[])
     warnings.push(`The hook takes about ${Math.round(hookEnd)} seconds to say. A hook that lands in under 3 seconds holds viewers better.`);
   }
 
+  // Something new every few seconds keeps people watching (a warning only).
+  const slow = (script.beats ?? []).filter((b, i) => i > 0 && i < (script.beats?.length ?? 0) - 1 && b.end_s - b.start_s > BEAT_WARN_SECONDS);
+  if (slow.length) warnings.push(`${slow.length === 1 ? "One beat runs" : `${slow.length} beats run`} longer than ${BEAT_WARN_SECONDS} seconds. Split ${slow.length === 1 ? "it" : "them"} so something new appears every 3 to 5 seconds.`);
+
   // The cited reel must be real.
   if (!teardowns.some((t) => t.id === script.why_this_works.reel_id)) {
     hardFailures.push(`The cited reel "${script.why_this_works.reel_id}" is not in the teardowns.`);
@@ -146,6 +150,11 @@ export function fixCitation(script: Script, teardowns: Teardown[]): Script {
       multiple_vs_median: t.multiple_vs_median,
     },
   };
+}
+
+/** True when the scripts speak to at least two different audiences. Only meaningful when RealBrain chose the audiences. */
+export function hasMixedAudiences(scripts: Script[]): boolean {
+  return new Set(scripts.map((s) => (s.audience ?? "everyone").trim().toLowerCase())).size >= 2;
 }
 
 export function hasDistinctHookTypes(scripts: Script[]): boolean {

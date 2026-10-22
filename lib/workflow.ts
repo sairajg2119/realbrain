@@ -14,7 +14,9 @@ export const BUYER_COPY: Record<BuyerChoice, { label: string; blurb: string }> =
   "first-time buyer": { label: "First-time Buyers", blurb: "Understand the essentials and make an informed decision." },
 };
 
-export const MAX_PDF_BYTES = 20 * 1024 * 1024; // the server enforces the same limit
+/** What the browser accepts. Files up to 4 MB go to the server as PDFs (20 MB with Blob); bigger ones are read in the browser and only their text is sent. */
+export const MAX_PDF_BYTES = 150 * 1024 * 1024;
+export const SERVER_PDF_BYTES = 20 * 1024 * 1024; // the server's own PDF limit
 export const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
 
 export function formatSize(bytes: number): string {

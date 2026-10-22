@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { loadBrain, localityFacts, localityUnverified } from "@/lib/brain";
-import { anglesForScripts, buildBrief, factList } from "@/lib/brief";
-import { checkScript, fixCitation, hasDistinctHookTypes } from "@/lib/checks";
+import { anglesForScripts, avoidForScripts, buildBrief, factList } from "@/lib/brief";
+import { checkScript, fixCitation, hasDistinctHookTypes, hasMixedAudiences } from "@/lib/checks";
 import { applyCompliance, scanScript, withOnScreen } from "@/lib/compliance";
-import { extractFacts, isRateLimit, rewriteScript, SetupError, writeBrief, writeScripts } from "@/lib/gemini";
+import { extractFacts, extractFactsFromText, isRateLimit, rewriteScript, SetupError, writeBrief, writeScripts } from "@/lib/gemini";
+import { TEXT_ONLY_NOTE, validateBrochureText } from "@/lib/textInput";
 import { BUYER_TYPES, type AnalyzeResponse, type BuyerChoice, type BuyerType, type CheckedScript, type PropertyBrief } from "@/lib/types";
 
 export const maxDuration = 300;
@@ -14,7 +15,16 @@ function reply(body: AnalyzeResponse, status = 200) {
   return NextResponse.json(body, { status });
 }
 
-async function getPdf(request: Request): Promise<{ b64: string; buyer: BuyerChoice } | { error: string }> {
+type Input = { kind: "pdf"; b64: string; buyer: BuyerChoice } | { kind: "text"; text: string; buyer: BuyerChoice } | { error: string };
+
+/** The audience: "auto" (or nothing chosen) lets RealBrain pick the audiences the property suits. */
+function parseBuyer(buyer: unknown): BuyerChoice | null {
+  if (buyer === undefined || buyer === null || buyer === "") return "auto";
+  if (buyer === "auto" || BUYER_TYPES.includes(buyer as BuyerType)) return buyer as BuyerChoice;
+  return null;
+}
+
+async function getInput(request: Request): Promise<Input> {
   let buyer: unknown;
   let bytes: Buffer;
   const type = request.headers.get("content-type") ?? "";
@@ -26,8 +36,16 @@ async function getPdf(request: Request): Promise<{ b64: string; buyer: BuyerChoi
     if (!(file instanceof File)) return { error: "No PDF received." };
     bytes = Buffer.from(await file.arrayBuffer());
   } else {
-    const body = (await request.json()) as { pdfUrl?: string; buyer?: string };
+    const body = (await request.json()) as { pdfUrl?: string; text?: string; buyer?: string };
     buyer = body.buyer;
+    // A PDF too big to upload is read in the browser and only its text is sent.
+    if (typeof body.text === "string") {
+      const b = parseBuyer(buyer);
+      if (!b) return { error: "That audience is not one we write for." };
+      const t = validateBrochureText(body.text);
+      if (!t.ok) return { error: t.error };
+      return { kind: "text", text: t.text, buyer: b };
+    }
     let url: URL;
     try {
       url = new URL(body.pdfUrl ?? "");
@@ -41,24 +59,23 @@ async function getPdf(request: Request): Promise<{ b64: string; buyer: BuyerChoi
     if (!res.ok) return { error: "Could not read the uploaded file. Please upload it again." };
     bytes = Buffer.from(await res.arrayBuffer());
   }
-  // "auto" (or nothing chosen) lets RealBrain pick the audiences the property suits.
-  if (buyer === undefined || buyer === null || buyer === "") buyer = "auto";
-  if (buyer !== "auto" && !BUYER_TYPES.includes(buyer as BuyerType)) return { error: "That audience is not one we write for." };
+  const b = parseBuyer(buyer);
+  if (!b) return { error: "That audience is not one we write for." };
   if (bytes.length > MAX_PDF_BYTES) return { error: "This PDF is over the 20 MB limit. Please upload a smaller one." };
   if (bytes.subarray(0, 5).toString() !== "%PDF-") return { error: "That file is not a PDF." };
-  return { b64: bytes.toString("base64"), buyer: buyer as BuyerChoice };
+  return { kind: "pdf", b64: bytes.toString("base64"), buyer: b };
 }
 
 export async function POST(request: Request) {
   try {
-    const input = await getPdf(request);
+    const input = await getInput(request);
     if ("error" in input) return reply({ status: "error", message: input.error }, 400);
 
     const brain = loadBrain();
 
     // AI call 1: read the brochure.
     const t0 = Date.now();
-    const facts = await extractFacts(input.b64);
+    const facts = input.kind === "pdf" ? await extractFacts(input.b64) : await extractFactsFromText(input.text);
     console.log(`[timing] extract ${Date.now() - t0}ms`);
 
     // Logic 1: stop early with an honest message.
@@ -81,7 +98,7 @@ export async function POST(request: Request) {
     // AI call 2: the property intelligence brief, built BEFORE any script. It is validated in code and never blocks the scripts:
     // if it fails or takes too long, the scripts are written without it and a note says so.
     const loc = localityFacts(brain.localities, facts.locality_match, facts.location);
-    const notes: string[] = [];
+    const notes: string[] = input.kind === "text" ? [TEXT_ONLY_NOTE] : [];
     let brief: PropertyBrief | null = null;
     const buyer = input.buyer;
     async function buildBriefSafe() {
@@ -114,9 +131,14 @@ export async function POST(request: Request) {
     }
 
     // AI call 3: write 3 scripts (once more if the hook types repeat).
-    const common = { facts, buyer: input.buyer, playbook: brain.playbook, teardowns: brain.teardowns, localityFacts: loc, rulesJson: brain.rulesJson, angles: anglesForScripts(brief) };
+    const common = { facts, buyer: input.buyer, playbook: brain.playbook, teardowns: brain.teardowns, localityFacts: loc, rulesJson: brain.rulesJson, angles: anglesForScripts(brief), avoid: avoidForScripts(brief) };
     let scripts = await writeScripts(common);
     console.log(`[timing] scripts done at ${Date.now() - t0}ms`);
+    // When RealBrain chooses the audiences, one more try if every script is for the same one.
+    if (input.buyer === "auto" && !hasMixedAudiences(scripts)) {
+      const retry = await writeScripts({ ...common, extraNote: "Every script was for the same audience. Write for at least two different audiences. For example first-time buyers (sizes, layouts, what is included) or everyone (open space, lifestyle), whichever the facts support." });
+      if (hasMixedAudiences(retry)) scripts = retry;
+    }
     if (!hasDistinctHookTypes(scripts)) {
       scripts = await writeScripts({ ...common, extraNote: "Last time two scripts shared a hook type. Every script must use a different hook type." });
       if (!hasDistinctHookTypes(scripts)) notes.push("Two scripts use the same hook type.");
