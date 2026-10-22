@@ -15,7 +15,8 @@ Zone 1  RAW (source of truth, append-only, not in git)
 
 Zone 2  DERIVED RESEARCH (rebuilt from Zone 1 by scripts, in git)
         social-brain/brain/*.json(l)      baselines, teardowns, patterns, failures, taxonomies, playbook
-        (future) realestate-brain/brain/  same pattern for compliance and localities
+        realestate-brain/brain/           compliance rules, claims, sources, checklist, glossary (hand-curated, human-edited)
+        realestate-brain/sources/         copies of the primary sources read (public law and circulars)
 
 Zone 3  APP-FACING BRAIN (small, deployed with the app, read at runtime)
         brain/playbook.md  brain/teardowns.json  brain/rules.json  brain/localities.json
@@ -42,6 +43,8 @@ Committing a file does not make it available on Vercel by itself. `next.config.m
 | Script checker | rules with ids and enforcement | `brain/rules.json` | `enforcement`: hard or warning; `status` |
 | Script generator and checker | verified locality facts | `brain/localities.json` | only `verified: true` entries are used |
 | Evidence display | page, plays, multiple, url by reel id | `lib/evidence.ts` reads `brain/teardowns.json` | id = Instagram shortCode |
+| Script generator | compact compliance rules with level and status | `brain/rules.json` (exported from `realestate-brain/brain/compliance_rules.json`) | `status`: verified_primary or secondary_reported; `level` separates law from best practice |
+| (planned) Compliance scan before approval | claim patterns, checklist, escalation process | `brain/compliance_claims.json`, `realestate-brain/lib/claims.ts` | `scanText()` returns findings; a match is a flag, not a legal finding |
 | (planned) Retrieval by hook, buyer or format | filtered teardowns from the full research set | `social-brain/brain/reel_teardowns.jsonl` | would need to be exported or loaded; see roadmap |
 | (planned) Video step | approved script, render image, AI label rule | `lib/video.ts`, `AI-LABEL` rule | provider chosen by `VIDEO_PROVIDER` |
 

@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "last_updated": "2026-10-22",
+  "status_note": "Items tagged verified_primary come from the RERA Act or K-RERA documents read on 2026-10-22. Items tagged general_knowledge are standard industry practice written without an official source and must be checked before they appear as fact in a script.",
+  "actors": [
+    { "who": "Promoter / developer", "does": "Buys or controls land, gets approvals, registers the project with K-RERA, builds, markets and sells. Liable for the truth of its advertisements.", "status": "verified_primary", "source_ids": ["SRC-RERA-ACT"] },
+    { "who": "Real estate agent / broker / channel partner", "does": "Brings buyers for a commission. Must register with K-RERA before helping sell in a registered project.", "status": "verified_primary", "source_ids": ["SRC-RERA-ACT"] },
+    { "who": "Buyer / allottee", "does": "Pays in stages and signs the agreement for sale. Can complain to K-RERA or the adjudicating officer.", "status": "verified_primary", "source_ids": ["SRC-RERA-ACT", "SRC-KRERA-FAQ-RULES"] },
+    { "who": "Seller / landowner", "does": "Owns the land. In Karnataka only a promoter may register a project, so a landowner who wants to sell units must be or appoint a promoter.", "status": "verified_primary", "source_ids": ["SRC-KRERA-FAQ-RULES"] },
+    { "who": "K-RERA and the Appellate Tribunal (K-REAT)", "does": "K-RERA registers projects and agents, hears complaints and issues directions (s37). K-REAT hears appeals. Appeals from K-REAT go to the High Court.", "status": "verified_primary", "source_ids": ["SRC-KRERA-FAQ-RULES", "SRC-KRERA-CIRCULAR-ADS-2019"] }
+  ],
+  "buying_process_under_construction": [
+    { "n": 1, "stage": "Check the project is registered", "detail": "Search the RERA number on rera.karnataka.gov.in. See the declared completion date, status and quarterly updates.", "status": "verified_primary", "source_ids": ["SRC-RERA-ACT", "SRC-KRERA-FAQ-RULES"] },
+    { "n": 2, "stage": "See the approvals", "detail": "Ask to see the sanctioned plan and commencement certificate. K-RERA registration requires plan approval and a commencement certificate first.", "status": "verified_primary", "source_ids": ["SRC-KRERA-FAQ-RULES", "SRC-RERA-ACT"] },
+    { "n": 3, "stage": "Understand title and land use", "detail": "A lawyer should check title and land-use status. Not researched here; do not make claims.", "status": "general_knowledge", "source_ids": [] },
+    { "n": 4, "stage": "Booking and advance", "detail": "A promoter cannot take more than 10% of the cost without a written, registered agreement for sale.", "status": "verified_primary", "source_ids": ["SRC-RERA-ACT"] },
+    { "n": 5, "stage": "Agreement for sale", "detail": "Karnataka has a model agreement (K-RERA 'sale agreement rules, 2020' listed on the site, not read).", "status": "verified_primary", "source_ids": ["SRC-KRERA-PORTAL"] },
+    { "n": 6, "stage": "Payments in stages", "detail": "70% of money received is kept in a separate account for the project's cost.", "status": "verified_primary", "source_ids": ["SRC-RERA-ACT"] },
+    { "n": 7, "stage": "Possession", "detail": "If possession is late, the promoter owes interest or a refund with interest on demand. Interest rate: SBI highest MCLR plus 2%.", "status": "verified_primary", "source_ids": ["SRC-RERA-ACT", "SRC-KRERA-FAQ-RULES"] },
+    { "n": 8, "stage": "Conveyance and khata", "detail": "Sale deed registration and transfer of khata. Specifics for Bengaluru were not verified.", "status": "secondary_reported", "source_ids": ["SRC-KHATA-GBA"] },
+    { "n": 9, "stage": "Defects after possession", "detail": "K-RERA's own page says the promoter must rectify structural defects within two years of possession.", "status": "verified_primary", "source_ids": ["SRC-KRERA-PORTAL"] }
+  ],
+  "documents_buyers_ask_for": [
+    { "doc": "RERA registration certificate and project page", "proves": "The project is registered and what the developer declared (dates, plans, promoter)", "status": "verified_primary" },
+    { "doc": "Sanctioned building or layout plan", "proves": "What may be built, including amenities", "status": "verified_primary" },
+    { "doc": "Commencement certificate", "proves": "Permission to start construction", "status": "verified_primary" },
+    { "doc": "Agreement for sale (registered)", "proves": "The contract terms", "status": "verified_primary" },
+    { "doc": "Completion and occupancy certificates", "proves": "Built per plan and fit to occupy, at the end", "status": "verified_primary" },
+    { "doc": "Khata certificate / extract", "proves": "Property tax record with the local body (rules not verified)", "status": "secondary_reported" },
+    { "doc": "Title documents and encumbrance certificate", "proves": "Ownership and no hidden charges (not researched)", "status": "general_knowledge" }
+  ],
+  "what_realbrain_can_safely_explain": [
+    "What RERA is and that a project's registration number can be searched on rera.karnataka.gov.in",
+    "That ads must carry the registration number and K-RERA website (s11(2))",
+    "That a developer cannot take more than 10% advance without a registered agreement for sale (s13)",
+    "That 70% of buyer money for a registered project goes into a separate account (s4(2)(l)(D))",
+    "That carpet area is the usable area inside the walls (s2(k))",
+    "What a completion certificate, occupancy certificate and sanctioned plan are",
+    "That a buyer misled by a false statement in an ad can claim compensation or a refund with interest (s12)"
+  ],
+  "what_requires_verification_before_use": [
+    "Anything about a specific project: registration, dates, approvals, amenities, price, khata",
+    "Anything about e-Khata, A/B-khata, GBA, B-to-A regularisation fees or deadlines",
+    "Land conversion, zoning and planning-authority approvals",
+    "Stamp duty, registration charges, GST and tax benefits",
+    "Rental yields, appreciation, loans and EMIs",
+    "The AI-label duty of an advertiser"
+  ],
+  "known_uncertainties": [
+    "Whether K-RERA applies the 2019 print placement rules to Instagram reels",
+    "Whether the 500 sq m and eight-apartment thresholds are 'either or' in every authority's practice, and whether Karnataka lowered them",
+    "Whether a newer K-RERA circular supersedes the 2019 advertisement circular",
+    "Direct labelling duty of advertisers under the IT Amendment Rules 2026 and whether the continuous-label draft became law",
+    "Whether a developer is a 'service provider' for CPA 2019 sections 21 and 89"
+  ]
+}

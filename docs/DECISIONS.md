@@ -21,10 +21,19 @@ Format: what we chose, why, what would change it. Newest last.
 **Chose:** 32 reels at 2x or more, at most 4 per hook type, openings of 20+ characters, excluding entertainment and famous-brand pages and humour or emotional-story hooks. **Why:** the model copies what it sees; fame-driven reach teaches the wrong lesson for developers. **Cost:** only 1 Bengaluru reel is in the set.
 
 ## D7: Compliance rules and localities stay "unverified" until sourced (2026-10-22)
-**Chose:** leave `rules.json` `last_checked` old so the app shows its re-check banner; leave localities `verified: false`. **Why:** project notes say rules were checked on 21 Oct, but the repo copy is a draft with no source URLs. Do not present unverified law as verified.
+**Chose:** leave localities `verified: false`; do not present unverified law as verified. **Why:** project notes said rules were checked on 21 Oct, but the repo copy was a draft with no source URLs. **Update (D10):** the rules have now been sourced; localities remain unverified.
 
 ## D8: Project docs are tracked, planning docs stay private (2026-10-22)
 **Chose:** `.gitignore` uses `docs/*` with explicit un-ignores for the six project documents; `build-brief.md`, `mvp-scope.*` and UI mocks remain private. **Why:** the repo is the source of truth for the product, but the brief and scope contain private planning.
 
 ## D9: `CLAUDE.md` lives in `realbrain/` (2026-10-22)
 **Chose:** a project-level `CLAUDE.md` that imports `AGENTS.md` (managed by `next dev`). The parent folder's `CLAUDE.md` belongs to a different project (Brewmark) and does not apply here.
+
+## D10: Compliance layer: hand-curated, level-separated, human-gated (2026-10-22)
+**Chose:** `realestate-brain/` as a hand-curated store (not scraped), with every rule tagged by level (legal requirement, regulator direction, internal best practice, needs legal review) and status (verified_primary, secondary_reported, unverified), every source in a register, and an escalation process. Tests enforce that unverified rules cannot be called legal requirements and that every rule cites a real source. **Why:** legal text must not be invented or blended with opinion; the brochure alone is not proof. **Cost:** slow to extend; only a human may change a status. **Revisit:** when a lawyer reviews it, record that in the register.
+
+## D11: The RERA number goes on screen, not only in the caption (2026-10-22)
+**Chose:** treat K-RERA's 2019 circular as applying to reels as the safe reading, while recording that it is an interpretation. **Why:** the circular covers "any other visual medium" and electronic media and asks for the number top right at half the project-name size. The existing script rule 8 (number in the caption) is necessary under s11(2) but may not be enough. **Not yet implemented** in the script spec or checks.
+
+## D12: Replaced the draft QR-placement rule (2026-10-22)
+**Chose:** `KRERA-QR-PLACEMENT` is now an info note: no Karnataka QR-code requirement was found; QR rules are from Maharashtra and Kerala. **Why:** the draft implied a Karnataka QR rule that the primary source does not contain.

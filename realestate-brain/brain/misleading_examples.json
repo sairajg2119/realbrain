@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "last_updated": "2026-10-22",
+  "note": "Illustrative lines written by RealBrain for a fictional project. They are not quotes from any real developer. 'Safer' versions use placeholders that must be filled only from verified facts.",
+  "examples": [
+    {
+      "id": "EX-1",
+      "bad": "Book now at pre-launch price! Prices will double in two years. Guaranteed 8% rental return.",
+      "problems": [
+        { "claim_id": "C-PREREGISTRATION-SELLING", "why": "Booking or marketing before registration is prohibited (s3(1))." },
+        { "claim_id": "C-APPRECIATION-PROJECTION", "why": "A forecast stated as fact." },
+        { "claim_id": "C-GUARANTEED-RETURNS", "why": "A promised return; may fall under deposit or investment-scheme laws." }
+      ],
+      "safer": "Working near [IT park] and tired of the commute? Here is what [Project] offers: [3 facts from the brochure]. RERA registered: [number]. Check it on rera.karnataka.gov.in. Comment VISIT to get the site-visit details."
+    },
+    {
+      "id": "EX-2",
+      "bad": "India's best 3 BHK. Only project in Jakkur with a rooftop pool. 100% legal, A-khata, BDA approved. World-class living.",
+      "problems": [
+        { "claim_id": "C-SUPERLATIVE", "why": "'Best', 'only' and 'world-class' have no source." },
+        { "claim_id": "C-AMENITIES", "why": "A rooftop pool must be in the sanctioned plan." },
+        { "claim_id": "C-APPROVALS-CLAIM", "why": "'100% legal', 'A-khata' and 'BDA approved' need documents." }
+      ],
+      "safer": "A 12-acre campus in Jakkur with a 25,000 sq ft clubhouse, as listed in the developer's brochure. RERA registered: [number]. Comment PLAN and we will send the floor plans."
+    },
+    {
+      "id": "EX-3",
+      "bad": "Move in by December 2027, guaranteed. Only 4 flats left, price goes up tomorrow!",
+      "problems": [
+        { "claim_id": "C-POSSESSION-DATE", "why": "A handover promise; must match the date declared at registration (s4(2)(l)(C), s18)." },
+        { "claim_id": "C-URGENCY", "why": "Invented scarcity and a deadline with no proof." }
+      ],
+      "safer": "The registered completion date for [Project] is [date on the K-RERA page]. See the project page on rera.karnataka.gov.in. Comment VISIT to book a no-pressure site visit."
+    },
+    {
+      "id": "EX-4",
+      "bad": "Our 500 happy families love living here. RERA approved. Details subject to change without notice.",
+      "problems": [
+        { "claim_id": "C-FAKE-PEOPLE", "why": "An unsupported customer number; an avatar saying this is worse." },
+        { "claim_id": "C-RERA-APPROVED", "why": "RERA registers; it does not approve." },
+        { "claim_id": "C-DISCLAIMER-SUBJECT-TO-CHANGE", "why": "K-RERA's 2019 circular says not to add this disclaimer." }
+      ],
+      "safer": "RERA registered: [number], www.rera.karnataka.gov.in. [One verified fact about the project]. Comment HOME for details."
+    },
+    {
+      "id": "EX-5",
+      "bad": "Why rent when you can own? You don't need a lawyer, just trust us. Metro station 5 minutes away.",
+      "problems": [
+        { "claim_id": "C-LEGAL-ADVICE", "why": "Telling buyers to skip checks." },
+        { "claim_id": "C-DISTANCE-INFRA", "why": "A travel time with no source; the metro may be planned, not open." }
+      ],
+      "safer": "Before you pay any booking amount, check the project on rera.karnataka.gov.in. [Locality fact with source and status, for example 'metro line planned, not open']."
+    }
+  ],
+  "good_pattern": "Hook from the playbook. 3 or more brochure facts as stated. One locality fact only if verified. RERA registered with the number and www.rera.karnataka.gov.in on screen, top right, for the whole video. 'AI-generated' label. One comment-keyword CTA. No promises, no forecasts, no 'subject to change'."
+}

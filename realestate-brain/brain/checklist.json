@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "last_updated": "2026-10-22",
+  "note": "Who does each step: code (RealBrain can check it), human (a person must), or both. No step is done by guessing.",
+  "rera_verification": [
+    { "step": 1, "do": "Read the RERA registration number printed in the brochure. If none, stop and go to 'no number found'.", "who": "code", "rules": ["RERA-REG-NO"] },
+    { "step": 2, "do": "Search the number on the K-RERA project status page (https://rera.karnataka.gov.in/viewAllProjects). Confirm the project name, promoter name and that the registration is current, not lapsed or revoked.", "who": "human", "rules": ["RERA-REGISTERED-BEFORE-MARKETING"], "note": "RealBrain does not query the portal yet." },
+    { "step": 3, "do": "Note the declared completion date and project status shown on the portal. Use these, not the brochure's, for any date.", "who": "human", "rules": ["POSSESSION-DATE-MATCH"] },
+    { "step": 4, "do": "Check the number is not on the K-RERA 'unregistered or under investigation' or 'advertisement violation' lists (https://rera.karnataka.gov.in/unregProjectList, /advertisementList).", "who": "human", "rules": ["RERA-REG-NO"] },
+    { "step": 5, "do": "Record the check: who, when, portal screenshot reference. Facts become 'verified' only with this record.", "who": "human", "rules": ["BROCHURE-NOT-PROOF"] }
+  ],
+  "no_number_found": [
+    { "do": "Do not write scripts.", "who": "code" },
+    { "do": "Ask the developer: is the project registered, exempt (s3(2)) or not yet registered? Get the document.", "who": "human", "rules": ["RERA-EXEMPTION-CHECK"] },
+    { "do": "If exempt, escalate for review. A brochure alone is not proof of exemption. K-RERA's circular allows a completion certificate applied for before 11 July 2017 to be mentioned in place of the number.", "who": "human" },
+    { "do": "If not registered and not exempt, advise that advertising or marketing is not permitted until registration (s3(1)).", "who": "human" }
+  ],
+  "advertisement_checklist": [
+    { "item": "RERA registration number on screen, top right, whole video, large enough to read (at least half the project-name text size, as the print rule says)", "level": "regulator_direction", "who": "both", "rules": ["RERA-REG-NO", "KRERA-AD-NUMBER-PLACEMENT"] },
+    { "item": "Number also in the caption, copied exactly from the verified record", "level": "legal_requirement", "who": "code", "rules": ["RERA-REG-NO"] },
+    { "item": "www.rera.karnataka.gov.in on screen and in the caption", "level": "legal_requirement", "who": "code", "rules": ["RERA-AUTHORITY-WEBSITE"] },
+    { "item": "No 'subject to change' disclaimer", "level": "regulator_direction", "who": "code", "rules": ["KRERA-NO-SUBJECT-TO-CHANGE"] },
+    { "item": "Wording is 'RERA registered', not 'approved'", "level": "internal_best_practice", "who": "code", "rules": ["KRERA-WORDING-REGISTERED"] },
+    { "item": "Every number matches the verified facts", "level": "legal_requirement", "who": "code", "rules": ["RERA-NO-FALSE-CLAIMS"] },
+    { "item": "No dates promised; any date equals the registered completion date", "level": "legal_requirement", "who": "both", "rules": ["POSSESSION-DATE-MATCH"] },
+    { "item": "Amenities match the sanctioned plan", "level": "legal_requirement", "who": "human", "rules": ["RERA-SANCTIONED-PLANS-AMENITIES"] },
+    { "item": "No returns, appreciation, urgency or superlative claims without a source", "level": "needs_legal_review", "who": "code", "rules": ["NO-GUARANTEED-RETURNS", "NO-UNPROVEN-SUPERLATIVES", "NO-URGENCY-WITHOUT-FACT"] },
+    { "item": "Approval claims backed by a document", "level": "internal_best_practice", "who": "human", "rules": ["APPROVALS-NEED-DOCUMENTS"] },
+    { "item": "'AI-generated' label visible for the whole video; no avatar posed as a real buyer or the founder", "level": "needs_legal_review", "who": "both", "rules": ["AI-LABEL", "AI-LABEL-CONTINUOUS", "NO-FAKE-PEOPLE-OR-TESTIMONIALS"] },
+    { "item": "Developer approves the final script and video (the developer is liable for the claims)", "level": "legal_requirement", "who": "human", "rules": ["RERA-NO-FALSE-CLAIMS"] }
+  ],
+  "escalation": {
+    "when": [
+      "A rule's status is not verified_primary and the script depends on it",
+      "Two sources disagree (for example the 500 sq m / 8 apartments test)",
+      "A claim class is 'conditional' and the evidence is missing",
+      "A rental, buy-back or assured-income arrangement is mentioned",
+      "The developer asks to use a disclaimer, a QR code or a placement different from the checklist",
+      "The publisher is a broker or channel partner rather than the promoter"
+    ],
+    "how": [
+      "1. RealBrain stops approval for that script and shows a plain message: what is unclear and why.",
+      "2. It creates an escalation record: script id, rule id, the exact question (the rule's escalation_question), the text in question, sources already checked, date.",
+      "3. A human (the developer's legal advisor, or the founder for RealBrain's own rules) answers in writing.",
+      "4. The answer is saved with the date. Only then may a rule's status change, and only by a human edit to compliance_rules.json.",
+      "5. RealBrain never marks anything verified, never decides a legal question, and never publishes on its own."
+    ],
+    "record_shape": { "id": "string", "script_id": "string", "rule_id": "string", "question": "string", "text": "string", "sources_checked": ["source ids"], "raised_at": "ISO date", "answered_by": "string or null", "answer": "string or null", "answered_at": "ISO date or null" },
+    "storage": "Not built yet. When Stage 4 adds a data store, escalation records belong there, not in git."
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "last_updated": "2026-10-22",
+  "status_key": {
+    "verified_primary": "Read in full or in the relevant part from an official government source on the last_verified date.",
+    "secondary_reported": "Reported consistently by law-firm, news or industry sources. The official text was not read. Treat as likely, not certain.",
+    "unverified": "From memory, project notes or a single weak source. Do not state as fact in a script. Needs a human check against an official source."
+  },
+  "sources": [
+    {
+      "id": "SRC-RERA-ACT",
+      "title": "The Real Estate (Regulation and Development) Act, 2016 (Act 16 of 2016), as published by K-RERA",
+      "issuer": "Parliament of India; copy hosted by Karnataka RERA",
+      "url": "https://rera.karnataka.gov.in/resources/staticpage/Real_Estate_Act.pdf",
+      "local_copy": "realestate-brain/sources/RERA_Act_2016.text.txt (text extracted from the PDF)",
+      "jurisdiction": "India (central law, applies in Karnataka)",
+      "effective_date": "Karnataka FAQ says all sections in force from 2017-05-01",
+      "last_verified": "2026-10-22",
+      "status": "verified_primary",
+      "how_verified": "Downloaded the PDF from rera.karnataka.gov.in and read the text of sections 2(b), 2(c), 2(d), 2(k), 2(q), 2(zf), 2(zk), 2(zl), 2(zm), 2(zn), 3, 4(2)(l), 9, 10, 11, 12, 13, 14, 18, 59, 61.",
+      "caveat": "Text is the Act as hosted. Later amendments or case law were not checked."
+    },
+    {
+      "id": "SRC-KRERA-CIRCULAR-ADS-2019",
+      "title": "Circular RERA/ADM/CR-4/2019-20 dated 14/11/2019: Guidelines for releasing of advertisement in print and electronic media",
+      "issuer": "Karnataka Real Estate Regulatory Authority (K-RERA), issued under section 37 of the Act",
+      "url": "https://rera.karnataka.gov.in/resources/circulars/circular2.pdf",
+      "local_copy": "realestate-brain/sources/KRERA_circular_2019-11-14_p1.jpg and _p2.jpg (scanned pages)",
+      "jurisdiction": "Karnataka",
+      "effective_date": "2019-11-14",
+      "last_verified": "2026-10-22",
+      "status": "verified_primary",
+      "how_verified": "Read both scanned pages. The PDF has no text layer, so the wording was read from the images.",
+      "caveat": "Covers print, outdoor hoardings, 'any other visual medium', FM radio, SMS and 'electronic media'. It does not name Instagram or video reels. Applying it to reels is an interpretation (see rule KRERA-AD-NUMBER-PLACEMENT). A newer K-RERA circular may exist; the circulars index at https://rera.karnataka.gov.in/circularPage was not read."
+    },
+    {
+      "id": "SRC-KRERA-FAQ-RULES",
+      "title": "Karnataka Real Estate (Regulation and Development) Rules, 2017: Frequently Asked Questions",
+      "issuer": "Department of Housing, Government of Karnataka (hosted by K-RERA)",
+      "url": "https://rera.karnataka.gov.in/resources/staticpage/KARNATKA_FAQs.pdf",
+      "local_copy": "realestate-brain/sources/Karnataka_RERA_Rules_FAQ.text.txt",
+      "jurisdiction": "Karnataka",
+      "effective_date": "Rules notified 2017-07-10 (per FAQ Q2)",
+      "last_verified": "2026-10-22",
+      "status": "verified_primary",
+      "how_verified": "Read all 22 questions.",
+      "caveat": "The FAQ states it is general guidance, not a legal interpretation. The Rules themselves are published in Kannada; the copy fetched could not be read, so rule numbers beyond those quoted in the FAQ were not checked."
+    },
+    {
+      "id": "SRC-KRERA-ADVERT-LIST",
+      "title": "K-RERA 'List of Projects which violated the RERA advertisement guidelines' (136 records at time of reading)",
+      "issuer": "K-RERA",
+      "url": "https://rera.karnataka.gov.in/advertisementList",
+      "jurisdiction": "Karnataka",
+      "effective_date": "n/a (live page)",
+      "last_verified": "2026-10-22",
+      "status": "verified_primary",
+      "how_verified": "Fetched the page. It shows enforcement exists and names two violation types: 'Non Display of RERA Number' and 'RERA Number not in accordance with guidelines'. The penalty column was empty for every row in the captured text.",
+      "caveat": "Shows K-RERA acts on advertisement violations. It does not state penalty amounts."
+    },
+    {
+      "id": "SRC-KRERA-PORTAL",
+      "title": "K-RERA portal: project status search, unregistered projects, circulars",
+      "issuer": "K-RERA",
+      "url": "https://rera.karnataka.gov.in/viewAllProjects",
+      "jurisdiction": "Karnataka",
+      "effective_date": "n/a (live)",
+      "last_verified": "2026-10-22",
+      "status": "verified_primary",
+      "how_verified": "Navigation read from the home page and advertisement list page. The project search itself was not run.",
+      "caveat": "RealBrain does not yet query the portal. Registration status is a human check."
+    },
+    {
+      "id": "SRC-CPA-2019",
+      "title": "Consumer Protection Act, 2019: section 2(28) misleading advertisement, section 21 (penalties), section 89 (punishment)",
+      "issuer": "Parliament of India",
+      "url": "https://www.indiacode.nic.in/",
+      "jurisdiction": "India",
+      "effective_date": "2020-07-20 (Act in force; from memory, not re-checked)",
+      "last_verified": "2026-10-22",
+      "status": "secondary_reported",
+      "how_verified": "Definition and penalty ranges quoted consistently across several legal commentaries found by search. The indiacode.nic.in page returned HTTP 403 and was not read.",
+      "caveat": "Whether a developer is a 'service provider' or 'manufacturer' for sections 21 and 89 was not resolved by the sources."
+    },
+    {
+      "id": "SRC-CCPA-MISLEADING-ADS-2022",
+      "title": "Guidelines for Prevention of Misleading Advertisements and Endorsements for Misleading Advertisements, 2022 (CCPA)",
+      "issuer": "Central Consumer Protection Authority",
+      "url": "https://consumeraffairs.nic.in/",
+      "jurisdiction": "India",
+      "effective_date": "2022-06-09 (per law-firm summaries)",
+      "last_verified": "2026-10-22",
+      "status": "secondary_reported",
+      "how_verified": "Law-firm summaries (Khaitan, Nishith Desai, Mondaq). The official PDF could not be fetched (connection refused).",
+      "caveat": "Summaries say disclaimers must be clear and must not contradict the main claim, and that endorsers need due diligence. Exact clause numbers not checked. No real-estate-specific provision was found."
+    },
+    {
+      "id": "SRC-IT-RULES-2026",
+      "title": "IT (Intermediary Guidelines and Digital Media Ethics Code) Amendment Rules, 2026: synthetically generated information",
+      "issuer": "MeitY",
+      "url": "https://www.meity.gov.in/",
+      "jurisdiction": "India",
+      "effective_date": "Notified 2026-02-10, in force 2026-02-20 (per several law-firm summaries)",
+      "last_verified": "2026-10-22",
+      "status": "secondary_reported",
+      "how_verified": "Law-firm summaries (S.S. Rana, iPleaders, Gala Law, Business Today). The gazette text was not read; the G.S.R. number was not found.",
+      "caveat": "Summaries say obligations fall mainly on intermediaries and platforms (labelling, metadata, user declarations). Direct duties of an advertiser using an avatar tool are unclear. A draft of April 2026 proposing a continuous label for the whole video was reported as proposed, not in force."
+    },
+    {
+      "id": "SRC-BUDS-ASSURED-RETURNS",
+      "title": "Assured or committed returns on real estate: Banning of Unregulated Deposit Schemes Act, 2019; SEBI position (Nov 2018); state RERA advisories",
+      "issuer": "Parliament; SEBI; state RERAs (for example UP RERA)",
+      "url": "https://www.squareyards.com/blog/will-ban-assured-returns-play-indian-real-estate",
+      "jurisdiction": "India",
+      "effective_date": "Varies",
+      "last_verified": "2026-10-22",
+      "status": "secondary_reported",
+      "how_verified": "News and commentary only. A Haryana RERA document found is one party's argument, not a ruling.",
+      "caveat": "The BUDS Act and SEBI regimes are separate. Whether a specific rental guarantee is a 'deposit' or a 'collective investment scheme' is a legal question: escalate, do not decide."
+    },
+    {
+      "id": "SRC-KHATA-GBA",
+      "title": "e-Khata, A-khata and B-khata in Bengaluru; Greater Bengaluru Authority (replaced BBMP, reported 2025-09-02); B-khata regularisation scheme",
+      "issuer": "GBA / BBMP e-Aasthi portal; Karnataka government",
+      "url": "https://bbmpeaasthi.karnataka.gov.in/",
+      "jurisdiction": "Bengaluru",
+      "effective_date": "Varies",
+      "last_verified": "2026-10-22",
+      "status": "secondary_reported",
+      "how_verified": "Industry blogs and news (Sobha, The Realty Today, Propnewz). The official e-Aasthi FAQ page fetched did not define e-Khata or state whether it is mandatory for registration. A search of official domains did not confirm the 'mandatory for registration' claim.",
+      "caveat": "Fees, dates and eligibility for B-to-A regularisation change; the reduced-rate window was reported to end 2026-08-23. Do not state any of this in a script without a fresh official check."
+    },
+    {
+      "id": "SRC-OTHER-STATE-QR",
+      "title": "MahaRERA QR-code and registration display orders; Kerala RERA QR requirement",
+      "issuer": "MahaRERA; Kerala RERA",
+      "url": "https://rentu.in/property-news/maharashtra-rera-mandates-clear-display-of-project-registration-details-in-housin/1497",
+      "jurisdiction": "Maharashtra, Kerala (NOT Karnataka)",
+      "effective_date": "Varies",
+      "last_verified": "2026-10-22",
+      "status": "secondary_reported",
+      "how_verified": "News reports.",
+      "caveat": "Other-state rules. They do not apply in Karnataka. No Karnataka QR-code requirement was found in the K-RERA circular or search. Do not require a QR code as law."
+    },
+    {
+      "id": "SRC-PROJECT-NOTES",
+      "title": "Founder's project notes (22 Oct 2026): rules.json v1, IT Rules summary, K-RERA 'to verify' items",
+      "issuer": "Project founder",
+      "url": "n/a",
+      "jurisdiction": "n/a",
+      "effective_date": "n/a",
+      "last_verified": "2026-10-22",
+      "status": "unverified",
+      "how_verified": "Compared against the primary sources above. The notes' RERA s11(2) and s12 summaries match the Act. The notes treat a QR placement rule for Karnataka as 'to verify': it was not found.",
+      "caveat": "Superseded where a primary source exists."
+    }
+  ],
+  "not_yet_researched": [
+    "Karnataka Real Estate Rules 2017 full text (Kannada copy unreadable; find an English copy)",
+    "K-RERA circulars index (https://rera.karnataka.gov.in/circularPage) for anything newer than 2019-11-14 on advertisements",
+    "Karnataka Apartment Ownership Act, 1972 and Karnataka Ownership Flats Act",
+    "Land conversion and zoning (Karnataka Land Revenue Act), BDA / BMRDA / GBA planning approvals and current thresholds",
+    "Stamp duty and registration (Kaveri) specifics",
+    "ASCI code for real estate advertising",
+    "Tax and GST on under-construction property",
+    "Current text of CPA 2019 ss. 2(28), 21, 89 and CCPA 2022 guidelines from official sources"
+  ]
+}

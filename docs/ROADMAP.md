@@ -15,9 +15,11 @@ Last updated 2026-10-22. Status words: **done**, **partial**, **not started**. A
 - Done: 487 reels from 25 pages normalized, per-page baselines, LLM teardowns (486 of 487, text only), winning patterns, failure library, hook/format/CTA breakdowns, playbook, validation report, 15 tests, export to `brain/`.
 - Not done: video or visual analysis (0%), Bengaluru depth (40 reels, 2 pages), transcripts (41 of 487), metric history snapshots, new pages beyond the original 25, human spot-check of labels, import of the original playbook v1 and teardown sheets from Google Drive.
 
-### Stage 2: Real estate knowledge and compliance: **not started** (drafts only)
-- `brain/rules.json` and `brain/localities.json` are unverified drafts. Needed: sourced, dated Karnataka RERA and advertising rules; 5 verified localities (Jakkur, Jayanagar, Whitefield, Sarjapur Road, Hebbal); documentation basics (A-khata, e-khata, OC, CC).
-- Plan: follow the same pattern as Stage 1: `realestate-brain/` research store with raw sources, structured derived files, an export script into `brain/`.
+### Stage 2: Real estate knowledge and compliance: **partial**
+- Done (2026-10-22): `realestate-brain/` with a source register (12 sources), 25 rules (17 verified from primary sources, 8 secondary), 15 claim classes with a scanner, misleading-script examples, RERA verification and advertisement checklists, an escalation process, glossary and knowledge base, 17 tests. Exported to `brain/rules.json` and `brain/compliance_claims.json`.
+- Primary sources read: RERA Act text, Karnataka Rules FAQ, K-RERA advertisement circular of 14 Nov 2019, K-RERA advertisement-violation list.
+- Not done: Karnataka Rules full text (Kannada copy unreadable), newer K-RERA circulars, khata/e-khata/GBA, land conversion and planning approvals, stamp duty, CPA and CCPA official text, ASCI, the AI-label duty of advertisers, 5 verified localities (`brain/localities.json` still empty and unverified).
+- Not wired: `scanText()` is not yet called by the app. The app enforces only its existing code checks. The new rule that the RERA number must be on screen is not yet in the script spec.
 
 ### Stage 3: Additional layers: **not started**
 Buyer-type models, factual validation extensions, video script constraints, news and market context.
@@ -33,5 +35,6 @@ Buyer-type models, factual validation extensions, video script constraints, news
 ## Next steps, in order
 1. Push, redeploy, run one full brochure upload on the live link.
 2. Avatar video with fallback (`lib/video.ts`), then the demo-day assets.
-3. Stage 2 knowledge base, starting with verifying `rules.json` against sources.
-4. Spot-check teardown labels; add Indian pages to the Social Brain.
+3. Wire the compliance layer into the script engine: on-screen RERA number in the script spec, `scanText()` in `/api/analyze` and the approval screen, escalation message.
+4. Finish Stage 2 gaps (localities, khata and approvals, newer circulars) with a human check of each rule.
+5. Spot-check teardown labels; add Indian pages to the Social Brain.

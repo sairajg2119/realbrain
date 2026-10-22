@@ -1,16 +1,357 @@
 {
-  "version": 1,
-  "_note": "Rebuilt draft from the project brief. Sources and effective dates are NOT verified yet. last_checked is deliberately old so the app shows 'Compliance rules need re-checking' until a human verifies them.",
-  "last_checked": "2026-01-01",
+  "version": 2,
+  "_note": "Exported from realestate-brain/brain/compliance_rules.json. Not legal advice. 'status' says how well each rule is sourced: verified_primary (read from an official source on last_checked), secondary_reported (news or law-firm summaries, official text not read), unverified. 'level' separates legal requirements from regulator directions, internal best practice and questions that need a lawyer.",
+  "last_checked": "2026-10-22",
   "stale_after_days": 14,
+  "verification_summary": {
+    "verified_primary": 17,
+    "secondary_reported": 8
+  },
   "rules": [
-    { "id": "RERA-REG-NO", "rule": "Every promotional caption must carry the project's RERA registration number.", "applies_to": ["caption"], "enforcement": "hard", "check": "caption contains the RERA number from the brochure", "source_name": "RERA Act 2016, Section 11(2)", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
-    { "id": "RERA-AUTHORITY-WEBSITE", "rule": "Caption must include the Karnataka RERA website.", "applies_to": ["caption"], "enforcement": "hard", "check": "caption contains rera.karnataka.gov.in", "source_name": "RERA Act 2016, Section 11(2)", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
-    { "id": "RERA-NO-FALSE-CLAIMS", "rule": "Every number in a script must match the brochure facts. The developer is liable for false claims.", "applies_to": ["hook", "body", "caption"], "enforcement": "hard", "check": "every number appears in the extracted facts", "source_name": "RERA Act 2016, Section 12", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
-    { "id": "AI-LABEL", "rule": "A video made with an AI presenter must visibly say it is AI-generated.", "applies_to": ["video"], "enforcement": "hard", "check": "video shows an 'AI-generated' label", "source_name": "IT Amendment Rules 2026", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
-    { "id": "AI-NO-IMPERSONATION", "rule": "Use a stock avatar only. Do not copy a real person's face or voice without consent.", "applies_to": ["video"], "enforcement": "hard", "check": "stock avatar only", "source_name": "IT Amendment Rules 2026", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
-    { "id": "AI-LABEL-CONTINUOUS", "rule": "The AI label should stay visible for the whole video.", "applies_to": ["video"], "enforcement": "warning", "check": "label visible throughout", "source_name": "IT Amendment Rules 2026 (proposed)", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "proposed" },
-    { "id": "KRERA-QR-PLACEMENT", "rule": "Karnataka RERA may expect the project QR code in promotional material.", "applies_to": ["video", "caption"], "enforcement": "warning", "check": "to verify", "source_name": "K-RERA", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "to_verify" },
-    { "id": "NO-GUARANTEED-RETURNS", "rule": "Do not promise returns or appreciation.", "applies_to": ["hook", "body", "cta", "caption"], "enforcement": "warning", "check": "flag phrases like 'guaranteed returns', 'assured appreciation', 'double your money'", "source_name": "RERA Act 2016, Section 12 and advertising standards", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" }
+    {
+      "id": "RERA-REGISTERED-BEFORE-MARKETING",
+      "rule": "A project must be registered with the state RERA before it is advertised, marketed, booked or offered for sale.",
+      "plain_english": "No registration, no marketing. A reel for an unregistered project is itself the problem, unless the project is exempt.",
+      "level": "legal_requirement",
+      "enforcement": "block",
+      "applies_to": [
+        "script",
+        "caption",
+        "campaign"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act 2016, section 3(1): 'No promoter shall advertise, market, book, sell or offer for sale, or invite persons to purchase in any manner",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "RERA-EXEMPTION-CHECK",
+      "rule": "If no RERA number is found, the only acceptable reasons are a recorded statutory exemption. The brochure alone is not proof of exemption.",
+      "plain_english": "Some small or old projects do not need registration. Someone must confirm that with documents before RealBrain writes anything.",
+      "level": "needs_legal_review",
+      "enforcement": "escalate",
+      "applies_to": [
+        "intake"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s3(2): no registration needed (a) where land does not exceed 500 sq m or apartments do not exceed eight, inclusive of all phases (a state may lower the",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "RERA-REG-NO",
+      "rule": "Every advertisement must carry the project's RERA registration number as issued by K-RERA.",
+      "plain_english": "Show the K-RERA registration number in the reel. Not only in the caption.",
+      "level": "legal_requirement",
+      "enforcement": "hard",
+      "applies_to": [
+        "caption",
+        "on_screen_text",
+        "end_card"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s11(2): the advertisement or prospectus 'shall mention prominently the website address of the Authority",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "RERA-AUTHORITY-WEBSITE",
+      "rule": "Every advertisement must prominently show the K-RERA website address.",
+      "plain_english": "Show www.rera.karnataka.gov.in with the registration number.",
+      "level": "legal_requirement",
+      "enforcement": "hard",
+      "applies_to": [
+        "caption",
+        "on_screen_text",
+        "end_card"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s11(2)",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "KRERA-AD-NUMBER-PLACEMENT",
+      "rule": "For print, hoardings and 'any other visual medium', put the registration number in the top right corner, in lettering at least half the size of the project name. For electronic media and SMS, mention it prominently.",
+      "plain_english": "In a reel, keep the registration number visible on screen for the whole video, top right, big enough to read. Treat this as the safe reading of K-RERA's direction.",
+      "level": "regulator_direction",
+      "enforcement": "warning",
+      "applies_to": [
+        "on_screen_text"
+      ],
+      "status": "verified_primary",
+      "source_name": "K-RERA circular RERA/ADM/CR-4/2019-20 dated 14/11/2019, clauses 1(a), 1(d), 1(e): number 'in the top right corner of the advertisement'; lettering 'not less tha",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "KRERA-NO-SUBJECT-TO-CHANGE",
+      "rule": "Do not add a disclaimer saying the information is subject to change.",
+      "plain_english": "Do not end with 'all details subject to change without notice'. K-RERA told promoters not to.",
+      "level": "regulator_direction",
+      "enforcement": "hard",
+      "applies_to": [
+        "script",
+        "caption",
+        "on_screen_text"
+      ],
+      "status": "verified_primary",
+      "source_name": "K-RERA circular of 2019-11-14, clause 1(c): 'No disclaimer clause should be mentioned stating that the information is subject to change",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "KRERA-WORDING-REGISTERED",
+      "rule": "Say 'RERA registered' with the number. Do not say 'RERA approved' or 'RERA certified'.",
+      "plain_english": "RERA registers projects. Using the regulator's own wording avoids implying an approval that does not exist.",
+      "level": "internal_best_practice",
+      "enforcement": "warning",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "verified_primary",
+      "source_name": "None cited",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "RERA-NO-FALSE-CLAIMS",
+      "rule": "Every fact, number and claim in a script must be true and supported. A buyer who relies on an incorrect or false statement can claim compensation, or withdraw and get the full investment back with interest.",
+      "plain_english": "If it is not in the verified documents, do not say it. A wrong claim can cost the developer a refund with interest.",
+      "level": "legal_requirement",
+      "enforcement": "hard",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s12: compensation for loss 'by reason of any incorrect, false statement'; a buyer who wants to withdraw gets 'his entire investment along with interest",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "BROCHURE-NOT-PROOF",
+      "rule": "A brochure is the developer's marketing document. It is not proof that an approval, title, date or amenity is real or legally valid.",
+      "plain_english": "We read the brochure for what the developer says. Approvals, dates and amenities still need documents.",
+      "level": "internal_best_practice",
+      "enforcement": "warning",
+      "applies_to": [
+        "intake",
+        "script"
+      ],
+      "status": "verified_primary",
+      "source_name": "None",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "POSSESSION-DATE-MATCH",
+      "rule": "Never promise a handover date. If a date is mentioned, it must match the completion date the promoter declared at registration and be shown as that declared date.",
+      "plain_english": "Do not say 'move in by December 2027' unless it matches the date on the RERA registration, and never say it as a promise.",
+      "level": "legal_requirement",
+      "enforcement": "hard",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s4(2)(l)(C): promoter declares the time period within which the project will be completed",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "RERA-SANCTIONED-PLANS-AMENITIES",
+      "rule": "Amenities, specifications and layouts shown must match the plans sanctioned by the competent authority. Renders are not proof.",
+      "plain_english": "Only show amenities that are in the approved plan. Do not add a rooftop pool because it looks good in the render.",
+      "level": "legal_requirement",
+      "enforcement": "warning",
+      "applies_to": [
+        "script",
+        "visuals"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s14(1): project must be developed 'in accordance with the sanctioned plans, layout plans and specifications as approved by the competent authorities'",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "RERA-AGENT-REGISTRATION",
+      "rule": "Brokers and channel partners must be registered with K-RERA before they facilitate sales of registered projects. They must not facilitate sales of unregistered projects or use unfair trade practices.",
+      "plain_english": "If the user is a broker or channel partner, their own K-RERA agent registration matters. RealBrain's target user is the developer, so flag and ask.",
+      "level": "legal_requirement",
+      "enforcement": "warning",
+      "applies_to": [
+        "intake"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s9(1): no real estate agent shall facilitate the sale or purchase of a plot, apartment or building in a registered project 'without obtaining registrat",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "RERA-ADVANCE-LIMIT-EDUCATIONAL",
+      "rule": "Safe educational fact: a promoter cannot take more than 10% of the cost as an advance or application fee without first signing and registering a written agreement for sale.",
+      "plain_english": "A true, useful buyer tip. Only say it as general information about the law, never as a statement about a specific developer's conduct.",
+      "level": "legal_requirement",
+      "enforcement": "info",
+      "applies_to": [
+        "educational_content"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s13(1)",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "RERA-ESCROW-70-EDUCATIONAL",
+      "rule": "Safe educational fact for registered projects: 70% of amounts collected from buyers must be kept in a separate bank account and used only for the project's construction and land cost.",
+      "plain_english": "A real protection buyers should know about. Say 'RERA requires' and only for a registered project.",
+      "level": "legal_requirement",
+      "enforcement": "info",
+      "applies_to": [
+        "educational_content"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA Act s4(2)(l)(D)",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "NO-GUARANTEED-RETURNS",
+      "rule": "Never state or imply guaranteed, assured or committed returns, rental income or appreciation.",
+      "plain_english": "Do not promise money. Say what the home is and what the documents state. Leave investment returns to the buyer's own advice.",
+      "level": "needs_legal_review",
+      "enforcement": "block",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "secondary_reported",
+      "source_name": "Secondary sources: assured-return schemes can fall under the Banning of Unregulated Deposit Schemes Act 2019 or SEBI's collective investment rules; SEBI describ",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "NO-UNPROVEN-SUPERLATIVES",
+      "rule": "Avoid 'best', 'only', 'first', 'largest', 'number one', 'no.1 location' and similar unless a named, dated source in the brochure facts supports it.",
+      "plain_english": "Big claims about being the best or only are the first thing a regulator or rival challenges. Prove it or soften it.",
+      "level": "internal_best_practice",
+      "enforcement": "warning",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "secondary_reported",
+      "source_name": "Related law: CPA 2019 s2(28) (false description; deliberate concealment) and RERA s12",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "APPROVALS-NEED-DOCUMENTS",
+      "rule": "Do not claim a specific approval, khata type, title status or bank approval ('BDA approved', 'A-khata', 'OC received', 'clear title', 'RERA approved', 'loan approved by X banks') unless a document or portal check is recorded.",
+      "plain_english": "Approval claims are what buyers trust most. Show the document or leave the claim out.",
+      "level": "internal_best_practice",
+      "enforcement": "escalate",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "secondary_reported",
+      "source_name": "s12 RERA (false statement liability); s14(1) (approved plans)",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "PRICE-MATCH-BROCHURE",
+      "rule": "Prices and configurations must match the brochure facts exactly and be shown as 'as stated by the developer'. Do not add a 'subject to change' disclaimer.",
+      "plain_english": "Quote the price exactly as in the verified document. Skip fine print that says it can change.",
+      "level": "needs_legal_review",
+      "enforcement": "escalate",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "verified_primary",
+      "source_name": "RERA s12; K-RERA circular clause 1(c) bans 'subject to change' disclaimers",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "INFRA-LABEL-PLANNED",
+      "rule": "Label infrastructure and distances honestly: 'planned', 'proposed' or 'under construction' for anything not open, and cite the source for distances and travel times.",
+      "plain_english": "A metro line that is planned is not a metro nearby. Say which it is.",
+      "level": "internal_best_practice",
+      "enforcement": "warning",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "secondary_reported",
+      "source_name": "RERA s12 (statements in advertisements); CPA s2(28) (deliberate concealment of important information)",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "NO-URGENCY-WITHOUT-FACT",
+      "rule": "Do not claim scarcity or deadlines ('only 3 units left', 'price rises tomorrow', 'last chance') unless the developer supplies a dated, checkable fact.",
+      "plain_english": "Fake urgency pushes buyers to rush a huge decision. Use it only if it is true and provable.",
+      "level": "internal_best_practice",
+      "enforcement": "warning",
+      "applies_to": [
+        "script",
+        "caption"
+      ],
+      "status": "secondary_reported",
+      "source_name": "CCPA 2022 guidelines (secondary) address bait and misleading advertisements; exact clause not checked",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "NO-FAKE-PEOPLE-OR-TESTIMONIALS",
+      "rule": "Do not present an AI avatar, actor or invented person as a real buyer, resident or the developer's founder. Do not invent testimonials, handover stories or customer numbers.",
+      "plain_english": "Avatars are fine if labelled. Pretending an avatar is a real buyer or the founder is not.",
+      "level": "internal_best_practice",
+      "enforcement": "block",
+      "applies_to": [
+        "script",
+        "video"
+      ],
+      "status": "secondary_reported",
+      "source_name": "IT Amendment Rules 2026 reported to prohibit misleading depiction of real people through synthetic media (secondary)",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "AI-LABEL",
+      "rule": "AI-generated or AI-altered video must carry a clear, visible 'AI-generated' label, and keep any provenance metadata the tool adds.",
+      "plain_english": "Put 'AI-generated' on the video, where viewers can see it. Do not strip the metadata.",
+      "level": "needs_legal_review",
+      "enforcement": "hard",
+      "applies_to": [
+        "video"
+      ],
+      "status": "secondary_reported",
+      "source_name": "IT (Intermediary Guidelines and Digital Media Ethics Code) Amendment Rules, 2026, notified 2026-02-10, in force 2026-02-20, per secondary sources: synthetically",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "AI-LABEL-CONTINUOUS",
+      "rule": "Keep the AI label visible for the whole video.",
+      "plain_english": "Not just at the start. The whole way through.",
+      "level": "internal_best_practice",
+      "enforcement": "hard",
+      "applies_to": [
+        "video"
+      ],
+      "status": "secondary_reported",
+      "source_name": "A further draft amendment (noticed April 2026, per a May 2026 law-firm article) proposes a continuously visible label",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "KRERA-QR-PLACEMENT",
+      "rule": "No Karnataka QR-code requirement was found. QR codes are required in Maharashtra and Kerala. Do not present a QR code as a Karnataka legal requirement.",
+      "plain_english": "A QR code to the K-RERA page is a nice extra for buyers. It is not what Karnataka asks for.",
+      "level": "internal_best_practice",
+      "enforcement": "info",
+      "applies_to": [
+        "video"
+      ],
+      "status": "verified_primary",
+      "source_name": "Not found in the K-RERA circular of 2019-11-14 or in searches",
+      "last_checked": "2026-10-22"
+    },
+    {
+      "id": "ESCALATE-UNCERTAIN",
+      "rule": "When a rule is unclear, a fact is missing, or two sources disagree, RealBrain flags it and escalates to a human. It never guesses, and it never marks anything verified itself.",
+      "plain_english": "Not sure means ask a person, with the exact question.",
+      "level": "internal_best_practice",
+      "enforcement": "escalate",
+      "applies_to": [
+        "process"
+      ],
+      "status": "verified_primary",
+      "source_name": "None",
+      "last_checked": "2026-10-22"
+    }
   ]
 }

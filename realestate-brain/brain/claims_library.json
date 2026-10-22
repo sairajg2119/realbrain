@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "last_updated": "2026-10-22",
+  "purpose": "Claims commonly made in real estate reels, sorted by risk. The patterns are used by realestate-brain/lib/claims.ts. A pattern match is a flag, never a legal finding. Absence of a match does not mean a script is safe.",
+  "class_key": {
+    "prohibited": "Block. Do not publish in any form.",
+    "risky": "Flag. Rewrite or get a source before approval.",
+    "conditional": "Allowed only with a checkable fact or document. Otherwise remove.",
+    "safe": "General educational statements that are true by law and need no project fact."
+  },
+  "claims": [
+    {
+      "id": "C-GUARANTEED-RETURNS",
+      "name": "Guaranteed, assured or committed returns",
+      "class": "prohibited",
+      "action": "block",
+      "patterns": ["guarantee[ds]?\\s+(returns?|income|rent|rental|profit|appreciation)", "assured\\s+(returns?|rent|rental|income|appreciation|profit)", "committed\\s+(returns?|rent|rental)", "double\\s+your\\s+(money|investment)", "risk[- ]?free\\s+(investment|returns?)", "guaranteed\\s+\\d+\\s*%"],
+      "rule_ids": ["NO-GUARANTEED-RETURNS"],
+      "why": "Promises of money can fall under deposit or investment-scheme laws and are a false guarantee under consumer law. The exact classification needs a lawyer.",
+      "safer_wording": "Describe the home and location. If the developer offers a rental arrangement, escalate to legal review before any mention.",
+      "evidence_needed": "Legal opinion on the specific arrangement."
+    },
+    {
+      "id": "C-APPRECIATION-PROJECTION",
+      "name": "Price appreciation promises or projections",
+      "class": "risky",
+      "action": "flag",
+      "patterns": ["(prices?|value|property)\\s+(will|is going to|are going to)\\s+(double|triple|go up|rise|appreciate)", "\\d+\\s*%\\s*(appreciation|growth|capital gains?)", "(sure|certain)\\s+(appreciation|profit|gain)", "best\\s+investment"],
+      "rule_ids": ["NO-GUARANTEED-RETURNS", "RERA-NO-FALSE-CLAIMS"],
+      "why": "Future prices are unknowable. A stated percentage reads as a promise and cannot be backed by the brochure.",
+      "safer_wording": "Say what has happened with a dated, sourced figure, or leave it out. Add no forecast.",
+      "evidence_needed": "A dated, named source for any historic figure, and no forward-looking number."
+    },
+    {
+      "id": "C-PREREGISTRATION-SELLING",
+      "name": "Pre-launch, booking or offers before registration",
+      "class": "prohibited",
+      "action": "block",
+      "patterns": ["pre[- ]?launch", "soft\\s+launch", "book\\s+now\\s+(at|for|before)", "bookings?\\s+(are\\s+)?(open|start|starts|now)", "early[- ]bird", "launch\\s+offer", "limited\\s+period\\s+offer"],
+      "rule_ids": ["RERA-REGISTERED-BEFORE-MARKETING"],
+      "why": "Advertising, marketing, booking or inviting purchase before registration is prohibited (s3(1)). Pre-launch language suggests that is exactly what is happening. If the project is registered, the wording may be fine.",
+      "safer_wording": "Confirm registration first. If registered, show the number and avoid booking-pressure language.",
+      "evidence_needed": "K-RERA registration number that matches this project and is not lapsed."
+    },
+    {
+      "id": "C-RERA-APPROVED",
+      "name": "'RERA approved' or 'RERA certified'",
+      "class": "risky",
+      "action": "flag",
+      "patterns": ["rera[- ]approved", "approved\\s+by\\s+rera", "rera[- ]certified", "rera\\s+sanctioned"],
+      "rule_ids": ["KRERA-WORDING-REGISTERED"],
+      "why": "RERA registers projects. It does not approve plans or vouch for quality. 'Approved' can imply more than registration.",
+      "safer_wording": "RERA registered, with the registration number.",
+      "evidence_needed": "Registration number."
+    },
+    {
+      "id": "C-APPROVALS-CLAIM",
+      "name": "Approval, khata, title or loan claims",
+      "class": "conditional",
+      "action": "needs_evidence",
+      "patterns": ["\\b(bda|bbmp|gba|bmrda|bmrcl|dtcp|bescom|bwssb)\\s+approved", "a[- ]?khata", "e[- ]?khata", "b[- ]?khata", "\\b(oc|occupancy\\s+certificate|completion\\s+certificate|cc)\\s+(received|obtained|ready|in\\s+hand)", "clear\\s+title", "(100\\s*%|fully)\\s+legal", "bank\\s+approved", "loans?\\s+(approved|available)\\s+(by|from)", "rera\\s+registered"],
+      "rule_ids": ["APPROVALS-NEED-DOCUMENTS", "BROCHURE-NOT-PROOF"],
+      "why": "These are the claims buyers trust most, and the ones most costly if wrong. A brochure statement is not proof.",
+      "safer_wording": "Name the approval, the authority and the document number only when you hold the document. Example: 'RERA registered, number shown on screen.'",
+      "evidence_needed": "The document or portal record. 'RERA registered' needs the number to match the K-RERA record."
+    },
+    {
+      "id": "C-POSSESSION-DATE",
+      "name": "Possession or handover dates",
+      "class": "conditional",
+      "action": "needs_evidence",
+      "patterns": ["possession\\s+(in|by|from|on)\\s+[a-z0-9 ,]{2,25}", "ready\\s+(to\\s+move\\s+in\\s+)?by\\s+[a-z0-9 ,]{2,20}", "handover\\s+(in|by)\\s+[a-z0-9 ,]{2,20}", "move\\s+in\\s+(by|in)\\s+[a-z0-9 ,]{2,20}", "complet(ed|ion)\\s+by\\s+[a-z0-9 ,]{2,20}"],
+      "rule_ids": ["POSSESSION-DATE-MATCH"],
+      "why": "The date declared at registration is binding. A different date in an ad is a false statement risk (s12) and feeds delay claims (s18).",
+      "safer_wording": "'Registered completion date: [date as on the K-RERA record].' Never 'guaranteed' or 'will be ready'.",
+      "evidence_needed": "Completion date on the K-RERA project page."
+    },
+    {
+      "id": "C-PRICE",
+      "name": "Price, EMI or 'starting at' claims",
+      "class": "conditional",
+      "action": "needs_evidence",
+      "patterns": ["(starting|starts)\\s+(at|from)\\s+(rs\\.?|₹|inr)\\s*[\\d.,]+", "(rs\\.?|₹)\\s*[\\d.,]+\\s*(cr|crore|l|lakh|lakhs|lac)", "emi\\s+(of|from|starting)", "all[- ]inclusive", "no\\s+hidden\\s+(charges|costs)", "zero\\s+(brokerage|gst|registration)"],
+      "rule_ids": ["PRICE-MATCH-BROCHURE", "RERA-NO-FALSE-CLAIMS"],
+      "why": "Prices change and must match the verified source. 'No hidden charges' and 'all inclusive' are absolute claims that are easy to get wrong.",
+      "safer_wording": "Quote the number exactly as stated in the verified document, attributed to the developer. Drop absolutes.",
+      "evidence_needed": "Current price document and the developer's confirmation."
+    },
+    {
+      "id": "C-SUPERLATIVE",
+      "name": "Best, only, first, largest and 'no. 1' claims",
+      "class": "risky",
+      "action": "flag",
+      "patterns": ["\\b(best|finest|number\\s*(one|1)|no\\.?\\s*1)\\b", "\\bonly\\s+(project|community|society|apartment|villa|home|address)\\b", "\\b(first|largest|biggest|tallest|highest)\\s+(in|of|project|community|tower|township)\\b", "world[- ]class", "unmatched", "unparalleled", "unbeatable", "never\\s+seen\\s+before"],
+      "rule_ids": ["NO-UNPROVEN-SUPERLATIVES"],
+      "why": "Comparative and absolute claims invite challenge and are rarely supported by the brochure.",
+      "safer_wording": "State the specific, checkable fact: '12-acre campus' or '480 apartments'.",
+      "evidence_needed": "A named, dated source in the brochure facts."
+    },
+    {
+      "id": "C-AMENITIES",
+      "name": "Amenities and specifications",
+      "class": "conditional",
+      "action": "needs_evidence",
+      "patterns": ["club\\s?house", "swimming\\s+pool", "\\bgym(nasium)?\\b", "rooftop", "sky\\s?(deck|lounge|garden)", "co[- ]working", "(power|water)\\s+backup", "smart\\s+home", "(italian|imported)\\s+marble", "\\d+\\s*%\\s*open\\s+space"],
+      "rule_ids": ["RERA-SANCTIONED-PLANS-AMENITIES", "BROCHURE-NOT-PROOF"],
+      "why": "Amenities must match the sanctioned plans, and renders are not proof. Only name what the brochure facts list, and confirm against the plan.",
+      "safer_wording": "Name amenities exactly as listed in the brochure facts.",
+      "evidence_needed": "Sanctioned plan or specification schedule."
+    },
+    {
+      "id": "C-DISTANCE-INFRA",
+      "name": "Distances, travel times and infrastructure",
+      "class": "conditional",
+      "action": "needs_evidence",
+      "patterns": ["\\b\\d+\\s*(min|mins|minutes?)\\s+(from|to|away)", "\\b\\d+(\\.\\d+)?\\s*km\\s+(from|to|away)", "metro\\s+(station|line|connectivity|nearby|coming)", "(airport|orr|nice\\s+road|outer\\s+ring\\s+road|it\\s+park|tech\\s+park)\\s+(is\\s+)?(near|nearby|minutes|close)", "upcoming\\s+(metro|airport|flyover|infrastructure)"],
+      "rule_ids": ["INFRA-LABEL-PLANNED"],
+      "why": "Travel times vary by hour. Planned infrastructure is not infrastructure that exists.",
+      "safer_wording": "Use only verified locality facts with their source, and say 'planned' or 'proposed' where that is the status.",
+      "evidence_needed": "Verified entry in brain/localities.json with a source URL."
+    },
+    {
+      "id": "C-URGENCY",
+      "name": "Scarcity and deadline pressure",
+      "class": "risky",
+      "action": "flag",
+      "patterns": ["only\\s+\\d+\\s+(units?|flats?|apartments?|villas?|plots?|homes?)\\s+(left|remaining|available)", "last\\s+(few|chance|units?)", "hurry", "selling\\s+(out\\s+)?fast", "prices?\\s+(rise|go\\s+up|increase)\\s+(tomorrow|tonight|soon|next)", "(offer|price)\\s+(ends|expires)\\s+(today|tonight|soon)", "don'?t\\s+miss"],
+      "rule_ids": ["NO-URGENCY-WITHOUT-FACT"],
+      "why": "Invented urgency pressures buyers into large decisions and is hard to prove.",
+      "safer_wording": "Only state a deadline the developer can document. Otherwise invite a site visit with no pressure.",
+      "evidence_needed": "Dated inventory or offer terms from the developer."
+    },
+    {
+      "id": "C-RENTAL-YIELD",
+      "name": "Rental yield and income claims",
+      "class": "risky",
+      "action": "flag",
+      "patterns": ["rental\\s+yield", "\\d+(\\.\\d+)?\\s*%\\s*(rental|rent|yield|roi|return)", "passive\\s+income", "earn\\s+(rs\\.?|₹)?\\s*[\\d,]+\\s*(per|a|/)\\s*month", "pays?\\s+for\\s+itself", "roi\\b"],
+      "rule_ids": ["NO-GUARANTEED-RETURNS"],
+      "why": "Income figures are forecasts, and implied certainty can slide into an assured-return claim.",
+      "safer_wording": "Skip it. If a historic local rent is used, cite a named, dated source and add no promise.",
+      "evidence_needed": "Named, dated source. Legal review if linked to the developer's own scheme."
+    },
+    {
+      "id": "C-DISCLAIMER-SUBJECT-TO-CHANGE",
+      "name": "'Subject to change' style disclaimers",
+      "class": "risky",
+      "action": "flag",
+      "patterns": ["subject\\s+to\\s+change", "t\\s*&\\s*c\\s+apply", "terms\\s+and\\s+conditions\\s+apply", "without\\s+(prior\\s+)?notice", "images?\\s+(are\\s+)?for\\s+(representation|illustration)", "artist'?s?\\s+impression"],
+      "rule_ids": ["KRERA-NO-SUBJECT-TO-CHANGE", "PRICE-MATCH-BROCHURE"],
+      "why": "K-RERA told promoters not to use a disclaimer that the information is subject to change. Render and impression labels are not covered by that sentence; whether they are acceptable is a review question.",
+      "safer_wording": "Remove 'subject to change'. For renders, say 'render' plainly and escalate if unsure.",
+      "evidence_needed": "n/a"
+    },
+    {
+      "id": "C-FAKE-PEOPLE",
+      "name": "Invented customers, testimonials and presenters",
+      "class": "prohibited",
+      "action": "block",
+      "patterns": ["our\\s+(\\d[\\d,+]*\\s+)?(happy\\s+)?(customers?|residents?|buyers?|families)\\s+(say|love|told|are)", "\\d+\\+?\\s+(happy\\s+)?(families|customers|buyers)\\s+(have|already)", "testimonial", "i\\s+(bought|booked|live)\\s+here", "as\\s+a\\s+(resident|buyer|customer)\\s+of"],
+      "rule_ids": ["NO-FAKE-PEOPLE-OR-TESTIMONIALS"],
+      "why": "An AI avatar cannot be a real buyer or resident, and customer numbers need proof.",
+      "safer_wording": "Remove, or use only a real, consented testimonial supplied by the developer with a record of consent.",
+      "evidence_needed": "Written consent and the original testimonial."
+    },
+    {
+      "id": "C-LEGAL-ADVICE",
+      "name": "Legal or financial advice stated as fact",
+      "class": "risky",
+      "action": "flag",
+      "patterns": ["you\\s+(don'?t|do\\s+not)\\s+need\\s+(a\\s+)?(lawyer|legal|advocate)", "no\\s+need\\s+to\\s+(check|verify)", "you\\s+(should|must)\\s+(buy|invest)", "tax[- ]free", "save\\s+(rs\\.?|₹)?\\s*[\\d,]+\\s*(lakh|crore|tax)"],
+      "rule_ids": ["RERA-NO-FALSE-CLAIMS", "ESCALATE-UNCERTAIN"],
+      "why": "RealBrain is not a licensed advisor. Never tell buyers to skip checks.",
+      "safer_wording": "'Check the registration on the K-RERA website before you decide.'",
+      "evidence_needed": "n/a"
+    },
+    {
+      "id": "S-VERIFY-RERA",
+      "name": "Tell buyers to verify the registration",
+      "class": "safe",
+      "action": "none",
+      "patterns": [],
+      "rule_ids": ["RERA-REG-NO", "RERA-AUTHORITY-WEBSITE"],
+      "why": "Encourages the check the law is designed around.",
+      "safer_wording": "'Search the registration number on rera.karnataka.gov.in before you pay anything.'",
+      "evidence_needed": "none"
+    },
+    {
+      "id": "S-LAW-EDUCATION",
+      "name": "General RERA protections for buyers",
+      "class": "safe",
+      "action": "none",
+      "patterns": [],
+      "rule_ids": ["RERA-ADVANCE-LIMIT-EDUCATIONAL", "RERA-ESCROW-70-EDUCATIONAL"],
+      "why": "True by statute. Say 'RERA requires'. Do not claim this specific developer complies, and say it only about registered projects.",
+      "safer_wording": "'Under RERA, a developer cannot take more than 10% as an advance before a registered agreement for sale.'",
+      "evidence_needed": "none for the general statement"
+    }
+  ]
+}

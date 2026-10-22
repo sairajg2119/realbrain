@@ -32,8 +32,21 @@ Last updated 2026-10-22. "null" means unavailable, never zero. Counts are from t
 |---|---|
 | `teardowns.json` | `{ scraped_at, _meta{source, selection, limits, built_at, reels_in_file}, reels[] }`. Reel: `id` (shortCode), `url`, `page`, `plays`, `page_median`, `multiple_vs_median`, `duration_s`, `format`, `hook_type`, `hook`, `hook_source`, `cta`, `why_it_worked` ("Plausible, not proven..."), `baseline_n`, `market`, `analysis_basis`. 32 reels, winners at 2x or more. Matches `Teardown` in `lib/types.ts`. |
 | `playbook.md` | Markdown fed to the model: formats, hook templates, a "What the data says" section, CTAs, the 10 script rules, style |
-| `rules.json` | `{ version, last_checked, stale_after_days, rules[] }`. Rule: id, rule, applies_to, enforcement (hard or warning), check, source_name, source_url, effective_date, last_checked, status. **Unverified draft**, `last_checked` deliberately old |
+| `rules.json` | `{ version: 2, last_checked, stale_after_days, verification_summary, rules[] }`. Rule: id, rule, plain_english, level, enforcement, applies_to, status, source_name, last_checked. 17 rules verified from primary sources, 8 secondary. See Zone 2b |
 | `localities.json` | `{ localities[] }`: name, aliases, facts[{text, source_url}], `verified`. All five are unverified and empty |
+
+## Zone 2b: real estate knowledge and compliance (`realestate-brain/brain/`, hand-curated; human edits only)
+| File | Key | Contents |
+|---|---|---|
+| `source_register.json` | `id` SRC-* | title, issuer, url, local_copy, jurisdiction, effective_date, last_verified, `status` (verified_primary, secondary_reported, unverified), how_verified, caveat; plus `not_yet_researched` |
+| `compliance_rules.json` | `id` | rule, plain_english, `level` (legal_requirement, regulator_direction, internal_best_practice, needs_legal_review), `enforcement` (block, hard, warning, escalate, info), applies_to, check, legal_basis, source_ids, jurisdiction, effective_date, `status`, last_verified, escalation_question, notes |
+| `claims_library.json` | `id` C-* / S-* | class (prohibited, risky, conditional, safe), action, regex `patterns`, rule_ids, why, safer_wording, evidence_needed |
+| `misleading_examples.json` | `id` EX-* | fictional bad script, problems (claim ids), safer rewrite |
+| `checklist.json` | | rera_verification, no_number_found, advertisement_checklist (level, who), escalation (when, how, record_shape) |
+| `glossary.json`, `knowledge_base.json` | term / item | plain-English entries tagged verified_primary, secondary_reported or general_knowledge; known_uncertainties |
+| `realestate-brain/sources/` | | `RERA_Act_2016.text.txt`, `Karnataka_RERA_Rules_FAQ.text.txt`, `KRERA_circular_2019-11-14_p1.jpg` and `_p2.jpg` |
+
+App-facing exports: `brain/rules.json` (version 2, compact rules with level and status, `last_checked` = latest verification date) and `brain/compliance_claims.json` (claims, checklist, escalation, source summary; not read by the app yet). The previous draft rules.json is in `realestate-brain/backup/rules.json`.
 
 ## Backups
 Original app files before the Social Brain export: `social-brain/backup/playbook.md`, `teardowns.json`. Off-repo copy of Zone 1: `../realbrain-backups/<date>/`.

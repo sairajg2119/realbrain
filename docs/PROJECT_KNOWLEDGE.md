@@ -12,10 +12,14 @@ Last updated 2026-10-22. Every item is tagged: **[verified]** checked in this re
 - Agency retainers cost Rs 30k to 2 lakh a month; an avatar render of a 45-second reel is estimated at Rs 65 to 380. These are estimates.
 - Competitors: HeyGen (script you write), Synthesia, Creatify, VideoTour.ai (closest, US listings), Reel-E, AutoReel. Gap: under-construction projects, Indian buyers, hooks and CTAs that drive site visits.
 
-## Regulation [notes, unverified]
-- RERA Act 2016 s11(2): every project ad shows the RERA number and the state authority website. s12: a buyer misled by an incorrect ad can withdraw with refund and interest.
-- IT Amendment Rules 2026 (in force 20 Feb 2026): AI-generated audio or video needs a prominent label and provenance metadata.
-- Karnataka-specific advertising and QR rules not yet verified. `brain/rules.json` in the repo is an unverified draft with no source URLs. **Discrepancy:** notes say rules v1 was checked on 21 Oct; the repo file says otherwise. Treat as unverified until sourced.
+## Regulation (researched 2026-10-22; detail in realestate-brain/README.md and brain/source_register.json)
+**Verified from primary sources [verified]:**
+- RERA Act s3(1): no advertising, marketing, booking or selling before registration. s11(2): ads must show the authority website and the registration number. s12: a buyer who relies on a false statement gets compensation, or a refund with interest if withdrawing. s13: no more than 10% advance without a registered agreement for sale. s4(2)(l)(D): 70% of buyer money in a separate account. s18: refund or interest for late possession. Penalties: s59 up to 10% of project cost for unregistered marketing, s61 up to 5% for other breaches.
+- K-RERA circular RERA/ADM/CR-4/2019-20 (14 Nov 2019): number top right, at least half the project-name size, K-RERA website mentioned, no "subject to change" disclaimer, number prominently mentioned for electronic media and SMS. K-RERA publishes a list of projects that violated advertisement guidelines (136 records), so enforcement is real.
+- Karnataka FAQ: Rules notified 10 July 2017; interest is SBI highest MCLR plus 2%; registration needs plan approval and a commencement certificate first; only a promoter can register.
+**Secondary only [official text not read]:** IT Amendment Rules 2026 (label and provenance duties, mainly on platforms and tool providers; continuous-label draft reported as proposed); CPA 2019 ss.2(28), 21, 89 and the CCPA 2022 guidelines; assured-return law (BUDS Act, SEBI); e-Khata, GBA and B-khata regularisation.
+**Corrections to earlier notes [verified]:** the notes' s11(2) and s12 summaries match the Act. A Karnataka QR-code rule was not found (QR rules are Maharashtra and Kerala). The Act's 500 sq m / eight-apartment exemption is worded "or"; practice may differ. The repo's old rules.json was an unreviewed draft; it is replaced by sourced rules.
+**Open questions [hypothesis, needs a lawyer]:** does the 2019 circular apply to reels; is there a newer circular; advertiser's direct AI-label duty; CPA applicability to developers; legal character of rental guarantees.
 
 ## Instagram research (Stage 1)
 **Dataset [verified]:** 487 reels from 25 pages (notes said 485), scraped 2026-10-21. 52 transcript rows, 41 usable (notes said 48). Likes hidden on 90 reels. 83 reels are collab posts attributed to the page that was scraped. Two Bengaluru pages (40 reels). Mostly US.
