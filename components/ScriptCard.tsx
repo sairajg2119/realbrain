@@ -110,64 +110,70 @@ export function ScriptCard({
 
   return (
     <article className={`script${selected ? " selected" : ""}${status.ok ? "" : " flagged"}`} aria-label={`Script option ${index + 1}`}>
-      <div className="script-top">
-        <span className="script-n">0{index + 1}</span>
-        <div className="script-labels">
-          <span className="label-gold">{s.format}</span>
-          <span className="label-dim">{s.hook_type}</span>
+      <aside className="script-rail">
+        <div className="rail-head">
+          <span className="script-n">0{index + 1}</span>
+          <div className="script-labels">
+            <span className="label-gold">{s.format}</span>
+            <span className="label-dim">{s.hook_type}</span>
+          </div>
+          {selected && <span className="pill good"><IconCheck size={14} /> Selected</span>}
         </div>
-        {selected && <span className="pill good"><IconCheck size={14} /> Selected</span>}
-      </div>
 
-      <h3 className="script-hook"><Marked text={s.hook} red={red} /></h3>
-
-      <FullScript s={s} red={red} />
-
-      <div className="why">
-        <h4>Why this works</h4>
-        <p className="why-text">&ldquo;{s.why_this_works.reason}&rdquo;</p>
-        {evidence ? (
-          <dl className="evidence">
-            <div><dt>Source page</dt><dd>@{evidence.page}</dd></div>
-            <div><dt>Recorded plays</dt><dd>{evidence.plays.toLocaleString("en-IN")}</dd></div>
-            <div><dt>Versus page median</dt><dd>{evidence.multiple}×</dd></div>
-            <div><a href={evidence.url} target="_blank" rel="noreferrer" className="evidence-link">View original reel <IconLink size={14} /></a></div>
-          </dl>
-        ) : (
-          <p className="hint">Evidence unavailable: this reel is not in our dataset.</p>
-        )}
-      </div>
-
-      <ul className="status" aria-label="Checks">
-        {status.ok ? (
-          <>
-            <li className="good"><IconCheck size={15} /> Verified against brochure</li>
-            <li className="good"><IconCheck size={15} /> RERA details present</li>
-            <li className="good"><IconCheck size={15} /> Ready for review</li>
-          </>
-        ) : (
-          <li className="bad"><IconAlert size={15} /> Needs attention</li>
-        )}
-        {checks.warnings.map((w) => (
-          <li key={w} className="warn"><IconAlert size={15} /> {w}</li>
-        ))}
-      </ul>
-      {!status.ok && (
-        <div className="problem" role="note">
-          {checks.hardFailures.map((f) => <p key={f}>{f}</p>)}
-          {checks.redNumbers.length > 0 && <p>Numbers in <mark className="red">red</mark> above are not in your brochure, so this script cannot be used as it is.</p>}
+        <div className="rail-foot">
+          <ul className="status" aria-label="Checks">
+            {status.ok ? (
+              <>
+                <li className="good"><IconCheck size={15} /> Verified against brochure</li>
+                <li className="good"><IconCheck size={15} /> RERA details present</li>
+                <li className="good"><IconCheck size={15} /> Ready for review</li>
+              </>
+            ) : (
+              <li className="bad"><IconAlert size={15} /> Needs attention</li>
+            )}
+            {checks.warnings.map((w) => (
+              <li key={w} className="warn"><IconAlert size={15} /> {w}</li>
+            ))}
+          </ul>
+          <div className="script-actions">
+            <CopyButton text={full} label="Copy full script" done="Script copied" />
+            <CopyButton text={s.caption} label="Copy caption" done="Caption copied" />
+          </div>
+          <button className={`btn ${selected ? "btn-good" : "btn-gold"} choose`} onClick={onChoose} disabled={!status.ok} aria-pressed={selected}>
+            {selected ? <>Selected <IconCheck size={18} /></> : status.ok ? "Choose this script" : "Fix this script first"}
+          </button>
         </div>
-      )}
-      {checks.rewritten && status.ok && <p className="hint">This script was rewritten once to pass the checks.</p>}
-      <ComplianceNotes item={item} />
+      </aside>
 
-      <div className="script-actions">
-        <CopyButton text={full} label="Copy full script" done="Script copied" />
-        <CopyButton text={s.caption} label="Copy caption" done="Caption copied" />
+      <div className="script-body">
+        <h3 className="script-hook"><Marked text={s.hook} red={red} /></h3>
+
+        <FullScript s={s} red={red} />
+
+        <div className="why">
+          <h4>Why this works</h4>
+          <p className="why-text">&ldquo;{s.why_this_works.reason}&rdquo;</p>
+          {evidence ? (
+            <dl className="evidence">
+              <div><dt>Source page</dt><dd>@{evidence.page}</dd></div>
+              <div><dt>Recorded plays</dt><dd>{evidence.plays.toLocaleString("en-IN")}</dd></div>
+              <div><dt>Versus page median</dt><dd>{evidence.multiple}×</dd></div>
+              <div><a href={evidence.url} target="_blank" rel="noreferrer" className="evidence-link">View original reel <IconLink size={14} /></a></div>
+            </dl>
+          ) : (
+            <p className="hint">Evidence unavailable: this reel is not in our dataset.</p>
+          )}
+        </div>
+
+        {!status.ok && (
+          <div className="problem" role="note">
+            {checks.hardFailures.map((f) => <p key={f}>{f}</p>)}
+            {checks.redNumbers.length > 0 && <p>Numbers in <mark className="red">red</mark> above are not in your brochure, so this script cannot be used as it is.</p>}
+          </div>
+        )}
+        {checks.rewritten && status.ok && <p className="hint">This script was rewritten once to pass the checks.</p>}
+        <ComplianceNotes item={item} />
       </div>
-      <button className={`btn ${selected ? "btn-good" : "btn-gold"} choose`} onClick={onChoose} disabled={!status.ok} aria-pressed={selected}>
-        {selected ? <>Selected <IconCheck size={18} /></> : status.ok ? "Choose this script" : "Fix this script first"}
-      </button>
     </article>
   );
 }

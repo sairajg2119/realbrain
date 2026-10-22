@@ -1,10 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-// Display type: a geometric grotesque, like the reference templates, instead of a serif.
-const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", display: "swap" });
+// Display type: a high-contrast serif with the quiet authority of an architect's monograph.
+const display = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500", "600", "700"], style: ["normal", "italic"], variable: "--font-display", display: "swap" });
 
 export const metadata: Metadata = {
   title: "RealBrain · The real estate marketing studio",
