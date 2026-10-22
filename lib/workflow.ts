@@ -1,4 +1,4 @@
-import type { BuyerType } from "./types";
+import type { BuyerChoice } from "./types";
 
 /** The four screens of the journey. Landing is not a numbered step. */
 export type Stage = "landing" | "project" | "script" | "approval";
@@ -6,7 +6,8 @@ export type Stage = "landing" | "project" | "script" | "approval";
 /** Labels for the numbered step indicator. */
 export const STEP_LABELS = ["Project", "Script", "Approval", "Your Reel"] as const;
 
-export const BUYER_COPY: Record<BuyerType, { label: string; blurb: string }> = {
+export const BUYER_COPY: Record<BuyerChoice, { label: string; blurb: string }> = {
+  auto: { label: "Best fit", blurb: "We pick the audiences this property suits best. Recommended." },
   family: { label: "Families", blurb: "Space, lifestyle and a place to grow." },
   investor: { label: "Investors", blurb: "Property fundamentals and documented market context." },
   nri: { label: "NRI Buyers", blurb: "Clarity, confidence and remote decision-making." },

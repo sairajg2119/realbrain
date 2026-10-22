@@ -1,3 +1,4 @@
+import { HOOK_WARN_SECONDS, MAX_SCRIPT_SECONDS, MIN_SCRIPT_SECONDS } from "./script.ts";
 import type { CheckCode, Facts, Script, ScriptChecks, Teardown } from "./types.ts";
 
 const NUMBER_RE = /\d[\d,]*(?:\.\d+)?/g;
@@ -83,7 +84,9 @@ export function checkScript(script: Script, facts: Facts, teardowns: Teardown[])
 
   // RERA-NO-FALSE-CLAIMS: every number must come from the brochure facts.
   const known = factNumbers(facts);
-  const spoken = `${script.hook} ${script.body} ${script.cta} ${script.caption}`;
+  // Numbers shown on screen or described in the visuals must be in the brochure too, not only the spoken words.
+  const shown = (script.beats ?? []).map((b) => `${b.on_screen_text} ${b.visual}`).join(" ");
+  const spoken = `${script.hook} ${script.body} ${script.cta} ${script.caption} ${shown}`;
   const red = [...new Set(extractNumbers(spoken).filter((n) => !known.has(n)))];
   if (red.length) {
     hardFailures.push(`These numbers are not in the brochure: ${red.join(", ")}.`);
@@ -96,6 +99,24 @@ export function checkScript(script: Script, facts: Facts, teardowns: Teardown[])
   if (words > limit) {
     hardFailures.push(`Too long: ${words} spoken words for ${script.target_duration_s} seconds (limit ${limit}).`);
     failedCodes.push("length");
+  }
+
+  // Reels here are capped at a minute.
+  if (script.target_duration_s > MAX_SCRIPT_SECONDS) {
+    hardFailures.push(`Too long: about ${script.target_duration_s} seconds. Keep it to ${MAX_SCRIPT_SECONDS} seconds or less.`);
+    if (!failedCodes.includes("length")) failedCodes.push("length");
+  }
+
+  // A full script, not a one-liner. Only applies to scripts written as timed beats.
+  if (script.beats && script.target_duration_s < MIN_SCRIPT_SECONDS) {
+    hardFailures.push(`Too short: about ${script.target_duration_s} seconds. Write a full script of ${MIN_SCRIPT_SECONDS} to 45 seconds (about 80 to 110 spoken words).`);
+    if (!failedCodes.includes("length")) failedCodes.push("length");
+  }
+
+  // The hook should land within a few seconds (a warning, not a failure).
+  const hookEnd = script.beats?.[0]?.end_s;
+  if (hookEnd !== undefined && hookEnd > HOOK_WARN_SECONDS) {
+    warnings.push(`The hook takes about ${Math.round(hookEnd)} seconds to say. A hook that lands in under 3 seconds holds viewers better.`);
   }
 
   // The cited reel must be real.

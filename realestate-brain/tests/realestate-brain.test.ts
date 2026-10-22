@@ -128,3 +128,14 @@ test("a missing on-screen plan is reported, not assumed", () => {
   assert.equal(p.ok, false);
   assert.match(p.message, /No on-screen text plan/);
 });
+
+test("a shared facility described as inside your home is flagged, a plain location is not", () => {
+  assert.ok(scan("A FIFA-sized pitch inside your home? Yes, really.").findings.some((f) => f.claim_id === "C-SHARED-AS-PRIVATE"));
+  assert.ok(scan("A football pitch in your flat").findings.some((f) => f.claim_id === "C-SHARED-AS-PRIVATE"));
+  assert.ok(!scan("A FIFA-sized pitch in the community sports area, a short walk from your tower.").findings.some((f) => f.claim_id === "C-SHARED-AS-PRIVATE"));
+});
+
+test("co-working lounge and similar shared spaces are caught when described as inside your home", () => {
+  assert.ok(scan("A co-working lounge inside your home? Yes, really.").findings.some((f) => f.claim_id === "C-SHARED-AS-PRIVATE"));
+  assert.ok(scan("A garden in your flat").findings.some((f) => f.claim_id === "C-SHARED-AS-PRIVATE"));
+});

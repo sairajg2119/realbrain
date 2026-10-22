@@ -175,6 +175,17 @@
       "evidence_needed": "n/a"
     },
     {
+      "id": "C-SHARED-AS-PRIVATE",
+      "name": "A shared facility described as part of the home",
+      "class": "risky",
+      "action": "flag",
+      "patterns": ["inside\\s+your\\s+(home|flat|apartment)", "(pitch|court|pool|clubhouse|track|rink|stadium|ground|gym|lounge|workspace|co-?working|deck|garden|park|library|spa|caf[eé]|theatre|hall)s?[^.?!]{0,40}\\b(in|inside)\\s+your\\s+(home|flat|apartment|house)"],
+      "rule_ids": ["RERA-NO-FALSE-CLAIMS"],
+      "why": "Sports grounds, pools and clubhouses are shared community facilities. Saying they are inside your home misleads buyers about what they own.",
+      "safer_wording": "Say where it is: 'a FIFA-sized pitch in the community sports area', 'a short walk from your tower'.",
+      "evidence_needed": "The master plan showing where the facility is in relation to the towers."
+    },
+    {
       "id": "S-VERIFY-RERA",
       "name": "Tell buyers to verify the registration",
       "class": "safe",

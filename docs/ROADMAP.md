@@ -29,6 +29,8 @@ Last updated 2026-10-22. Status words: **done**, **partial**, **not started**. A
 
 ### Stage 4: Complete application: **partial** (MVP)
 - Done: brochure upload, fact extraction, 3 checked scripts, evidence line, 4-screen UI, health check, sample project.
+- Done (2026-10-22): full scripts. Each script is a list of timed beats (Hook, Build or Proof beats, CTA), each with what is said, what is shown and any text on screen, with a total length of 28 to 60 seconds (aim 30 to 45, 80 to 110 spoken words). Seconds are worked out by code from the words at 2.5 words a second. RealBrain chooses who each script suits best (families, first-time buyers, investors, NRI buyers, everyone) with a reason, and the audience picker defaults to 'Best fit', so only the brochure is needed. The property analysis sits collapsed behind the scripts. Too-short scripts (under 28 s) and too-long ones (over 60 s) fail and are rewritten once.
+- Not done: large brochures. The live site rejects PDFs over 4 MB (no `BLOB_READ_WRITE_TOKEN`), and the app limit is 20 MB; `extractFactsFromText` in `lib/gemini.ts` exists for a text-based path but is not wired in.
 - Not done: avatar video (`lib/video.ts` returns an honest preview state), persistence of user data (projects, approved scripts, video jobs), accounts.
 
 ### Stage 5: Testing and deployment: **partial**

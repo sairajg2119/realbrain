@@ -1,10 +1,13 @@
 "use client";
 
-import { BUYER_TYPES, type BuyerType } from "@/lib/types";
+import { BUYER_TYPES, type BuyerChoice } from "@/lib/types";
 import { BUYER_COPY } from "@/lib/workflow";
 import { IconCheck, IconFamily, IconGlobe, IconInvestor, IconKey } from "./Icons";
 
-const ICONS: Record<BuyerType, () => React.ReactNode> = {
+const CHOICES: BuyerChoice[] = ["auto", ...BUYER_TYPES];
+
+const ICONS: Record<BuyerChoice, () => React.ReactNode> = {
+  auto: () => <IconCheck size={20} />,
   family: () => <IconFamily />,
   investor: () => <IconInvestor />,
   nri: () => <IconGlobe />,
@@ -12,10 +15,10 @@ const ICONS: Record<BuyerType, () => React.ReactNode> = {
 };
 
 /** Exactly one buyer type. Selection shows a border, a check and aria-checked, not colour alone. */
-export function BuyerPicker({ value, onChange, disabled }: { value: BuyerType | null; onChange: (b: BuyerType) => void; disabled?: boolean }) {
+export function BuyerPicker({ value, onChange, disabled }: { value: BuyerChoice | null; onChange: (b: BuyerChoice) => void; disabled?: boolean }) {
   return (
-    <div className="buyers" role="radiogroup" aria-label="Who are we speaking to?">
-      {BUYER_TYPES.map((b) => {
+    <div className="buyers" role="radiogroup" aria-label="Who should the scripts speak to?">
+      {CHOICES.map((b) => {
         const on = value === b;
         return (
           <button key={b} type="button" role="radio" aria-checked={on} className={`buyer${on ? " on" : ""}`} onClick={() => onChange(b)} disabled={disabled}>

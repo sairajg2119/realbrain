@@ -1,5 +1,6 @@
 import { ApiError, GoogleGenAI, ThinkingLevel, type Part } from "@google/genai";
-import type { BuyerType, Facts, Script, Teardown } from "./types.ts";
+import { normaliseRawScript } from "./script.ts";
+import type { BuyerChoice, BuyerType, Facts, Script, Teardown } from "./types.ts";
 
 // Free-plan quotas are counted per model, so when one is used up we move to the next one.
 const MODELS = [process.env.GEMINI_MODEL, "gemini-3.6-flash", "gemini-3.7-flash", "gemini-3.8-flash", "gemini-3.1-flash-lite"].filter(
@@ -125,47 +126,49 @@ If it is not a real estate brochure, set is_real_estate_brochure to false and le
   );
 }
 
+/**
+ * Same extraction from the brochure's TEXT, for PDFs too big to send directly (the inline limit is 20 MB).
+ * Loses what is only in images (floor-plan drawings, scanned pages). The caller must say so.
+ */
+export async function extractFactsFromText(text: string): Promise<Facts> {
+  const prompt = `Below is the extracted text of a document (page breaks are not marked). Say whether it is a real estate project brochure, then return exactly this JSON:
+{"is_real_estate_brochure": true/false, "project_name": "", "developer": "", "location": "", "locality_match": "one of Jakkur, Jayanagar, Whitefield, Sarjapur Road, Hebbal if the project is there, else null", "configurations": ["3 BHK 1,650 sq ft"], "price": "string or null", "amenities": [""], "rera_number": "string or null", "key_numbers": ["every number in the document worth using in a reel, with its unit, as written"], "missing": ["fields not found"]}
+If it is not a real estate brochure, set is_real_estate_brochure to false and leave the rest empty.
+For configurations, say whether an area is the sale area or the carpet area exactly as the document labels it.
+
+DOCUMENT TEXT:
+${text.slice(0, 120_000)}`;
+  return askJson([{ text: prompt }], EXTRACT_SYSTEM, validateFacts);
+}
+
 function validateScripts(x: unknown): Script[] {
   const arr = (x as { scripts?: unknown })?.scripts;
   if (!Array.isArray(arr) || arr.length === 0) throw new Error("scripts missing");
-  return arr.map((s) => {
-    const o = s as Record<string, any>;
-    for (const k of ["hook_type", "format", "hook", "body", "cta", "caption"]) {
-      if (typeof o[k] !== "string" || !o[k].trim()) throw new Error(`script.${k} missing`);
-    }
-    const w = o.why_this_works ?? {};
-    if (typeof w.reel_id !== "string") throw new Error("why_this_works.reel_id missing");
-    return {
-      hook_type: o.hook_type,
-      format: o.format,
-      hook: o.hook,
-      body: o.body,
-      cta: o.cta,
-      caption: o.caption,
-      target_duration_s: Number(o.target_duration_s) || 30,
-      facts_used: strList(o.facts_used),
-      why_this_works: {
-        reel_id: w.reel_id,
-        page: String(w.page ?? ""),
-        multiple_vs_median: Number(w.multiple_vs_median) || 0,
-        reason: String(w.reason ?? ""),
-      },
-    };
-  });
+  return arr.map((s) => normaliseRawScript(s as Record<string, any>));
 }
 
-const SCRIPT_SYSTEM = `You write Instagram reel scripts for Bengaluru real estate developers, spoken by an AI avatar. Plain, warm words. No corporate phrases.
+const SCRIPT_SYSTEM = `You write complete Instagram reel scripts for Bengaluru real estate developers, spoken by an AI avatar over the project's renders. Write the way a real person talks to a friend: short sentences, contractions, plain warm words. No corporate phrases, no brochure language.
 Reply with one JSON object and nothing else.
+What a full script is: a list of beats in order. Each beat has: label, spoken (exactly what is said), visual (what is on screen, using only the project's renders, plans or amenities named in the facts), on_screen_text (a short caption overlay, or empty).
+Structure: beat 1 is the Hook (at most 7 spoken words, lands in under 3 seconds). Then 3 to 5 middle beats (label them Build or Proof): each brings one new fact or scene, a new beat every 3 to 5 seconds, ending with the single strongest fact. The last beat is the CTA (a comment-keyword CTA, or share bait for lifestyle reels). Each script is 30 to 45 seconds. That means between 80 and 110 spoken words in total (the app times it at 2.5 words a second). Fewer than 80 words fails as too short; over 150 fails as too long. Use 6 to 8 beats, full sentences, and make every middle beat teach the viewer one specific thing from the facts. The beat before the CTA must be the strongest concrete fact, not a feeling. Do not describe an avatar in the visuals; describe the project's renders, plans or amenities.
 Hard rules:
-- Use ONLY facts and numbers from the brochure facts and locality facts you are given. Do not write any other number anywhere (no "3 reasons", no years, no distances) unless it appears in the facts.
-- Never promise returns, appreciation, refunds, dates or prices that are not in the facts.
-- Follow the playbook's 10 rules. Each script uses a different hook type from the playbook.
-- The caption must contain the RERA number exactly as given and the text rera.karnataka.gov.in. The app adds the RERA number, the K-RERA website and an AI-generated label on screen itself, so do not write them into the spoken text.
+- Use ONLY facts and numbers from the brochure facts and locality facts you are given. Do not write any other number anywhere, in the spoken words, the on-screen text or the visual notes (no "3 reasons", no years, no distances), unless it appears in the facts. Copy figures as written, including a trailing "+" (write "3500+ trees", never "3,500 trees").
+- A sale area is not a carpet area. Only call an area carpet area if the facts say carpet. Never describe something outside the home (a sports facility, a clubhouse) as being "inside your home".
+- Never promise returns, appreciation, refunds, dates or prices that are not in the facts. Describe planned infrastructure (metro, roads) as proposed or planned, never as open.
+- Follow the playbook's 10 rules. Each script uses a different hook type from the playbook and a different angle.
+- The caption must contain the RERA number exactly as given and the text rera.karnataka.gov.in. The app adds the RERA number, the K-RERA website and an AI-generated label on screen itself, so do not write them into the spoken text or the on-screen text. Never put 'AI-generated' or any RERA text in on_screen_text.
 - Never write: guaranteed, assured or committed returns; price-rise or appreciation forecasts; promised handover dates; 'pre-launch', 'book now' or other booking pressure; 'RERA approved' (say 'RERA registered'); 'subject to change' or similar disclaimers; invented urgency ('only 3 left'); 'best', 'only' or 'first' claims; invented customers or testimonials; approvals, khata or title claims that are not in the brochure facts.
-- hook + body + cta together must be at most 2.5 spoken words per second of target_duration_s.
+- audience says who this script suits best, one of: families, first-time buyers, investors, NRI buyers, everyone. audience_reason is one plain sentence on why.
 - why_this_works.reel_id must be an "id" copied from the teardowns, for a reel with the same hook type or format; reason is one plain sentence.`;
 
-const SCRIPT_SHAPE = `{"scripts":[{"hook_type":"","format":"","hook":"","body":"","cta":"comment-keyword CTA","caption":"","target_duration_s":30,"facts_used":[""],"why_this_works":{"reel_id":"","page":"","multiple_vs_median":0,"reason":""}}]}`;
+const SCRIPT_SHAPE = `{"scripts":[{"audience":"families","audience_reason":"","hook_type":"","format":"","beats":[{"label":"Hook","spoken":"","visual":"","on_screen_text":""},{"label":"Build","spoken":"","visual":"","on_screen_text":""},{"label":"Proof","spoken":"","visual":"","on_screen_text":""},{"label":"CTA","spoken":"comment-keyword CTA","visual":"","on_screen_text":""}],"caption":"","facts_used":[""],"why_this_works":{"reel_id":"","page":"","multiple_vs_median":0,"reason":""}}]}`;
+
+/** What to tell the model about who the scripts are for. "auto" lets it choose the audiences the property suits. */
+function audienceLine(buyer: BuyerChoice): string {
+  return buyer === "auto"
+    ? "BEST FIT. Choose the audiences this property genuinely suits (families, first-time buyers, investors, NRI buyers, everyone). Do not force an audience the facts do not support."
+    : buyer;
+}
 
 function compactTeardowns(t: Teardown[]) {
   return JSON.stringify(
@@ -175,7 +178,7 @@ function compactTeardowns(t: Teardown[]) {
 
 export async function writeScripts(args: {
   facts: Facts;
-  buyer: BuyerType;
+  buyer: BuyerChoice;
   playbook: string;
   teardowns: Teardown[];
   localityFacts: string[];
@@ -183,7 +186,7 @@ export async function writeScripts(args: {
   angles?: string;
   extraNote?: string;
 }): Promise<Script[]> {
-  const prompt = `BUYER TYPE: ${args.buyer}
+  const prompt = `AUDIENCE: ${audienceLine(args.buyer)}
 
 BROCHURE FACTS:
 ${JSON.stringify(args.facts)}
@@ -200,7 +203,7 @@ ${compactTeardowns(args.teardowns)}
 COMPLIANCE RULES:
 ${args.rulesJson}
 ${args.angles ? `\nPROPERTY BRIEF ANGLES (built from this brochure; let each script follow a different angle, still using only the facts above):\n${args.angles}\n` : ""}
-Write exactly 3 scripts for this buyer type, with 3 different hook types. ${args.extraNote ?? ""}
+Write exactly 3 complete scripts (full timed beats: hook, middle, CTA), each with a different hook type and a different angle. For BEST FIT, give each script the audience it suits best and use at least two different audiences across the three (for example families, first-time buyers, everyone), whenever the facts genuinely support them; use 'everyone' for at most one. For a named audience, write all three for that audience. ${args.extraNote ?? ""}
 Return JSON in this shape: ${SCRIPT_SHAPE}`;
   return askJson([{ text: prompt }], SCRIPT_SYSTEM, (x) => {
     const s = validateScripts(x);
@@ -230,12 +233,12 @@ export interface BriefRaw {
 /** AI call: draft the brief. The caller (lib/brief.ts) validates every citation, so nothing here is trusted as-is. */
 export async function writeBrief(args: {
   facts: { id: string; text: string }[];
-  buyer: BuyerType;
+  buyer: BuyerChoice;
   hookTypes: string[];
   exampleReels: { id: string; hook_type: string; hook: string }[];
   location: string | null;
 }): Promise<{ raw: BriefRaw; model: string }> {
-  const prompt = `BUYER TYPE: ${args.buyer}
+  const prompt = `BUYER TYPE: ${audienceLine(args.buyer)}
 LOCATION AS WRITTEN IN THE BROCHURE: ${args.location ?? "not stated"}
 
 BROCHURE FACTS (cite by id):
@@ -264,16 +267,21 @@ Give 3 to 5 selling_points ranked by relevance, 3 to 6 limitations, 2 to 3 perso
 
 export async function rewriteScript(args: {
   facts: Facts;
-  buyer: BuyerType;
+  buyer: BuyerChoice;
   script: Script;
   failures: string[];
   teardowns: Teardown[];
 }): Promise<Script> {
-  const prompt = `This reel script failed checks. Fix only what failed; keep the hook type and the idea.
+  // Show the model the beat shape it must return, not the derived flat fields.
+  const s = args.script;
+  const shown = s.beats
+    ? { audience: s.audience, audience_reason: s.audience_reason, hook_type: s.hook_type, format: s.format, beats: s.beats.map((b) => ({ label: b.label, spoken: b.spoken, visual: b.visual, on_screen_text: b.on_screen_text })), caption: s.caption, facts_used: s.facts_used, why_this_works: s.why_this_works }
+    : s;
+  const prompt = `This reel script failed checks. Fix only what failed; keep the hook type, the audience, the beat structure and the idea.
 
-BUYER TYPE: ${args.buyer}
+AUDIENCE: ${audienceLine(args.buyer)}
 BROCHURE FACTS: ${JSON.stringify(args.facts)}
-SCRIPT: ${JSON.stringify(args.script)}
+SCRIPT: ${JSON.stringify(shown)}
 FAILED CHECKS:
 - ${args.failures.join("\n- ")}
 

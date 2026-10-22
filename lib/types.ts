@@ -1,5 +1,7 @@
 export type BuyerType = "family" | "investor" | "nri" | "first-time buyer";
 export const BUYER_TYPES: BuyerType[] = ["family", "investor", "nri", "first-time buyer"];
+/** "auto" lets RealBrain choose the audiences the property suits best. */
+export type BuyerChoice = BuyerType | "auto";
 
 export interface Facts {
   is_real_estate_brochure: boolean;
@@ -23,6 +25,16 @@ export interface OnScreen {
   basis: string;
 }
 
+/** One timed part of a reel: what to say, what to show, and any text on screen. Times are worked out by code from the words. */
+export interface Beat {
+  label: string;
+  start_s: number;
+  end_s: number;
+  spoken: string;
+  visual: string;
+  on_screen_text: string;
+}
+
 export interface Script {
   hook_type: string;
   format: string;
@@ -32,6 +44,13 @@ export interface Script {
   caption: string;
   target_duration_s: number;
   facts_used: string[];
+  /** Who this script suits best, chosen by RealBrain (families, first-time buyers, investors, NRI buyers, everyone) and why. */
+  audience?: string;
+  audience_reason?: string;
+  /** The full script as timed beats. hook, body and cta above are derived from these. Absent in older saved results. */
+  beats?: Beat[];
+  total_seconds?: number;
+  word_count?: number;
   on_screen?: OnScreen;
   why_this_works: {
     reel_id: string;

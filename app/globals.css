@@ -359,3 +359,19 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
 .brief-facts { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 4px; font-size: 0.9rem; }
 .fid { display: inline-block; min-width: 2.2em; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--stone); text-transform: uppercase; }
 .brief-steps { margin: 6px 0 8px 20px; font-size: 0.92rem; }
+
+/* Full scripts (lib/script.ts) */
+.script-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 6px; }
+.beats { list-style: none; padding: 0; margin: 14px 0; display: grid; gap: 0; border-left: 2px solid var(--line); }
+.beat { padding: 10px 0 12px 16px; position: relative; border-bottom: 1px solid var(--line-soft); }
+.beat::before { content: ""; position: absolute; left: -6px; top: 18px; width: 10px; height: 10px; border-radius: 50%; background: var(--card-2); border: 2px solid var(--gold); }
+.beat-hook::before { background: var(--gold); }
+.beat-cta::before { background: var(--good); border-color: var(--good); }
+.beat-head { display: flex; gap: 12px; align-items: baseline; }
+.beat-time { font-variant-numeric: tabular-nums; font-size: 0.82rem; color: var(--stone); }
+.beat-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; color: var(--gold); }
+.beat-say { margin: 6px 0 4px; font-size: 1.05rem; line-height: 1.5; }
+.beat-show { margin: 2px 0; font-size: 0.86rem; color: var(--stone); }
+.behind { margin-top: 36px; border: 1px solid var(--line-soft); }
+.behind > summary { cursor: pointer; padding: 16px 20px; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; color: var(--gold); }
+.behind .brief { margin-top: 0; border: 0; border-top: 1px solid var(--line-soft); }

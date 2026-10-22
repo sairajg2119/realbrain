@@ -30,8 +30,8 @@ export function ScriptStudio({
         <IconBack size={16} /> Back to your project
       </button>
       <p className="eyebrow">02 · Script studio</p>
-      <h1 className="display display-md" data-focus>Three ways to tell your project&apos;s story.</h1>
-      <p className="screen-lead">Each script takes a different creative angle. Choose the one that best fits your buyer.</p>
+      <h1 className="display display-md" data-focus>Your scripts, ready to shoot.</h1>
+      <p className="screen-lead">Each one is a complete script: what to say, what to show, and how long every part takes. We chose who each one suits best. Pick the one you like.</p>
 
       {demo && <div className="banner info" role="note"><IconAlert size={18} /><span><strong>Sample project.</strong> {DEMO_NOTICE}</span></div>}
       {result.rulesStale && <div className="banner warn" role="note"><IconAlert size={18} /><span>Compliance rules need re-checking. Please check with your legal advisor before posting.</span></div>}
@@ -40,13 +40,19 @@ export function ScriptStudio({
       ))}
 
       <FactsCard facts={result.facts} />
-      {result.brief && <BriefPanel brief={result.brief} />}
 
       <div className="scripts">
         {result.scripts.map((item, i) => (
           <ScriptCard key={i} index={i} item={item} selected={selected === i} onChoose={() => onChoose(i)} />
         ))}
       </div>
+
+      {result.brief && (
+        <details className="behind">
+          <summary>Behind these scripts: what we understood about your property</summary>
+          <BriefPanel brief={result.brief} />
+        </details>
+      )}
 
       <div className={`action-bar${selected !== null ? " show" : ""}`}>
         <div className="action-bar-in">

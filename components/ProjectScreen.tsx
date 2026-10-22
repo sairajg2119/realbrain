@@ -1,6 +1,6 @@
 "use client";
 
-import type { AnalyzeResponse, BuyerType } from "@/lib/types";
+import type { AnalyzeResponse, BuyerChoice } from "@/lib/types";
 import { MAX_PDF_BYTES } from "@/lib/workflow";
 import { BuyerPicker } from "./BuyerPicker";
 import { FactsCard } from "./FactsCard";
@@ -23,8 +23,8 @@ export function ProjectScreen({
 }: {
   file: File | null;
   onFile: (f: File | null) => void;
-  buyer: BuyerType | null;
-  onBuyer: (b: BuyerType) => void;
+  buyer: BuyerChoice | null;
+  onBuyer: (b: BuyerChoice) => void;
   busy: boolean;
   uploaded: boolean;
   seconds: number;
@@ -40,7 +40,7 @@ export function ProjectScreen({
       </div>
     );
   }
-  const ready = !!file && !!buyer;
+  const ready = !!file; // the audience defaults to "Best fit", so only the brochure is needed
   return (
     <div className="screen">
       <button className="back" onClick={onBack}>
@@ -77,14 +77,14 @@ export function ProjectScreen({
         </section>
 
         <section aria-labelledby="buyer-title">
-          <h2 id="buyer-title" className="h3">Who are we speaking to?</h2>
-          <p className="hint buyer-hint">We&apos;ll shape the story around the buyer you want to reach.</p>
+          <h2 id="buyer-title" className="h3">Who should the scripts speak to?</h2>
+          <p className="hint buyer-hint">Leave it on Best fit and we&apos;ll write for the audiences this property suits, such as families, first-time buyers or everyone. Or focus on one.</p>
           <BuyerPicker value={buyer} onChange={onBuyer} />
           <div className="submit-row">
             <button className="btn btn-gold btn-lg" onClick={onSubmit} disabled={!ready}>
               Create my scripts <IconArrow size={18} />
             </button>
-            {!ready && <p className="hint">{!file ? "Add your brochure to continue." : "Choose who you are speaking to."}</p>}
+            {!ready && <p className="hint">Add your brochure to continue.</p>}
           </div>
         </section>
       </div>

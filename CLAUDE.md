@@ -21,14 +21,14 @@ AI content intelligence and creation platform for Bengaluru real estate develope
 ## Commands
 ```
 npm run dev             app on :3000
-npm test                app checks, compliance wiring and brief (32 tests)
+npm test                app checks, compliance, brief and full scripts (47 tests)
 npm run brain:all       enrich (LLM), build, test, export
 npm run brain:build     raw -> derived research files
 npm run brain:enrich    LLM teardown pass (needs GEMINI_API_KEY; cached)
 npm run brain:export    research -> brain/ (the app-facing files)
 npm run brain:backup    manifest + copy of untracked data to ../realbrain-backups/<date>/
 npm run brain:verify    check untracked data against social-brain/MANIFEST.json
-npm run re:test         compliance layer tests (17)
+npm run re:test         compliance layer tests (21)
 npm run re:export       compliance layer -> brain/rules.json and brain/compliance_claims.json
 ```
 

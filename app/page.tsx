@@ -8,7 +8,7 @@ import { Landing } from "@/components/Landing";
 import { ProjectScreen } from "@/components/ProjectScreen";
 import { ScriptStudio } from "@/components/ScriptStudio";
 import { loadDemoResult } from "@/lib/mock";
-import type { AnalyzeResponse, BuyerType } from "@/lib/types";
+import type { AnalyzeResponse, BuyerChoice } from "@/lib/types";
 import { startVideo, type VideoState } from "@/lib/video";
 import { activeStep, type Stage } from "@/lib/workflow";
 
@@ -17,7 +17,7 @@ const DIRECT_LIMIT = 4 * 1024 * 1024; // what we can send through the server wit
 export default function Home() {
   const [stage, setStage] = useState<Stage>("landing");
   const [file, setFile] = useState<File | null>(null);
-  const [buyer, setBuyer] = useState<BuyerType | null>(null);
+  const [buyer, setBuyer] = useState<BuyerChoice>("auto");
   const [busy, setBusy] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -51,7 +51,7 @@ export default function Home() {
 
   function resetJourney() {
     setFile(null);
-    setBuyer(null);
+    setBuyer("auto");
     setResult(null);
     setDemo(false);
     setSelected(null);
@@ -67,7 +67,7 @@ export default function Home() {
   }
 
   async function createScripts() {
-    if (!file || !buyer) return;
+    if (!file) return;
     setBusy(true);
     setUploaded(false);
     setResult(null);

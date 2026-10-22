@@ -8,7 +8,8 @@ import { needsAcknowledgement } from "@/lib/compliance";
 import { DEMO_NOTICE } from "@/lib/mock";
 import { IconAlert, IconBack, IconCheck } from "./Icons";
 import { ComplianceNotes } from "./ComplianceNotes";
-import { Marked, CopyButton } from "./ScriptCard";
+import { scriptAsText } from "@/lib/script";
+import { CopyButton, FullScript } from "./ScriptCard";
 import { UploadZone } from "./UploadZone";
 import { VideoPanel } from "./VideoPanel";
 
@@ -93,11 +94,9 @@ export function ApprovalScreen({
               <span className="label-dim">{s.hook_type}</span>
             </div>
           </div>
-          <h2 className="script-hook"><Marked text={s.hook} red={red} /></h2>
-          <div className="block"><h4>Spoken script</h4><p><Marked text={s.body} red={red} /></p></div>
-          <div className="block"><h4>Call to action</h4><p><Marked text={s.cta} red={red} /></p></div>
-          <div className="block"><h4>Instagram caption</h4><p className="caption"><Marked text={s.caption} red={red} /></p></div>
-          <CopyButton text={s.caption} label="Copy caption" done="Caption copied" />
+          <h2 className="script-hook">{s.hook}</h2>
+          <FullScript s={s} red={red} />
+          <CopyButton text={scriptAsText(s)} label="Copy full script" done="Script copied" />
           <ComplianceNotes item={item} open />
         </article>
 

@@ -26,7 +26,10 @@ export function withOnScreen(script: Script, facts: Facts): Script {
 /** Scan a script's text and on-screen plan. Blocks come back as messages the caller can treat as hard failures. */
 export function scanScript(script: Script, facts: Facts, claims: Claim[], rules: Rule[]): ComplianceReport {
   const onScreenText = script.on_screen?.lines.join(" | ") ?? null;
-  const res = scanText({ hook: script.hook, body: script.body, cta: script.cta, caption: script.caption, on_screen: onScreenText }, claims, rules);
+  // Visual notes and on-screen overlays are part of the reel, so they are scanned too.
+  const visuals = script.beats?.map((b) => b.visual).filter(Boolean).join(" | ") || null;
+  const overlays = script.beats?.map((b) => b.on_screen_text).filter(Boolean).join(" | ") || null;
+  const res = scanText({ hook: script.hook, body: script.body, cta: script.cta, caption: script.caption, on_screen: onScreenText, visuals, overlays }, claims, rules);
 
   const block_messages = res.findings
     .filter((f) => f.action === "block")

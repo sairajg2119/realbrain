@@ -4,7 +4,7 @@ import { anglesForScripts, buildBrief, factList } from "@/lib/brief";
 import { checkScript, fixCitation, hasDistinctHookTypes } from "@/lib/checks";
 import { applyCompliance, scanScript, withOnScreen } from "@/lib/compliance";
 import { extractFacts, isRateLimit, rewriteScript, SetupError, writeBrief, writeScripts } from "@/lib/gemini";
-import { BUYER_TYPES, type AnalyzeResponse, type BuyerType, type CheckedScript, type PropertyBrief } from "@/lib/types";
+import { BUYER_TYPES, type AnalyzeResponse, type BuyerChoice, type BuyerType, type CheckedScript, type PropertyBrief } from "@/lib/types";
 
 export const maxDuration = 300;
 
@@ -14,7 +14,7 @@ function reply(body: AnalyzeResponse, status = 200) {
   return NextResponse.json(body, { status });
 }
 
-async function getPdf(request: Request): Promise<{ b64: string; buyer: BuyerType } | { error: string }> {
+async function getPdf(request: Request): Promise<{ b64: string; buyer: BuyerChoice } | { error: string }> {
   let buyer: unknown;
   let bytes: Buffer;
   const type = request.headers.get("content-type") ?? "";
@@ -41,10 +41,12 @@ async function getPdf(request: Request): Promise<{ b64: string; buyer: BuyerType
     if (!res.ok) return { error: "Could not read the uploaded file. Please upload it again." };
     bytes = Buffer.from(await res.arrayBuffer());
   }
-  if (!BUYER_TYPES.includes(buyer as BuyerType)) return { error: "Please choose a buyer type." };
+  // "auto" (or nothing chosen) lets RealBrain pick the audiences the property suits.
+  if (buyer === undefined || buyer === null || buyer === "") buyer = "auto";
+  if (buyer !== "auto" && !BUYER_TYPES.includes(buyer as BuyerType)) return { error: "That audience is not one we write for." };
   if (bytes.length > MAX_PDF_BYTES) return { error: "This PDF is over the 20 MB limit. Please upload a smaller one." };
   if (bytes.subarray(0, 5).toString() !== "%PDF-") return { error: "That file is not a PDF." };
-  return { b64: bytes.toString("base64"), buyer: buyer as BuyerType };
+  return { b64: bytes.toString("base64"), buyer: buyer as BuyerChoice };
 }
 
 export async function POST(request: Request) {

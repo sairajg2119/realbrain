@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { normaliseNumber } from "@/lib/checks";
 import { getEvidence } from "@/lib/evidence";
-import type { CheckedScript } from "@/lib/types";
+import { formatClock, scriptAsText } from "@/lib/script";
+import type { CheckedScript, Script } from "@/lib/types";
 import { ComplianceNotes } from "./ComplianceNotes";
 import { IconAlert, IconCheck, IconCopy, IconLink } from "./Icons";
 
@@ -19,6 +20,46 @@ export function Marked({ text, red }: { text: string; red: Set<string> }) {
           <span key={i}>{p}</span>
         ),
       )}
+    </>
+  );
+}
+
+/**
+ * The whole script, ready to shoot: who it is for, how long it runs, then every beat with the time, what is said,
+ * what is shown and any text on screen. Older saved results without beats fall back to hook, body and call to action.
+ */
+export function FullScript({ s, red }: { s: Script; red: Set<string> }) {
+  if (!s.beats) {
+    return (
+      <>
+        <div className="block"><h4>Spoken script</h4><p><Marked text={`${s.hook} ${s.body}`} red={red} /></p></div>
+        <div className="block"><h4>Call to action</h4><p><Marked text={s.cta} red={red} /></p></div>
+        <div className="block"><h4>Instagram caption</h4><p className="caption"><Marked text={s.caption} red={red} /></p></div>
+      </>
+    );
+  }
+  const seconds = Math.round(s.total_seconds ?? s.target_duration_s);
+  return (
+    <>
+      <div className="script-meta">
+        {s.audience && <span className="pill">Best for: {s.audience}</span>}
+        <span className="pill">About {seconds} seconds · {s.word_count} spoken words</span>
+      </div>
+      {s.audience_reason && <p className="hint">{s.audience_reason}</p>}
+      <ol className="beats" aria-label="The full script, beat by beat">
+        {s.beats.map((b, i) => (
+          <li key={i} className={`beat beat-${b.label.toLowerCase()}`}>
+            <div className="beat-head">
+              <span className="beat-time">{formatClock(b.start_s)}&ndash;{formatClock(b.end_s)}</span>
+              <span className="beat-label">{b.label}</span>
+            </div>
+            <p className="beat-say"><Marked text={b.spoken} red={red} /></p>
+            {b.visual && <p className="beat-show"><strong>Show:</strong> <Marked text={b.visual} red={red} /></p>}
+            {b.on_screen_text && <p className="beat-show"><strong>Text on screen:</strong> <Marked text={b.on_screen_text} red={red} /></p>}
+          </li>
+        ))}
+      </ol>
+      <div className="block"><h4>Instagram caption</h4><p className="caption"><Marked text={s.caption} red={red} /></p></div>
     </>
   );
 }
@@ -65,7 +106,7 @@ export function ScriptCard({
   const red = new Set(checks.redNumbers);
   const status = scriptStatus(item);
   const evidence = getEvidence(s.why_this_works.reel_id);
-  const spoken = `${s.hook} ${s.body} ${s.cta}`;
+  const full = scriptAsText(s);
 
   return (
     <article className={`script${selected ? " selected" : ""}${status.ok ? "" : " flagged"}`} aria-label={`Script option ${index + 1}`}>
@@ -80,18 +121,7 @@ export function ScriptCard({
 
       <h3 className="script-hook"><Marked text={s.hook} red={red} /></h3>
 
-      <div className="block">
-        <h4>Spoken script</h4>
-        <p><Marked text={s.body} red={red} /></p>
-      </div>
-      <div className="block">
-        <h4>Call to action</h4>
-        <p><Marked text={s.cta} red={red} /></p>
-      </div>
-      <div className="block">
-        <h4>Instagram caption</h4>
-        <p className="caption"><Marked text={s.caption} red={red} /></p>
-      </div>
+      <FullScript s={s} red={red} />
 
       <div className="why">
         <h4>Why this works</h4>
@@ -132,8 +162,8 @@ export function ScriptCard({
       <ComplianceNotes item={item} />
 
       <div className="script-actions">
+        <CopyButton text={full} label="Copy full script" done="Script copied" />
         <CopyButton text={s.caption} label="Copy caption" done="Caption copied" />
-        <CopyButton text={spoken} label="Copy script" done="Script copied" />
       </div>
       <button className={`btn ${selected ? "btn-good" : "btn-gold"} choose`} onClick={onChoose} disabled={!status.ok} aria-pressed={selected}>
         {selected ? <>Selected <IconCheck size={18} /></> : status.ok ? "Choose this script" : "Fix this script first"}
