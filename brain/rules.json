@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "_note": "Rebuilt draft from the project brief. Sources and effective dates are NOT verified yet. last_checked is deliberately old so the app shows 'Compliance rules need re-checking' until a human verifies them.",
+  "last_checked": "2026-01-01",
+  "stale_after_days": 14,
+  "rules": [
+    { "id": "RERA-REG-NO", "rule": "Every promotional caption must carry the project's RERA registration number.", "applies_to": ["caption"], "enforcement": "hard", "check": "caption contains the RERA number from the brochure", "source_name": "RERA Act 2016, Section 11(2)", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
+    { "id": "RERA-AUTHORITY-WEBSITE", "rule": "Caption must include the Karnataka RERA website.", "applies_to": ["caption"], "enforcement": "hard", "check": "caption contains rera.karnataka.gov.in", "source_name": "RERA Act 2016, Section 11(2)", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
+    { "id": "RERA-NO-FALSE-CLAIMS", "rule": "Every number in a script must match the brochure facts. The developer is liable for false claims.", "applies_to": ["hook", "body", "caption"], "enforcement": "hard", "check": "every number appears in the extracted facts", "source_name": "RERA Act 2016, Section 12", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
+    { "id": "AI-LABEL", "rule": "A video made with an AI presenter must visibly say it is AI-generated.", "applies_to": ["video"], "enforcement": "hard", "check": "video shows an 'AI-generated' label", "source_name": "IT Amendment Rules 2026", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
+    { "id": "AI-NO-IMPERSONATION", "rule": "Use a stock avatar only. Do not copy a real person's face or voice without consent.", "applies_to": ["video"], "enforcement": "hard", "check": "stock avatar only", "source_name": "IT Amendment Rules 2026", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" },
+    { "id": "AI-LABEL-CONTINUOUS", "rule": "The AI label should stay visible for the whole video.", "applies_to": ["video"], "enforcement": "warning", "check": "label visible throughout", "source_name": "IT Amendment Rules 2026 (proposed)", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "proposed" },
+    { "id": "KRERA-QR-PLACEMENT", "rule": "Karnataka RERA may expect the project QR code in promotional material.", "applies_to": ["video", "caption"], "enforcement": "warning", "check": "to verify", "source_name": "K-RERA", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "to_verify" },
+    { "id": "NO-GUARANTEED-RETURNS", "rule": "Do not promise returns or appreciation.", "applies_to": ["hook", "body", "cta", "caption"], "enforcement": "warning", "check": "flag phrases like 'guaranteed returns', 'assured appreciation', 'double your money'", "source_name": "RERA Act 2016, Section 12 and advertising standards", "source_url": "to verify", "effective_date": "to verify", "last_checked": "2026-01-01", "status": "active" }
+  ]
+}

@@ -1,0 +1,49 @@
+import fs from "node:fs";
+import path from "node:path";
+import type { Teardown } from "./types.ts";
+import { rulesAreStale } from "./checks.ts";
+
+interface Locality {
+  name: string;
+  aliases: string[];
+  facts: { text: string; source_url: string }[];
+  verified: boolean;
+}
+
+function readBrain(file: string): string {
+  const p = path.join(process.cwd(), "brain", file);
+  if (!fs.existsSync(p)) {
+    throw new Error(`Setup problem: brain/${file} is missing. Copy the brain files into the brain/ folder.`);
+  }
+  return fs.readFileSync(p, "utf8");
+}
+
+export function loadBrain() {
+  const playbook = readBrain("playbook.md");
+  const teardownFile = JSON.parse(readBrain("teardowns.json")) as { reels: Teardown[] };
+  const rules = JSON.parse(readBrain("rules.json")) as {
+    last_checked: string;
+    stale_after_days: number;
+    rules: unknown[];
+  };
+  const localities = (JSON.parse(readBrain("localities.json")) as { localities: Locality[] }).localities;
+  return {
+    playbook,
+    teardowns: teardownFile.reels,
+    rulesJson: JSON.stringify(rules.rules),
+    rulesStale: rulesAreStale(rules.last_checked, rules.stale_after_days),
+    localities,
+  };
+}
+
+/** Verified facts for the matched locality, or an empty list. Never invents anything. */
+export function localityFacts(localities: Locality[], match: string | null, location: string | null): string[] {
+  const hay = `${match ?? ""} ${location ?? ""}`.toLowerCase();
+  for (const l of localities) {
+    if (!l.verified) continue;
+    if ([l.name, ...l.aliases].some((a) => hay.includes(a.toLowerCase()))) {
+      return l.facts.filter((f) => f.text.trim()).map((f) => f.text);
+    }
+  }
+  return [];
+}

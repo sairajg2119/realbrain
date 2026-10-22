@@ -1,0 +1,9 @@
+{
+  "localities": [
+    { "name": "Jakkur", "aliases": ["Jakkur", "North Bengaluru"], "facts": [{ "text": "", "source_url": "" }], "verified": false },
+    { "name": "Jayanagar", "aliases": ["Jayanagar", "South Bengaluru"], "facts": [{ "text": "", "source_url": "" }], "verified": false },
+    { "name": "Whitefield", "aliases": ["Whitefield", "East Bengaluru"], "facts": [{ "text": "", "source_url": "" }], "verified": false },
+    { "name": "Sarjapur Road", "aliases": ["Sarjapur Road", "Sarjapur"], "facts": [{ "text": "", "source_url": "" }], "verified": false },
+    { "name": "Hebbal", "aliases": ["Hebbal", "North Bengaluru"], "facts": [{ "text": "", "source_url": "" }], "verified": false }
+  ]
+}

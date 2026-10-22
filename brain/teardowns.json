@@ -1,0 +1,65 @@
+{
+  "scraped_at": "2026-10-22",
+  "_meta": {
+    "source": "Instagram, scraped with Apify apify/instagram-reel-scraper on 2026-10-22. Play counts are as of that day.",
+    "limits": "Rebuilt sample, NOT the original 485-reel research. Only 3 pages gave usable data (jayroberts, ryanserhant, tomferry), all US. The Indian pages tried (sobharealty, brigadegroup, prestigeconstructions, godrejproperties, realestatebengaluru) returned nothing usable. page_median is the median plays of the reels sampled from that page in this run (jayroberts n=17, ryanserhant n=19), so multiples differ from a full-history median. hook_source says whether the hook is the spoken first line (transcript) or the first line of the caption. why_it_worked is an observation, not proof of cause."
+  },
+  "reels": [
+    {
+      "id": "DICMQXWOize", "url": "https://www.instagram.com/reel/DICMQXWOize/",
+      "page": "jayroberts", "plays": 2944566, "page_median": 23427, "multiple_vs_median": 125.7, "duration_s": 46,
+      "format": "talking head, numbers on screen", "hook_type": "bold money number",
+      "hook": "Last year, I bought a site on the water for $30 million.", "hook_source": "transcript",
+      "cta": "none", "topic": "developer deal math",
+      "why_it_worked": "Opens with one big money figure from a real deal, then walks the sums step by step (income, costs, profit) so a viewer can follow along."
+    },
+    {
+      "id": "DNORdSvOwJ5", "url": "https://www.instagram.com/reel/DNORdSvOwJ5/",
+      "page": "jayroberts", "plays": 2620500, "page_median": 23427, "multiple_vs_median": 111.9, "duration_s": 32,
+      "format": "talking head, explainer", "hook_type": "bold money number",
+      "hook": "You can buy a 100 million dollar building with 30 million dollars of cash.", "hook_source": "transcript",
+      "cta": "none", "topic": "leverage explained with numbers",
+      "why_it_worked": "A surprising ratio in the first sentence ($100 million for $30 million), then one simple example that ends on a single result (a 66% return)."
+    },
+    {
+      "id": "DJHSCv7OlbE", "url": "https://www.instagram.com/reel/DJHSCv7OlbE/",
+      "page": "jayroberts", "plays": 696672, "page_median": 23427, "multiple_vs_median": 29.7, "duration_s": 110,
+      "format": "corridor tour with commentary", "hook_type": "place + transformation",
+      "hook": "Billions of dollars are pouring into the Miami River", "hook_source": "caption",
+      "cta": "none", "topic": "corridor transformation and market proof",
+      "why_it_worked": "Names a place and a scale of change up front, then points to named landmark projects along the same stretch."
+    },
+    {
+      "id": "DdmtBtfN-SJ", "url": "https://www.instagram.com/reel/DdmtBtfN-SJ/",
+      "page": "jayroberts", "plays": 296153, "page_median": 23427, "multiple_vs_median": 12.6, "duration_s": 65,
+      "format": "interview clip", "hook_type": "curiosity + superlative",
+      "hook": "@mannyavaras has created more than $45M++ in value for Rick Ross.", "hook_source": "caption",
+      "cta": "full episode on YouTube", "topic": "builder case study",
+      "why_it_worked": "Leads with a result in dollars and a famous name, so the viewer stays to learn how the value was created."
+    },
+    {
+      "id": "DcyiGQqxZf7", "url": "https://www.instagram.com/reel/DcyiGQqxZf7/",
+      "page": "jayroberts", "plays": 286437, "page_median": 23427, "multiple_vs_median": 12.2, "duration_s": 77,
+      "format": "narrated story with on-screen facts", "hook_type": "curiosity + superlative",
+      "hook": "While others were making headlines, @moishemana was quietly pulling off one of the biggest land grabs in Florida history.", "hook_source": "caption",
+      "cta": "question to comments", "topic": "market proof, land assembly",
+      "why_it_worked": "Sets up a secret-success story in one line, backs it with specific numbers (acres, number of properties), and ends on a question for comments."
+    },
+    {
+      "id": "DeNRWiSiM0D", "url": "https://www.instagram.com/reel/DeNRWiSiM0D/",
+      "page": "ryanserhant", "plays": 403917, "page_median": 198487, "multiple_vs_median": 2.0, "duration_s": 130,
+      "format": "talking head", "hook_type": "audience call-out",
+      "hook": "People can’t afford their first home and their parents can’t afford to sell their last one", "hook_source": "caption",
+      "cta": "none", "topic": "housing affordability",
+      "why_it_worked": "Names a problem that first-time buyers and their parents both recognise, then promises two ideas."
+    },
+    {
+      "id": "DesA2QPCI72", "url": "https://www.instagram.com/reel/DesA2QPCI72/",
+      "page": "ryanserhant", "plays": 254292, "page_median": 198487, "multiple_vs_median": 1.3, "duration_s": 66,
+      "format": "narrated walkthrough", "hook_type": "rare feature",
+      "hook": "This Newport mansion has more bedrooms than most boutique hotels.", "hook_source": "caption",
+      "cta": "none", "topic": "listing walkthrough",
+      "why_it_worked": "One unusual comparison in the first line (bedrooms vs a boutique hotel), then a tour of the standout features. A modest result compared with this page's usual views."
+    }
+  ]
+}
