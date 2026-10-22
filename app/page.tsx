@@ -19,6 +19,7 @@ export default function Home() {
   const [stage, setStage] = useState<Stage>("landing");
   const [file, setFile] = useState<File | null>(null);
   const [buyer, setBuyer] = useState<BuyerChoice>("auto");
+  const [notes, setNotes] = useState("");
   const [busy, setBusy] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [onDevice, setOnDevice] = useState(false);
@@ -56,6 +57,7 @@ export default function Home() {
   function resetJourney() {
     setFile(null);
     setBuyer("auto");
+    setNotes("");
     setResult(null);
     setDemo(false);
     setSelected(null);
@@ -87,7 +89,7 @@ export default function Home() {
         setPages(null);
         const text = await extractPdfText(file!, (done, total) => setPages({ done, total }));
         setUploaded(true);
-        return fetch("/api/analyze", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, buyer }) });
+        return fetch("/api/analyze", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, buyer, notes }) });
       }
       // One send, as a function, so it can be repeated if the AI service is busy.
       const send = async (): Promise<Response> => {
@@ -98,7 +100,7 @@ export default function Home() {
           return await fetch("/api/analyze", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ pdfUrl: blob.url, buyer }),
+            body: JSON.stringify({ pdfUrl: blob.url, buyer, notes }),
           });
         } catch {
           // No Blob store: small files go straight to the server, bigger ones are read on the device.
@@ -107,6 +109,7 @@ export default function Home() {
           const form = new FormData();
           form.set("file", file);
           form.set("buyer", buyer);
+          form.set("notes", notes);
           return fetch("/api/analyze", { method: "POST", body: form });
         }
       };
@@ -182,6 +185,8 @@ export default function Home() {
             onFile={pickFile}
             buyer={buyer}
             onBuyer={setBuyer}
+            notes={notes}
+            onNotes={setNotes}
             busy={busy}
             uploaded={uploaded}
             onDevice={onDevice}

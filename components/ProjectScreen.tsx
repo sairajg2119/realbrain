@@ -1,18 +1,18 @@
 "use client";
 
 import type { AnalyzeResponse, BuyerChoice } from "@/lib/types";
-import { MAX_PDF_BYTES } from "@/lib/workflow";
-import { BuyerPicker } from "./BuyerPicker";
+import { Composer } from "./Composer";
 import { FactsCard } from "./FactsCard";
-import { IconAlert, IconArrow, IconBack } from "./Icons";
+import { IconAlert, IconBack } from "./Icons";
 import { ProgressPanel } from "./ProgressPanel";
-import { UploadZone } from "./UploadZone";
 
 export function ProjectScreen({
   file,
   onFile,
   buyer,
   onBuyer,
+  notes,
+  onNotes,
   busy,
   uploaded,
   seconds,
@@ -28,6 +28,8 @@ export function ProjectScreen({
   onFile: (f: File | null) => void;
   buyer: BuyerChoice | null;
   onBuyer: (b: BuyerChoice) => void;
+  notes: string;
+  onNotes: (n: string) => void;
   busy: boolean;
   uploaded: boolean;
   seconds: number;
@@ -46,54 +48,37 @@ export function ProjectScreen({
       </div>
     );
   }
-  const ready = !!file; // the audience defaults to "Best fit", so only the brochure is needed
   return (
-    <div className="screen">
+    <div className="screen composer-screen">
       <button className="back" onClick={onBack}>
-        <IconBack size={16} /> Back
+        <IconBack size={16} /> Back to the house
       </button>
-      <p className="eyebrow">01 · Your project</p>
-      <h1 className="display display-md" data-focus>Let&apos;s start with your project.</h1>
-      <p className="screen-lead">Upload your brochure. We&apos;ll turn the details into a story worth telling.</p>
+      <p className="eyebrow">Welcome in</p>
+      <h1 className="display display-md" data-focus>What are we <em>selling</em> today?</h1>
+      <p className="screen-lead">Attach your brochure and tell us a little about the property if you like. We already know the market. We&apos;ll write the scripts.</p>
 
-      <div className="project-grid">
-        <section aria-labelledby="up-title">
-          <h2 id="up-title" className="h3">Your brochure</h2>
-          <UploadZone kind="pdf" file={file} maxBytes={MAX_PDF_BYTES} onChange={onFile} />
-          <p className="sample-line">
-            No brochure to hand? <button className="text-btn" onClick={onDemo}>Explore with a sample project</button>
-            <span className="hint"> (a fictional project, clearly labelled)</span>
-          </p>
+      <Composer file={file} onFile={onFile} notes={notes} onNotes={onNotes} buyer={buyer} onBuyer={onBuyer} onSubmit={onSubmit} />
 
-          {result && result.status !== "ok" && (
-            <div className="banner error" role="alert">
-              <IconAlert size={20} />
-              <div>
-                <strong>{result.status === "rejected" ? "We could not use this brochure" : "Something went wrong"}</strong>
-                <p>{result.message}</p>
-              </div>
-            </div>
-          )}
-          {result?.status === "rejected" && result.facts && (
-            <div className="rejected-facts">
-              <FactsCard facts={result.facts} defaultOpen />
-              <p className="hint">No scripts were written. Nothing above is used to create content.</p>
-            </div>
-          )}
-        </section>
+      <p className="sample-line">
+        No brochure to hand? <button className="text-btn" onClick={onDemo}>Explore with a sample project</button>
+        <span className="hint"> (a fictional project, clearly labelled)</span>
+      </p>
 
-        <section aria-labelledby="buyer-title">
-          <h2 id="buyer-title" className="h3">Who should the scripts speak to?</h2>
-          <p className="hint buyer-hint">Leave it on Best fit and we&apos;ll write for the audiences this property suits, such as families, first-time buyers or everyone. Or focus on one.</p>
-          <BuyerPicker value={buyer} onChange={onBuyer} />
-          <div className="submit-row">
-            <button className="btn btn-gold btn-lg" onClick={onSubmit} disabled={!ready}>
-              Create my scripts <IconArrow size={18} />
-            </button>
-            {!ready && <p className="hint">Add your brochure to continue.</p>}
+      {result && result.status !== "ok" && (
+        <div className="banner error" role="alert">
+          <IconAlert size={20} />
+          <div>
+            <strong>{result.status === "rejected" ? "We could not use this brochure" : "Something went wrong"}</strong>
+            <p>{result.message}</p>
           </div>
-        </section>
-      </div>
+        </div>
+      )}
+      {result?.status === "rejected" && result.facts && (
+        <div className="rejected-facts">
+          <FactsCard facts={result.facts} defaultOpen />
+          <p className="hint">No scripts were written. Nothing above is used to create content.</p>
+        </div>
+      )}
     </div>
   );
 }

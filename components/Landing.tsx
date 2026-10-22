@@ -1,168 +1,225 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
-import "../app/scene.css";
+import "../app/site.css";
 import { greeting } from "@/lib/houses";
-import { LIGHTS, type LightId } from "@/lib/scene/timeOfDay";
-import { ArchPoster } from "./ArchPoster";
 import { Wordmark } from "./AppHeader";
+import { DemoStage, type SceneId } from "./DemoStage";
 import { IconArrow } from "./Icons";
-
-// The 3D scene is its own chunk. It is fetched after the page is up, so the words and the poster appear first.
-const ArchScene = dynamic(() => import("./ArchScene"), { ssr: false });
 
 /** The tagline exactly as specified. If "homes" is wanted instead, change it here: it is the only place. */
 const TAGLINE_LEAD = "Stories that";
 const TAGLINE_ACCENT = "sell home.";
 
-const ENTER_TOTAL_MS = 2500;
-const DOOR_OPEN_AT_MS = 1500;
+/** Four moods of light, applied as a grade over the photograph. */
+const LIGHTS = [
+  { id: "morning", label: "Morning", clock: "7:40 am" },
+  { id: "golden", label: "Golden hour", clock: "5:20 pm" },
+  { id: "dusk", label: "Dusk", clock: "6:35 pm" },
+  { id: "night", label: "Night", clock: "9:00 pm" },
+] as const;
+type LightId = (typeof LIGHTS)[number]["id"];
 
-type SceneState = "pending" | "ready" | "off";
+const STEPS: { id: SceneId; n: string; title: string; text: string }[] = [
+  { id: "brochure", n: "01", title: "Bring the brochure", text: "Attach the PDF, however big, and add a line about the property if you like. RealBrain reads it, numbers every fact, and already knows the market." },
+  { id: "script", n: "02", title: "Get scripts you can shoot", text: "Three complete scripts, each with timed beats, written for the buyers this property suits. Every number is checked against your brochure." },
+  { id: "reel", n: "03", title: "See the reel", text: "Your script becomes a vertical reel with a presenter, your renders and the RERA and AI labels on screen, ready for your review." },
+  { id: "refine", n: "04", title: "Refine it by typing", text: "Ask for a warmer hook, a shorter ending or a different angle in plain words. The numbers stay matched to the brochure." },
+];
 
-function canUseWebGL(): boolean {
-  try {
-    const c = document.createElement("canvas");
-    return !!(c.getContext("webgl2") || c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-}
+const SAMPLES = [
+  { img: "/photos/hero.jpg", tag: "Families", line: "Eight indoor badminton courts right here." },
+  { img: "/photos/entrance.jpg", tag: "First-time buyers", line: "Home in ten minutes from the office." },
+  { img: "/photos/hall.jpg", tag: "NRI buyers", line: "Space to breathe, wherever you live." },
+  { img: "/photos/hallway.jpg", tag: "Everyone", line: "Your own sports club, right at home." },
+];
+
+const PLANS = [
+  { name: "Free", inr: "₹0", usd: "$0", note: "To try it", feats: ["1 reel a month", "3 scripts per brochure", "RERA and number checks", "RealBrain mark on the reel"], cta: "Start free", hi: false },
+  { name: "Starter", inr: "₹1,499", usd: "$19", note: "For one project", feats: ["5 reels a month", "Refine by typing", "No RealBrain mark", "Email support"], cta: "Choose Starter", hi: false },
+  { name: "Studio", inr: "₹4,999", usd: "$59", note: "For active developers", feats: ["20 reels a month", "Your brand on every reel", "Several projects", "Priority rendering"], cta: "Choose Studio", hi: true },
+  { name: "Agency", inr: "₹14,999", usd: "$179", note: "For teams and agencies", feats: ["80 reels a month", "Team seats", "Client workspaces", "Account manager"], cta: "Talk to us", hi: false },
+];
+
+const SOCIALS = [
+  { name: "X", d: "M18.2 3h3L14.6 10.6 22.4 21h-6.1l-4.8-6.3L6 21H3l7.1-8.1L2.6 3h6.3l4.3 5.7L18.2 3zm-1 16.2h1.7L7.9 4.7H6.1l11.1 14.5z" },
+  { name: "Instagram", d: "M7 3h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4zm0 2a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2H7zm5 3a4 4 0 110 8 4 4 0 010-8zm0 2a2 2 0 100 4 2 2 0 000-4zm5.2-3.4a1 1 0 110 2 1 1 0 010-2z" },
+  { name: "YouTube", d: "M21.6 7.2a2.5 2.5 0 00-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 002.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 001.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 001.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3L10 15z" },
+  { name: "LinkedIn", d: "M6.9 8.9H3.7V20h3.2V8.9zM5.3 3.8a1.9 1.9 0 100 3.8 1.9 1.9 0 000-3.8zM20.3 13.6c0-3-1.6-4.9-4.2-4.9-1.3 0-2.3.6-2.9 1.5h-.1V8.9H10V20h3.2v-5.5c0-1.4.3-2.8 2-2.8s1.8 1.6 1.8 2.9V20h3.3v-6.4z" },
+];
 
 /**
- * The first two screens, set in front of a house you can look around. Screen one is the welcome and the name; screen
- * two is the one action. Moving on is a tap, the button, scroll, a swipe up or the down arrow. The button walks the camera
- * to the front door and then opens the real brochure workflow (`onStart`). The light control changes the time of day.
- * `name` would come from a signed-in user; there is no sign-in yet, so a plain greeting is used.
+ * One long page, set like a studio's own site. Top: the house and the welcome. Then what RealBrain does, played as short
+ * walkthroughs. Then sample reels and pricing. Any "Create my first reel" opens the door: the camera walks to the entrance,
+ * the door opens onto the hall, and the hall is where the real work begins (`onStart`).
+ * `name` would come from a signed-in user. There is no sign-in yet, so a plain greeting is used.
  */
 export function Landing({ onStart, name }: { onStart: () => void; name?: string | null }) {
-  const [screen, setScreen] = useState<0 | 1>(0);
   const [light, setLight] = useState<LightId>("golden");
-  const [scene, setScene] = useState<SceneState>("pending");
   const [still, setStill] = useState(false);
-  const [entering, setEntering] = useState(false);
-  const [doorOpen, setDoorOpen] = useState(false);
-  const lock = useRef(0);
-  const touchY = useRef<number | null>(null);
+  const [inStage, setInStage] = useState<SceneId | null>(null);
+  const [spy, setSpy] = useState<string>("top");
+  const [pill, setPill] = useState(false);
+  const [entering, setEntering] = useState<0 | 1 | 2>(0); // 1 = walking to the door, 2 = inside the hall
+  const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setStill(mq.matches);
     sync();
     mq.addEventListener("change", sync);
-    const saver = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
-    if (saver || !canUseWebGL()) setScene("off");
     return () => mq.removeEventListener("change", sync);
   }, []);
 
-  const go = useCallback((to: 0 | 1) => {
-    const now = Date.now();
-    if (now - lock.current < 700) return; // one move per gesture, not one per wheel tick
-    lock.current = now;
-    setScreen(to);
+  // Which walkthrough is on screen (it plays only then), which section the pill points at, and when the pill appears.
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const id = (e.target as HTMLElement).id;
+          if (!e.isIntersecting) {
+            setInStage((s) => (s === id ? null : s));
+            continue;
+          }
+          setSpy(id);
+          if (STEPS.some((s) => s.id === id)) setInStage(id as SceneId);
+        }
+      },
+      { threshold: 0.45 },
+    );
+    el.querySelectorAll<HTMLElement>("[data-spy]").forEach((n) => io.observe(n));
+    const onScroll = () => setPill(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
+
+  const go = useCallback((id: string) => document.getElementById(id)?.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" }), [still]);
 
   const begin = useCallback(() => {
     if (entering) return;
-    setEntering(true);
-    if (still) {
-      window.setTimeout(onStart, 220);
-      return;
-    }
-    window.setTimeout(() => setDoorOpen(true), scene === "ready" ? DOOR_OPEN_AT_MS : 200);
-    window.setTimeout(onStart, scene === "ready" ? ENTER_TOTAL_MS : 1100);
-  }, [entering, onStart, scene, still]);
-
-  useEffect(() => {
-    if (entering) return;
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) < 20) return;
-      go(e.deltaY > 0 ? 1 : 0);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      const onControl = (e.target as HTMLElement | null)?.closest("button, a, input");
-      if (e.key === "ArrowDown" || e.key === "PageDown") go(1);
-      else if (e.key === "ArrowUp" || e.key === "PageUp") go(0);
-      else if ((e.key === "Enter" || e.key === " ") && !onControl && screen === 0) go(1);
-    };
-    window.addEventListener("wheel", onWheel, { passive: true });
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [go, screen, entering]);
+    if (still) return void onStart();
+    setEntering(1);
+    window.setTimeout(() => setEntering(2), 1700);
+    window.setTimeout(onStart, 2900);
+  }, [entering, onStart, still]);
 
   const current = LIGHTS.find((l) => l.id === light) ?? LIGHTS[1];
 
   return (
-    <div
-      className="wl"
-      data-screen={screen}
-      data-scene={scene}
-      data-entering={entering}
-      data-light={light}
-      onTouchStart={(e) => { touchY.current = e.touches[0]?.clientY ?? null; }}
-      onTouchEnd={(e) => {
-        if (touchY.current === null || entering) return;
-        const dy = (e.changedTouches[0]?.clientY ?? touchY.current) - touchY.current;
-        touchY.current = null;
-        if (dy < -50) go(1);
-        else if (dy > 50) go(0);
-      }}
-    >
-      <div className="wl-stage" aria-hidden="true">
-        <ArchPoster />
-        {scene !== "off" && (
-          <div className="wl-3d">
-            <ArchScene light={light} enter={entering} still={still} onReady={() => setScene("ready")} onFail={() => setScene("off")} />
-          </div>
-        )}
-      </div>
-      <div className="wl-veil" aria-hidden="true" />
-
-      <header className="wl-top">
-        <Wordmark />
-        <div className="wl-dots" role="group" aria-label="Screens">
-          <button type="button" className="wl-dot" aria-label="Welcome" aria-current={screen === 0} onClick={() => go(0)} />
-          <button type="button" className="wl-dot" aria-label="Create your first reel" aria-current={screen === 1} onClick={() => go(1)} />
+    <div ref={root} className="sb" data-light={light} data-entering={entering} data-pill={pill}>
+      <header className="sb-top">
+        <Wordmark onClick={() => go("top")} />
+        <div className="sb-social" aria-label="Follow RealBrain">
+          {SOCIALS.map((s) => (
+            <a key={s.name} href="#" aria-label={`${s.name} (link coming soon)`} title={`${s.name}: link coming soon`} onClick={(e) => e.preventDefault()}>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d={s.d} /></svg>
+            </a>
+          ))}
+          <button type="button" className="sb-mini" onClick={begin}>Create</button>
         </div>
       </header>
 
-      <main className="wl-main">
-        <section className="wl-s wl-s1" inert={screen !== 0 || entering} aria-label="Welcome" onClick={(e) => { if (!(e.target as HTMLElement).closest("button")) go(1); }}>
-          <p className="wl-hi">{greeting(name)}</p>
-          <h1 className="wl-tag" data-focus>
-            {TAGLINE_LEAD} <span>{TAGLINE_ACCENT}</span>
-          </h1>
-          <button type="button" className="wl-next" onClick={() => go(1)} aria-label="Continue">
-            <span>Continue</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-          </button>
-        </section>
+      <section id="top" data-spy className="sb-hero">
+        <div className="sb-photo" aria-hidden="true"><img src="/photos/hero.jpg" alt="" fetchPriority="high" /></div>
+        <div className="sb-shade" aria-hidden="true" />
+        <div className="sb-hero-in">
+          <p className="sb-hi">{greeting(name)}</p>
+          <h1 className="sb-tag">{TAGLINE_LEAD} <span>{TAGLINE_ACCENT}</span></h1>
+          <p className="sb-sub">Turn a project brochure into scripts you can shoot, and a reel you can post.</p>
+          <div className="sb-cta-row">
+            <button type="button" className="sb-cta" onClick={begin}>Create my first reel <IconArrow size={20} /></button>
+            <button type="button" className="sb-link" onClick={() => go("brochure")}>See how it works</button>
+          </div>
+        </div>
+        <div className="sb-hero-foot">
+          <div className="sb-light" role="radiogroup" aria-label="Time of day">
+            {LIGHTS.map((l) => (
+              <button key={l.id} type="button" role="radio" aria-checked={light === l.id} className="sb-lt" onClick={() => setLight(l.id)}>{l.label}</button>
+            ))}
+          </div>
+          <p className="sb-clock" aria-live="polite">The house, {current.clock}</p>
+        </div>
+      </section>
 
-        <section className="wl-s wl-s2" inert={screen !== 1 || entering} aria-label="Create your first reel">
-          <h2 className="wl-h2">Let&apos;s create something that <em>sells.</em></h2>
-          <p className="wl-sub">Turn your property into a story worth watching.</p>
-          <button type="button" className="wl-cta" onClick={begin}>
-            <span>Create my first reel</span> <IconArrow size={20} />
-          </button>
+      {STEPS.map((s) => (
+        <section key={s.id} id={s.id} data-spy className="sb-step" data-word={s.title.split(" ").pop()}>
+          <div className="sb-step-in">
+            <div className="sb-copy">
+              <p className="sb-eye">{s.n}</p>
+              <h2>{s.title}</h2>
+              <p>{s.text}</p>
+              {s.id === "refine" && <button type="button" className="sb-cta sb-cta-dark" onClick={begin}>Try it with your brochure <IconArrow size={20} /></button>}
+            </div>
+            <DemoStage scene={s.id} active={inStage === s.id} still={still} />
+          </div>
         </section>
-      </main>
+      ))}
 
-      <footer className="wl-foot" inert={entering}>
-        <div className="wl-light" role="radiogroup" aria-label="Time of day">
-          {LIGHTS.map((l) => (
-            <button key={l.id} type="button" role="radio" aria-checked={light === l.id} className="wl-lt" onClick={() => setLight(l.id)}>
-              {l.label}
-            </button>
+      <section id="examples" data-spy className="sb-examples">
+        <div className="sb-head">
+          <p className="sb-eye">Sample reels</p>
+          <h2>One brochure, many ways to tell it.</h2>
+          <p>Previews of the kinds of reels RealBrain writes for different buyers. Your own videos will play here.</p>
+        </div>
+        <ul className="sb-strip">
+          {SAMPLES.map((c) => (
+            <li key={c.tag} className="sb-card">
+              <div className="sb-phone"><img src={c.img} alt="" loading="lazy" /><span className="sb-play" aria-hidden="true" /><p>{c.line}</p></div>
+              <b>{c.tag}</b>
+              <small>Sample preview</small>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="pricing" data-spy className="sb-pricing">
+        <div className="sb-head">
+          <p className="sb-eye">Pricing</p>
+          <h2>Start free. Pay when it earns its keep.</h2>
+          <p>Draft launch pricing, per month. Final numbers will be confirmed before launch.</p>
+        </div>
+        <ul className="sb-plans">
+          {PLANS.map((p) => (
+            <li key={p.name} className={`sb-plan${p.hi ? " hi" : ""}`}>
+              <h3>{p.name}</h3>
+              <p className="sb-price"><b>{p.inr}</b><span>/ month · {p.usd}</span></p>
+              <p className="sb-note">{p.note}</p>
+              <ul>{p.feats.map((f) => <li key={f}>{f}</li>)}</ul>
+              <button type="button" className="sb-plan-cta" onClick={begin}>{p.cta}</button>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <footer className="sb-foot">
+        <Wordmark onClick={() => go("top")} />
+        <p>Scripts are written by AI from your brochure. You approve what is posted and you are responsible for it under RERA Section 12.</p>
+        <div className="sb-social">
+          {SOCIALS.map((s) => (
+            <a key={s.name} href="#" aria-label={`${s.name} (link coming soon)`} onClick={(e) => e.preventDefault()}>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d={s.d} /></svg>
+            </a>
           ))}
         </div>
-        <p className="wl-clock" aria-live="polite">{scene === "off" ? "A still of the house" : `The house, ${current.clock}`}</p>
       </footer>
 
-      <div className="wl-door" data-open={doorOpen} aria-hidden="true" />
+      <nav className="sb-pill" aria-label="Sections">
+        {[["brochure", "Brochure"], ["script", "Script"], ["reel", "Reel"], ["refine", "Refine"], ["pricing", "Pricing"]].map(([id, label]) => (
+          <button key={id} type="button" aria-current={spy === id} onClick={() => go(id)}>{label}</button>
+        ))}
+        <button type="button" className="sb-pill-cta" onClick={begin}>Create my first reel</button>
+      </nav>
+
+      <div className="sb-door" aria-hidden="true">
+        <img className="sb-door-a" src="/photos/entrance.jpg" alt="" />
+        <img className="sb-door-b" src="/photos/hall.jpg" alt="" />
+      </div>
     </div>
   );
 }

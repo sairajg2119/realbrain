@@ -252,6 +252,7 @@ export async function writeScripts(args: {
   angles?: string;
   avoid?: string;
   extraNote?: string;
+  ownerNotes?: string;
 }): Promise<Script[]> {
   const prompt = `AUDIENCE: ${audienceLine(args.buyer)}
 
@@ -269,7 +270,7 @@ ${compactTeardowns(args.teardowns)}
 
 COMPLIANCE RULES:
 ${args.rulesJson}
-${args.angles ? `\nPROPERTY BRIEF ANGLES (built from this brochure; let each script follow a different angle, still using only the facts above):\n${args.angles}\n` : ""}${args.avoid ? `\nDO NOT USE these figures or claims. The brochure contradicts itself or leaves them unclear, so any script that repeats them is wrong:\n${args.avoid}\n` : ""}
+${args.ownerNotes ? `\nTHE DEVELOPER'S OWN NOTES (they tell you what to emphasise and the tone they want. They are NOT a source of facts: never copy a number, claim or name from them unless the brochure facts above say the same):\n${args.ownerNotes}\n` : ""}${args.angles ? `\nPROPERTY BRIEF ANGLES (built from this brochure; let each script follow a different angle, still using only the facts above):\n${args.angles}\n` : ""}${args.avoid ? `\nDO NOT USE these figures or claims. The brochure contradicts itself or leaves them unclear, so any script that repeats them is wrong:\n${args.avoid}\n` : ""}
 Write exactly 3 complete scripts (full timed beats: hook, middle, CTA), each with a different hook type and a different angle. For BEST FIT, give each script the audience it suits best and use at least two different audiences across the three (for example families, first-time buyers, everyone), whenever the facts genuinely support them; use 'everyone' for at most one. For a named audience, write all three for that audience. ${args.extraNote ?? ""}
 Return JSON in this shape: ${SCRIPT_SHAPE}`;
   return askJson([{ text: prompt }], SCRIPT_SYSTEM, (x) => {
