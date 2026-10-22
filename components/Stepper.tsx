@@ -1,4 +1,4 @@
-const STEPS = ["Upload brochure", "Pick a script", "Make video"];
+const STEPS = ["Upload", "Scripts", "Video"];
 
 /** current: 0, 1 or 2. Steps before it show as done. */
 export function Stepper({ current }: { current: number }) {
@@ -6,7 +6,7 @@ export function Stepper({ current }: { current: number }) {
     <ol className="stepper" aria-label="Progress">
       {STEPS.map((label, i) => (
         <li key={label} className={i < current ? "done" : i === current ? "current" : ""} aria-current={i === current ? "step" : undefined}>
-          <span className="num" aria-hidden="true">{i < current ? "✓" : i + 1}</span>
+          <span className="num" aria-hidden="true">{i < current ? "✓" : `0${i + 1}`}</span>
           <span className="lbl">{label}</span>
         </li>
       ))}

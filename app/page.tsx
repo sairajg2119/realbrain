@@ -3,6 +3,7 @@
 import { upload } from "@vercel/blob/client";
 import { useEffect, useRef, useState } from "react";
 import { FactsCard } from "@/components/FactsCard";
+import { HeroArt } from "@/components/HeroArt";
 import { ProgressPanel } from "@/components/ProgressPanel";
 import { ScriptCard } from "@/components/ScriptCard";
 import { Stepper } from "@/components/Stepper";
@@ -128,17 +129,30 @@ export default function Home() {
   const allClear = ok ? ok.scripts.every((s) => s.checks.hardFailures.length === 0) : false;
 
   return (
-    <>
-      <header className="topbar">
-        <div className="wrap">
-          <div className="brand">
-            <span className="brand-mark" aria-hidden="true">R</span> RealBrain
-          </div>
-          <span className="tag-line">Reel scripts from your brochure</span>
+    <div className="shell">
+      <aside className="side">
+        <div className="brand">RealBrain</div>
+        <div className="art">
+          <HeroArt />
         </div>
-      </header>
+        <div className="side-row">
+          {step === 0 && !busy ? (
+            <button className="circle-btn" onClick={useSample}>
+              <span className="dot" aria-hidden="true">→</span>
+              Try a sample brochure
+            </button>
+          ) : (
+            <button className="circle-btn" onClick={startOver} disabled={busy}>
+              <span className="dot" aria-hidden="true">↺</span>
+              Start over
+            </button>
+          )}
+          <span className="bignum" aria-hidden="true">0{step + 1}</span>
+        </div>
+        <div className="side-foot">Reel scripts for Bengaluru property developers.</div>
+      </aside>
 
-      <main className="wrap">
+      <main className="main">
         <Stepper current={step} />
 
         {showForm && (
@@ -159,7 +173,7 @@ export default function Home() {
             <h2 className="section-title">1. Your brochure</h2>
             {file ? (
               <div className="file-row">
-                <span aria-hidden="true" style={{ fontSize: "1.6rem" }}>📄</span>
+                <span className="pdf" aria-hidden="true">PDF</span>
                 <div className="grow">
                   <div className="name">{file.name}</div>
                   <div className="meta">
@@ -185,11 +199,11 @@ export default function Home() {
                   }}
                 >
                   <input type="file" accept="application/pdf,.pdf" onChange={(e) => pick(e.target.files?.[0] ?? null)} />
-                  <span className="icon" aria-hidden="true">⬆️</span>
+                  <span className="up" aria-hidden="true">↑</span>
                   <span className="big">Tap to choose your brochure</span>
                   <span className="hint">PDF, up to 20 MB. Or drag it here.</span>
                 </label>
-                <div style={{ marginTop: 8 }}>
+                <div className="only-mobile" style={{ marginTop: 8 }}>
                   <span className="hint">No brochure handy? </span>
                   <button className="link-btn" onClick={useSample}>Try a sample brochure</button>
                 </div>
@@ -257,7 +271,7 @@ export default function Home() {
 
             <div className="facts-head" style={{ marginTop: 24 }}>
               <h2 className="section-title" style={{ margin: 0 }}>What I read from your brochure</h2>
-              <button className="btn ghost small" onClick={startOver}>Start over</button>
+              <button className="btn ghost small only-mobile" onClick={startOver}>Start over</button>
             </div>
             <FactsCard facts={ok.facts} />
 
@@ -309,6 +323,6 @@ export default function Home() {
           Scripts are written by AI from your brochure. You approve what is posted and you are responsible for it under RERA Section 12. Check with your legal advisor before publishing.
         </p>
       </main>
-    </>
+    </div>
   );
 }
