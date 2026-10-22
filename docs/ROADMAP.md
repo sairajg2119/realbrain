@@ -22,8 +22,10 @@ Last updated 2026-10-22. Status words: **done**, **partial**, **not started**. A
 - Wired (2026-10-22): `/api/analyze` builds an on-screen RERA plan from the verified facts (number, K-RERA website, AI label; top right, whole video), runs `scanScript()` on every script, treats blocked claims as hard failures (one rewrite attempt), and returns a `compliance` report. The script card and approval screen show on-screen text, 'confirm before you post' items and advisor questions; approval needs a tick when there are items. The preview overlays the on-screen RERA text.
 - Not verified live: the full PDF upload path through the new route (Gemini overload during the last attempts). Script writing plus scan was run against the live model and the screens were checked in the browser using the sample project. The on-screen text is shown in the preview only; the real video render does not burn it in yet (video is not built).
 
-### Stage 3: Additional layers: **not started**
-Buyer-type models, factual validation extensions, video script constraints, news and market context.
+### Stage 3: Additional layers: **partial**
+- Done (2026-10-22): property intelligence brief (`lib/brief.ts`, `components/BriefPanel.tsx`). After the brochure is read and before scripts are written, the app drafts a brief (overview, ranked selling points, content angles with hook, format, CTA and reel evidence, limitations and missing information, buyer personas, verification steps, compliance flags). Every item carries its basis (brochure claim, verified, inference, unverified). The model may only cite numbered brochure facts; the code removes anything it cannot back and flags numbers not in the facts. Angles with blocked wording or unsupported numbers are not passed to the script writer. If the brief fails or takes over 40 s, scripts are written without it and a note says so.
+- Not done: location research. No external research is run at request time. The brief says which locality facts are needed and shows only facts from `brain/localities.json` (verified) or marked unverified. All five demo localities are still empty, so every brief says location research is needed. No comparison with other projects (no reliable comparison data exists). No live K-RERA lookup: the RERA number is always a human check. No time-sensitive or festival angles (nothing verifies them yet). Briefs are not stored per project: the app has no user-data store (Stage 4), so a brief lives in the browser for that session.
+- Not started: buyer-type models, news and market context.
 
 ### Stage 4: Complete application: **partial** (MVP)
 - Done: brochure upload, fact extraction, 3 checked scripts, evidence line, 4-screen UI, health check, sample project.
@@ -34,7 +36,8 @@ Buyer-type models, factual validation extensions, video script constraints, news
 - Not done: full upload test after the brain change (Gemini was overloaded; see PROJECT_KNOWLEDGE), load and failure testing.
 
 ## Next steps, in order
-1. Push, redeploy, run one full brochure upload on the live link.
+1. Push, redeploy, run one full brochure upload on the live link with the brief step. (Before the brief, a live upload returned all three scripts in 259 s, dominated by Gemini 503 waits; `askJson` now switches model after two quick retries.)
+1b. Research the 5 demo localities with named sources and store them as unverified facts in `brain/localities.json`; a human marks a locality verified.
 2. Avatar video with fallback (`lib/video.ts`), then the demo-day assets.
 3. Burn the on-screen RERA text and AI label into the rendered video (with the avatar step). Store escalation records when a data store exists.
 4. Finish Stage 2 gaps (localities, khata and approvals, newer circulars) with a human check of each rule.

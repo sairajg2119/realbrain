@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { loadBrain, localityFacts } from "@/lib/brain";
+import { loadBrain, localityFacts, localityUnverified } from "@/lib/brain";
+import { anglesForScripts, buildBrief, factList } from "@/lib/brief";
 import { checkScript, fixCitation, hasDistinctHookTypes } from "@/lib/checks";
 import { applyCompliance, scanScript, withOnScreen } from "@/lib/compliance";
-import { extractFacts, isRateLimit, rewriteScript, SetupError, writeScripts } from "@/lib/gemini";
-import { BUYER_TYPES, type AnalyzeResponse, type BuyerType, type CheckedScript } from "@/lib/types";
+import { extractFacts, isRateLimit, rewriteScript, SetupError, writeBrief, writeScripts } from "@/lib/gemini";
+import { BUYER_TYPES, type AnalyzeResponse, type BuyerType, type CheckedScript, type PropertyBrief } from "@/lib/types";
 
 export const maxDuration = 300;
 
@@ -75,10 +76,43 @@ export async function POST(request: Request) {
       });
     }
 
-    // AI call 2: write 3 scripts (once more if the hook types repeat).
+    // AI call 2: the property intelligence brief, built BEFORE any script. It is validated in code and never blocks the scripts:
+    // if it fails or takes too long, the scripts are written without it and a note says so.
     const loc = localityFacts(brain.localities, facts.locality_match, facts.location);
-    const common = { facts, buyer: input.buyer, playbook: brain.playbook, teardowns: brain.teardowns, localityFacts: loc, rulesJson: brain.rulesJson };
     const notes: string[] = [];
+    let brief: PropertyBrief | null = null;
+    const buyer = input.buyer;
+    async function buildBriefSafe() {
+      const unverified = localityUnverified(brain.localities, facts.locality_match, facts.location);
+      const hookTypes = [...new Set(brain.teardowns.map((t) => t.hook_type))];
+      const list = factList(facts);
+      const draft = await Promise.race([
+        writeBrief({
+          facts: list.map((f) => ({ id: f.id, text: f.text })), buyer, hookTypes, location: facts.location,
+          exampleReels: brain.teardowns.map((t) => ({ id: t.id, hook_type: t.hook_type, hook: t.hook })),
+        }),
+        new Promise<never>((_, rej) => setTimeout(() => rej(new Error("brief timeout")), 40_000)),
+      ]);
+      return buildBrief(draft.raw, {
+        facts, hookTypes, teardownIds: brain.teardowns.map((t) => t.id), claims: brain.claims, rules: brain.rules, modelNote: `Drafted by ${draft.model}; every citation checked in code.`,
+        location: {
+          name: unverified.name ?? facts.locality_match,
+          verified: loc.map((text, i) => ({ id: `L${i + 1}`, text, basis: "verified_external" as const, source: "brain/localities.json (human-verified)" })),
+          unverified: unverified.facts.map((f, i) => ({ id: `U${i + 1}`, text: f.text, basis: "unverified" as const, source: f.source_url || "source not recorded" })),
+        },
+      });
+    }
+    try {
+      brief = await buildBriefSafe();
+      console.log(`[timing] brief done at ${Date.now() - t0}ms`);
+    } catch (e) {
+      if (e instanceof SetupError) throw e;
+      console.error("brief failed:", e instanceof Error ? e.message : e);
+      notes.push("The property brief could not be prepared this time, so the scripts were written from the brochure facts alone.");
+    }
+
+    // AI call 3: write 3 scripts (once more if the hook types repeat).
+    const common = { facts, buyer: input.buyer, playbook: brain.playbook, teardowns: brain.teardowns, localityFacts: loc, rulesJson: brain.rulesJson, angles: anglesForScripts(brief) };
     let scripts = await writeScripts(common);
     console.log(`[timing] scripts done at ${Date.now() - t0}ms`);
     if (!hasDistinctHookTypes(scripts)) {
@@ -112,7 +146,7 @@ export async function POST(request: Request) {
 
     console.log(`[timing] checks done at ${Date.now() - t0}ms`);
     const reelLinks = Object.fromEntries(brain.teardowns.map((t) => [t.id, t.url]));
-    return reply({ status: "ok", facts, scripts: checked, rulesStale: brain.rulesStale, reelLinks, notes });
+    return reply({ status: "ok", facts, brief, scripts: checked, rulesStale: brain.rulesStale, reelLinks, notes });
   } catch (e) {
     if (e instanceof SetupError || (e instanceof Error && e.message.startsWith("Setup problem"))) {
       return reply({ status: "error", message: e.message }, 500);

@@ -340,3 +340,22 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
 .ack { display: flex; gap: 10px; align-items: flex-start; margin: 14px 0; font-size: 0.92rem; color: var(--ivory); cursor: pointer; }
 .ack input { margin-top: 4px; accent-color: var(--gold); width: 18px; height: 18px; flex: none; }
 .onscreen-rera { position: absolute; top: 10px; right: 10px; display: grid; gap: 2px; text-align: right; font-size: 0.62rem; line-height: 1.3; background: rgba(0, 0, 0, 0.6); color: #fff; padding: 6px 8px; max-width: 70%; overflow-wrap: anywhere; }
+
+/* Property intelligence brief (lib/brief.ts) */
+.brief { margin-top: 36px; padding: 28px; border: 1px solid var(--line); background: var(--card-2); }
+.brief .h2 { margin-bottom: 10px; }
+.legend-item { display: inline-flex; gap: 8px; align-items: baseline; margin: 6px 18px 6px 0; font-size: 0.85rem; }
+.basis { display: inline-block; font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; }
+.basis-brochure { color: var(--gold-hi); border-color: rgba(199, 165, 107, 0.5); }
+.basis-verified_external { color: var(--good); border-color: rgba(91, 189, 147, 0.5); }
+.basis-inference { color: #cfccc2; }
+.basis-unverified { color: var(--warn); border-color: rgba(220, 184, 101, 0.5); }
+.brief-sec { margin-top: 14px; border-top: 1px solid var(--line-soft); padding-top: 4px; }
+.brief-sec > summary { cursor: pointer; padding: 10px 0; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; color: var(--gold); }
+.brief-sec .count { color: var(--stone); margin-left: 8px; }
+.brief-item { padding: 10px 0 12px; border-bottom: 1px solid var(--line-soft); }
+.brief-item.blocked { opacity: 0.8; border-left: 2px solid var(--bad); padding-left: 12px; }
+.brief-item p { margin: 4px 0; }
+.brief-facts { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 4px; font-size: 0.9rem; }
+.fid { display: inline-block; min-width: 2.2em; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--stone); text-transform: uppercase; }
+.brief-steps { margin: 6px 0 8px 20px; font-size: 0.92rem; }

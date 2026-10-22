@@ -41,6 +41,20 @@ export function loadBrain() {
   };
 }
 
+/**
+ * Researched but not yet human-verified facts for the matched locality (facts with text, in a locality not marked verified).
+ * Shown in the property brief as 'unverified'. Never used in scripts.
+ */
+export function localityUnverified(localities: Locality[], match: string | null, location: string | null): { name: string | null; facts: { text: string; source_url: string }[] } {
+  const hay = `${match ?? ""} ${location ?? ""}`.toLowerCase();
+  for (const l of localities) {
+    if ([l.name, ...l.aliases].some((a) => hay.includes(a.toLowerCase()))) {
+      return { name: l.name, facts: l.verified ? [] : l.facts.filter((f) => f.text.trim()) };
+    }
+  }
+  return { name: null, facts: [] };
+}
+
 /** Verified facts for the matched locality, or an empty list. Never invents anything. */
 export function localityFacts(localities: Locality[], match: string | null, location: string | null): string[] {
   const hay = `${match ?? ""} ${location ?? ""}`.toLowerCase();

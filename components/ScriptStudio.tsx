@@ -2,6 +2,7 @@
 
 import type { AnalyzeResponse } from "@/lib/types";
 import { DEMO_NOTICE } from "@/lib/mock";
+import { BriefPanel } from "./BriefPanel";
 import { FactsCard } from "./FactsCard";
 import { ScriptCard } from "./ScriptCard";
 import { IconAlert, IconArrow, IconBack } from "./Icons";
@@ -39,6 +40,7 @@ export function ScriptStudio({
       ))}
 
       <FactsCard facts={result.facts} />
+      {result.brief && <BriefPanel brief={result.brief} />}
 
       <div className="scripts">
         {result.scripts.map((item, i) => (

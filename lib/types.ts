@@ -92,7 +92,50 @@ export interface Teardown {
   why_it_worked: string;
 }
 
+/** Where a statement in the brief comes from. Never blend these. */
+export type Basis = "brochure" | "verified_external" | "inference" | "unverified";
+
+export interface BriefFact {
+  id: string;
+  text: string;
+  basis: Basis;
+  source: string;
+}
+
+export interface BriefAngle {
+  title: string;
+  story: string;
+  buyer: string;
+  hook_type: string;
+  hook_example: string;
+  format: string;
+  cta: string;
+  reasoning: string;
+  facts_used: BriefFact[];
+  evidence_reel_id: string | null;
+  unsupported_numbers: string[];
+  blocked: boolean;
+  compliance_flags: string[];
+}
+
+/** Built before any script is written. Every item says where it came from and how far it is verified. */
+export interface PropertyBrief {
+  version: 1;
+  generated_at: string;
+  model_note: string;
+  overview: { summary: string; facts: BriefFact[] };
+  location: { from_brochure: BriefFact[]; verified: BriefFact[]; unverified: BriefFact[]; to_research: string[] };
+  selling_points: { point: string; why_it_matters: string; evidence: BriefFact[]; basis: "brochure" | "inference" }[];
+  limitations: { item: string; kind: "missing" | "risk" | "contradiction" | "question" | "removed_claim" }[];
+  personas: { buyer: string; needs: string; fit: string }[];
+  differentiation_note: string;
+  angles: BriefAngle[];
+  verification: { rera_number: string | null; portal_url: string; status: "needs_human_check"; steps: string[] };
+  compliance_flags: ComplianceItem[];
+  legend: Record<Basis, string>;
+}
+
 export type AnalyzeResponse =
-  | { status: "ok"; facts: Facts; scripts: CheckedScript[]; rulesStale: boolean; reelLinks: Record<string, string>; notes: string[] }
+  | { status: "ok"; facts: Facts; brief?: PropertyBrief | null; scripts: CheckedScript[]; rulesStale: boolean; reelLinks: Record<string, string>; notes: string[] }
   | { status: "rejected"; facts: Facts | null; message: string }
   | { status: "error"; message: string };
