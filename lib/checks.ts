@@ -1,4 +1,4 @@
-import type { Facts, Script, ScriptChecks, Teardown } from "./types.ts";
+import type { CheckCode, Facts, Script, ScriptChecks, Teardown } from "./types.ts";
 
 const NUMBER_RE = /\d[\d,]*(?:\.\d+)?/g;
 export const RERA_SITE = /rera\.karnataka\.gov\.in/i;
@@ -68,14 +68,17 @@ export function wordCount(s: string): number {
 export function checkScript(script: Script, facts: Facts, teardowns: Teardown[]): ScriptChecks {
   const hardFailures: string[] = [];
   const warnings: string[] = [];
+  const failedCodes: CheckCode[] = [];
 
   // RERA-REG-NO
   if (!facts.rera_number || !squash(script.caption).includes(squash(facts.rera_number))) {
     hardFailures.push("The caption does not contain the RERA registration number.");
+    failedCodes.push("rera");
   }
   // RERA-AUTHORITY-WEBSITE
   if (!RERA_SITE.test(script.caption)) {
     hardFailures.push("The caption does not mention rera.karnataka.gov.in.");
+    failedCodes.push("website");
   }
 
   // RERA-NO-FALSE-CLAIMS: every number must come from the brochure facts.
@@ -84,6 +87,7 @@ export function checkScript(script: Script, facts: Facts, teardowns: Teardown[])
   const red = [...new Set(extractNumbers(spoken).filter((n) => !known.has(n)))];
   if (red.length) {
     hardFailures.push(`These numbers are not in the brochure: ${red.join(", ")}.`);
+    failedCodes.push("numbers");
   }
 
   // Length: about 2.5 words a second.
@@ -91,11 +95,13 @@ export function checkScript(script: Script, facts: Facts, teardowns: Teardown[])
   const limit = Math.floor(2.5 * script.target_duration_s);
   if (words > limit) {
     hardFailures.push(`Too long: ${words} spoken words for ${script.target_duration_s} seconds (limit ${limit}).`);
+    failedCodes.push("length");
   }
 
   // The cited reel must be real.
   if (!teardowns.some((t) => t.id === script.why_this_works.reel_id)) {
     hardFailures.push(`The cited reel "${script.why_this_works.reel_id}" is not in the teardowns.`);
+    failedCodes.push("citation");
   }
 
   // NO-GUARANTEED-RETURNS (warning)
@@ -104,7 +110,7 @@ export function checkScript(script: Script, facts: Facts, teardowns: Teardown[])
     if (lower.includes(p)) warnings.push(`Risky phrase: "${p}". Check this with your legal advisor.`);
   }
 
-  return { hardFailures, warnings, redNumbers: red, rewritten: false };
+  return { failedCodes, hardFailures, warnings, redNumbers: red, rewritten: false };
 }
 
 /** Replace what Claude said about the cited reel with the real numbers from the file. */

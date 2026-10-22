@@ -32,7 +32,10 @@ export interface Script {
   };
 }
 
+export type CheckCode = "rera" | "website" | "numbers" | "length" | "citation";
+
 export interface ScriptChecks {
+  failedCodes: CheckCode[];
   hardFailures: string[];
   warnings: string[];
   redNumbers: string[]; // normalised numbers (commas removed) not found in the brochure facts
