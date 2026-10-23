@@ -27,9 +27,9 @@ const LIGHT_ICON: Record<LightId, React.ReactNode> = {
   night: <path d="M19 14.5A7.5 7.5 0 019.5 5a7.5 7.5 0 109.5 9.5z" />,
 };
 
-/** Where the camera is on its way to the door: 0.34 is where the opening drift rests, 1.3 is just past the opening door. */
+/** Where the camera is on its walk: 0.34 is where the opening drift rests, 1 the front door, 1.95 inside the hall. */
 const DRIVE_FROM = 0.34;
-const DRIVE_TO = 1.3;
+const DRIVE_TO = 1.95;
 
 /**
  * One continuous page over one house, read top to bottom like a short film: the house and the name; a row of property

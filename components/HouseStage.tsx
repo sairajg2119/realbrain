@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "../app/scene.css";
 import type { LightId } from "@/lib/scene/timeOfDay";
 import { ArchPoster } from "./ArchPoster";
@@ -53,13 +53,45 @@ export function HouseStage({
   }, [onScene]);
 
   return (
-    <div className="hs" data-scene={scene} data-phase={phase} aria-hidden="true">
-      <div className="hs-poster">{phase === "outside" || phase === "entering" ? <ArchPoster /> : <img src="/photos/hall.jpg" alt="" className="hs-hall" />}</div>
+    <div className="hs" data-scene={scene} data-phase={phase} data-light={light} aria-hidden="true">
+      <div className="hs-poster">{scene === "off" ? <PhotoWalk drive={drive} /> : phase === "outside" || phase === "entering" ? <ArchPoster /> : <img src="/photos/hall.jpg" alt="" className="hs-hall" />}</div>
       {scene !== "off" && (
         <div className="hs-3d">
           <ArchScene light={light} phase={phase} still={still} calm={calm} drive={drive} paused={paused} onReady={() => onScene("ready")} onArrive={onArrive} onFail={() => onScene("off")} />
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * When the browser cannot draw 3D, the walk still happens, in photographs: the house, then up to its front door, then the
+ * door opens onto the hall, all following the same scroll as the 3D camera (drive). The four lights become colour grades.
+ */
+function PhotoWalk({ drive }: { drive?: { current: number | null } }) {
+  const house = useRef<HTMLImageElement>(null);
+  const door = useRef<HTMLImageElement>(null);
+  const hall = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    let raf = 0;
+    const clamp = (x: number) => Math.max(0, Math.min(1, x));
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      const j = drive?.current ?? 0.34;
+      const p = clamp((j - 0.34) / (1.95 - 0.34));
+      const a = clamp(p / 0.45), b = clamp((p - 0.4) / 0.4), c = clamp((p - 0.72) / 0.25);
+      if (house.current) { house.current.style.transform = `scale(${1.04 + a * 0.5})`; house.current.style.opacity = String(1 - clamp((p - 0.38) / 0.12)); }
+      if (door.current) { door.current.style.transform = `scale(${1 + b * 2.6})`; door.current.style.opacity = String(clamp((p - 0.38) / 0.12) * (1 - c)); }
+      if (hall.current) { hall.current.style.transform = `scale(${1.2 - c * 0.2})`; hall.current.style.opacity = String(c); }
+    };
+    tick();
+    return () => cancelAnimationFrame(raf);
+  }, [drive]);
+  return (
+    <div className="pw">
+      <img ref={house} src="/photos/hero.jpg" alt="" className="pw-img pw-house" />
+      <img ref={door} src="/photos/entrance.jpg" alt="" className="pw-img pw-door" style={{ opacity: 0 }} />
+      <img ref={hall} src="/photos/hall.jpg" alt="" className="pw-img pw-hall" style={{ opacity: 0 }} />
     </div>
   );
 }
