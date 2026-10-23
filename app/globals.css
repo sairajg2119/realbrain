@@ -39,6 +39,9 @@ button { cursor: pointer; }
 a { color: var(--gold); text-underline-offset: 4px; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 [data-focus]:focus { outline: none; }
+/* the logo, on the homepage and in the workspace */
+.lg { display: inline-flex; align-items: center; gap: 10px; color: var(--ivory); background: none; border: 0; padding: 0; cursor: pointer; font: inherit; }
+.lg-name { font-family: var(--sans); font-weight: 600; font-size: 1.12rem; letter-spacing: 0.01em; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 ::selection { background: rgba(122, 84, 39, 0.28); }
 

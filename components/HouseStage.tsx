@@ -68,7 +68,7 @@ export function HouseStage({
  * When the browser cannot draw 3D, the walk still happens, in photographs: the house, then up to its front door, then the
  * door opens onto the hall, all following the same scroll as the 3D camera (drive). The four lights become colour grades.
  */
-function PhotoWalk({ drive }: { drive?: { current: number | null } }) {
+export function PhotoWalk({ drive }: { drive?: { current: number | null } }) {
   const house = useRef<HTMLImageElement>(null);
   const door = useRef<HTMLImageElement>(null);
   const hall = useRef<HTMLImageElement>(null);

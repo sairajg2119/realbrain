@@ -4,7 +4,7 @@ import { upload } from "@vercel/blob/client";
 import { useEffect, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ApprovalScreen } from "@/components/ApprovalScreen";
-import { Landing } from "@/components/landing/Landing";
+import { FilmLanding } from "@/components/film/FilmLanding";
 import { ProjectScreen } from "@/components/ProjectScreen";
 import { ScriptStudio } from "@/components/ScriptStudio";
 import { loadDemoResult } from "@/lib/mock";
@@ -199,7 +199,7 @@ export default function Home() {
   if (stage === "landing") {
     return (
       <div ref={root}>
-        <Landing onStart={() => setStage("project")} />
+        <FilmLanding onStart={() => setStage("project")} />
       </div>
     );
   }
