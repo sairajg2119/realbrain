@@ -41,7 +41,7 @@ const DEMO_CAPTIONS = ["A FIFA-sized pitch right at home.", "Twenty plus acres o
 
 /**
  * The whole flow in one loop: the brochure drops in, the project's name and a line about it are typed, two audiences are
- * chosen, Create scripts is pressed, the brochure is read, and a reel slides in beside it and plays.
+ * chosen, Create scripts is pressed and the brochure is read. Beside it, the example reel plays the whole time.
  */
 function Brochure({ active, still }: { active: boolean; still: boolean }) {
   const t = useClock(active, 18, still);
@@ -49,15 +49,15 @@ function Brochure({ active, still }: { active: boolean; still: boolean }) {
   const note = typed("3 and 4 BHK homes. Lean on the 7 acre clubhouse and the open space.", t, 2.8, 26);
   const pressed = t > 7.4;
   const pct = Math.min(1, Math.max(0, (t - 7.8) / 2.6));
-  const reel = t > 10.6;
+  const reel = true; // the example reel plays from the start; nobody should have to wait for it
   const video = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const v = video.current;
     if (!v) return;
     if (reel && active && !still) v.play().catch(() => {});
-    else { v.pause(); if (!reel) v.currentTime = 0; }
+    else v.pause();
   }, [reel, active, still]);
-  const cap = DEMO_CAPTIONS[Math.min(DEMO_CAPTIONS.length - 1, Math.floor(Math.max(0, t - 10.8) / 2.3))];
+  const cap = DEMO_CAPTIONS[Math.floor(t / 3) % DEMO_CAPTIONS.length];
   return (
     <div className="bd">
       <Window title="New reel" label="A brochure is dropped in, the project is named and described, two audiences are chosen, Create scripts is pressed and the brochure is read." tag="Walkthrough of the real flow">
