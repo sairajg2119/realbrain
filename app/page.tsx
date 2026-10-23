@@ -4,13 +4,11 @@ import { upload } from "@vercel/blob/client";
 import { useEffect, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ApprovalScreen } from "@/components/ApprovalScreen";
-import { HouseStage, type SceneState } from "@/components/HouseStage";
-import { Home as HomePage } from "@/components/Home";
+import { Landing } from "@/components/landing/Landing";
 import { ProjectScreen } from "@/components/ProjectScreen";
 import { ScriptStudio } from "@/components/ScriptStudio";
 import { loadDemoResult } from "@/lib/mock";
 import { extractPdfText } from "@/lib/pdftext";
-import type { LightId } from "@/lib/scene/timeOfDay";
 import type { AnalyzeResponse, BuyerChoice } from "@/lib/types";
 import { startVideo, type VideoState } from "@/lib/video";
 import { SERVER_PDF_BYTES, type Stage } from "@/lib/workflow";
@@ -19,13 +17,7 @@ const DIRECT_LIMIT = 4 * 1024 * 1024; // what we can send through the server wit
 
 export default function Home() {
   const [stage, setStage] = useState<Stage>("landing");
-  // The house on the homepage. Its camera follows the scroll (drive); it stops drawing once the page covers it (paused).
-  const phase = "outside" as const;
-  const [light, setLight] = useState<LightId>("golden");
-  const [scene, setScene] = useState<SceneState>("pending");
   const [still, setStill] = useState(false);
-  const drive = useRef<number | null>(null);
-  const paused = useRef(false);
   const [file, setFile] = useState<File | null>(null);
   const [buyers, setBuyers] = useState<BuyerChoice[]>(["auto"]);
   const buyer = buyers.join(","); // the server reads "family,investor" as a mix
@@ -206,11 +198,8 @@ export default function Home() {
 
   if (stage === "landing") {
     return (
-      <div ref={root} className="app-root">
-        <HouseStage light={light} phase={phase} still={still} calm={false} scene={scene} onScene={setScene} onArrive={() => {}} drive={drive} paused={paused} />
-        <div className="app-layer">
-          <HomePage light={light} onLight={setLight} still={still} drive={drive} paused={paused} onStart={() => setStage("project")} />
-        </div>
+      <div ref={root}>
+        <Landing onStart={() => setStage("project")} />
       </div>
     );
   }

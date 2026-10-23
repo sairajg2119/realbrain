@@ -4,10 +4,10 @@ import type { BuyerChoice } from "./types";
 export type Stage = "landing" | "project" | "script" | "approval";
 
 /** Labels for the numbered step indicator. */
-export const STEP_LABELS = ["Project", "Script", "Approval", "Your Reel"] as const;
+export const STEP_LABELS = ["Project", "Scripts", "Approval", "Video"] as const;
 
 export const BUYER_COPY: Record<BuyerChoice, { label: string; blurb: string }> = {
-  auto: { label: "Best fit", blurb: "We pick the audiences this property suits best. Recommended." },
+  auto: { label: "Everyone", blurb: "One set of scripts for all buyers: we pick the angles this property suits best." },
   family: { label: "Families", blurb: "Space, lifestyle and a place to grow." },
   investor: { label: "Investors", blurb: "Property fundamentals and documented market context." },
   nri: { label: "NRI Buyers", blurb: "Clarity, confidence and remote decision-making." },

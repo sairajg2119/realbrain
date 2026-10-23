@@ -51,7 +51,7 @@ export function ProjectScreen({
   return (
     <div className="screen composer-screen">
       <button className="back" onClick={onBack}>
-        <IconBack size={16} /> Back to the house
+        <IconBack size={16} /> Back to the start
       </button>
       <p className="eyebrow">Welcome in</p>
       <h1 className="display display-md" data-focus>What are we <em>selling</em> today?</h1>

@@ -1,3 +1,4 @@
+import { Logo } from "./Logo";
 import { StepIndicator } from "./StepIndicator";
 
 export function Wordmark({ onClick }: { onClick?: () => void }) {
@@ -20,7 +21,7 @@ export function Wordmark({ onClick }: { onClick?: () => void }) {
 export function AppHeader({ progress, view, onGo, onHome, onStartOver, canStartOver }: { progress: boolean[]; view: number; onGo: (i: number) => void; onHome: () => void; onStartOver: () => void; canStartOver: boolean }) {
   return (
     <header className="app-header">
-      <Wordmark onClick={onHome} />
+      <Logo onClick={onHome} />
       <StepIndicator progress={progress} view={view} onGo={onGo} />
       <div className="app-header-r">
         {canStartOver && (

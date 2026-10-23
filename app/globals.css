@@ -5,18 +5,18 @@
 */
 :root {
   color-scheme: dark;
-  --bg: #14120f;
-  --elev: #1b1814;
-  --card: #1e1b16;
-  --card-2: #25211b;
-  --gold: #d3a566;
-  --gold-hi: #e8c48b;
-  --gold-soft: rgba(211, 165, 102, 0.12);
-  --ivory: #f4efe6;
-  --on-dark: #14120f;
-  --stone: #aaa292;
-  --line: #38332b;
-  --line-soft: #2b2722;
+  --bg: #080a09;
+  --elev: #101310;
+  --card: #171b17;
+  --card-2: #1d221d;
+  --gold: #c7a56b;
+  --gold-hi: #dcbe88;
+  --gold-soft: rgba(199, 165, 107, 0.12);
+  --ivory: #f4f1e9;
+  --on-dark: #080a09;
+  --stone: #a4a69d;
+  --line: #2a2f28;
+  --line-soft: #1e231e;
   --good: #6bc29b;
   --good-soft: rgba(107, 194, 155, 0.12);
   --bad: #ee9088;
@@ -91,13 +91,13 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
 
 /* ========== wordmark (app header) ========== */
 .wordmark { background: none; border: 0; padding: 0; text-align: left; display: flex; flex-direction: column; gap: 3px; color: var(--ivory); }
-.wm-name { font-family: var(--serif); font-size: 1.7rem; line-height: 1; letter-spacing: -0.02em; }
+.wm-name { font-family: var(--serif); font-size: 1.7rem; line-height: 1; letter-spacing: -0.01em; }
 .wm-light { font-weight: 400; }
 .wm-bold { font-weight: 700; }
 .wm-desc { font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--stone); font-weight: 600; }
 
 /* ========== workspace: paper, hairlines, a faint elevation of vertical fins at the top ========== */
-.workspace { position: relative; min-height: 100vh; padding-bottom: 40px; background: radial-gradient(1100px 620px at 85% -10%, rgba(211, 165, 102, 0.1), transparent 70%), radial-gradient(900px 600px at 0% 100%, rgba(211, 165, 102, 0.06), transparent 70%), var(--bg); }
+.workspace { position: relative; min-height: 100vh; padding-bottom: 40px; background: radial-gradient(1100px 560px at 70% -12%, rgba(199, 165, 107, 0.08), transparent 70%), var(--bg); }
 .workspace > *:not(.hs) { position: relative; z-index: 2; }
 .workspace > .hs { position: fixed; z-index: 0; }
 .app-header { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; padding: 16px 40px; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 10px 40px -20px rgba(0, 0, 0, 0.6); }
@@ -441,3 +441,6 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
 .locked-ico { position: absolute; left: 28px; top: 30px; width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; color: var(--stone); }
 .locked-text { margin: 0; max-width: 60ch; font-size: 1rem; }
 .workspace > .app-header { position: sticky; top: 0; z-index: 30; }
+
+/* the header logo in the workspace */
+.app-header .lg { color: var(--ivory); }

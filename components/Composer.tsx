@@ -115,10 +115,10 @@ export function Composer({
             </button>
           );
         })}
-        <span className="cmp-aud-hint">{buyers.includes("auto") ? "We choose the audiences this property suits." : buyers.length > 1 ? "Scripts will be written across these buyers." : "All three scripts for this buyer."}</span>
+        <span className="cmp-aud-hint">{buyers.includes("auto") ? "Everyone: we choose the angles this property suits. Or pick one to three buyer types." : buyers.length > 1 ? "Scripts will be written across these buyers." : "All three scripts for this buyer."}</span>
       </div>
       {error && <p className="field-error" role="alert">{error}</p>}
-      {!file && <p className="hint cmp-need">Add your brochure to continue. The audience stays on Best fit unless you choose up to three.</p>}
+      {!file && <p className="hint cmp-need">Add your brochure to continue. The audience stays on Everyone unless you choose one to three buyer types.</p>}
     </form>
   );
 }
