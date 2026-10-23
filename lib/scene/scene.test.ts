@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { hexToRgb, LIGHTS, lightById, mixHex, mixLight, rgbToHex } from "./timeOfDay.ts";
-import { cameraAt, DOOR, distanceToDoor, introProgress, portraitScale } from "./cameraPath.ts";
+import { cameraAt, DOOR, distanceToDoor, HALL, introProgress, journeyAt, portraitScale } from "./cameraPath.ts";
 
 test("four moods of light, from morning to night, each with a clock", () => {
   assert.deepEqual(LIGHTS.map((l) => l.id), ["morning", "golden", "dusk", "night"]);
@@ -78,4 +78,29 @@ test("the intro drift eases out: fast first, then settling at its target", () =>
   const first = introProgress(2) - introProgress(0);
   const last = introProgress(18) - introProgress(16);
   assert.ok(first > last * 3, "moves faster at the start than the end");
+});
+
+test("the journey is one smooth path: outside, through the doorway, into the hall", () => {
+  let prev = journeyAt(0).pos;
+  for (let i = 1; i <= 800; i++) {
+    const p = journeyAt((i / 800) * 2);
+    assert.ok(Math.hypot(p.pos[0] - prev[0], p.pos[1] - prev[1], p.pos[2] - prev[2]) < 1.6, `no jump at step ${i}`);
+    assert.ok(p.pos[1] > 1.2, "stays at eye height near the ground");
+    prev = p.pos;
+  }
+  assert.deepEqual(journeyAt(1).pos, cameraAt(1).pos, "the approach ends where the journey reaches the door");
+});
+
+test("the camera crosses the doorway at its centre and ends inside the hall", () => {
+  let crossed: number | null = null;
+  let prev = journeyAt(1).pos;
+  for (let i = 1; i <= 400; i++) {
+    const p = journeyAt(1 + i / 400).pos;
+    if (crossed === null && prev[2] > 5.3 && p[2] <= 5.3) crossed = p[0];
+    prev = p;
+  }
+  assert.ok(crossed !== null && Math.abs(crossed - DOOR[0]) < 0.4, "passes through the door, not the wall");
+  const end = journeyAt(2).pos;
+  assert.ok(end[0] > HALL.minX && end[0] < HALL.maxX && end[2] > HALL.minZ && end[2] < HALL.maxZ, "ends inside the hall");
+  assert.deepEqual(journeyAt(7).pos, journeyAt(2).pos, "clamped at the end");
 });

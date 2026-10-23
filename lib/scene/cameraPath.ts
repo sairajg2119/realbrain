@@ -10,13 +10,22 @@ export interface Pose {
   look: Vec3;
 }
 
-/** t, position, look-at. The last pose stands at the front door. */
+/**
+ * t, position, look-at. From 0 to 1 the camera approaches the front door from outside (the last of those poses stands in
+ * front of it). From 1 to 2 it passes through the doorway and settles in the hall. The door is at x = 6 on the plane z = 5.3.
+ */
 const KEYS: { t: number; pos: Vec3; look: Vec3 }[] = [
   { t: 0, pos: [-30, 11, 52], look: [2, 4, 0] },
   { t: 0.4, pos: [-8, 5, 36], look: [3, 3.6, 0] },
   { t: 0.75, pos: [3, 2.6, 22], look: [5.5, 2.4, 2] },
   { t: 1, pos: [6, 1.75, 11], look: [6, 1.6, 3] },
+  { t: 1.3, pos: [6, 1.68, 7.2], look: [6, 1.6, 0] },
+  { t: 1.62, pos: [6, 1.66, 4.7], look: [6, 1.7, -2] },
+  { t: 2, pos: [6.5, 1.66, 3.7], look: [6.2, 1.85, -3] },
 ];
+
+/** The room the camera ends in (the hall), as bounds on the floor plan. */
+export const HALL = { minX: 1.6, maxX: 10.4, minZ: -3.4, maxZ: 5.0 };
 
 export const DOOR: Vec3 = [6, 1.3, 4];
 
@@ -24,9 +33,9 @@ const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 const smooth = (u: number) => u * u * (3 - 2 * u);
 const lerp3 = (a: Vec3, b: Vec3, u: number): Vec3 => [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u];
 
-/** Ease in and out between neighbouring key poses, so the camera never lurches at a key. */
-export function cameraAt(t: number): Pose {
-  const x = clamp01(t);
+/** The whole journey: the first wide view (0), the front door (1), the hall (2). Eases in and out between key poses. */
+export function journeyAt(t: number): Pose {
+  const x = Math.max(0, Math.min(2, t));
   for (let i = 0; i < KEYS.length - 1; i++) {
     const a = KEYS[i];
     const b = KEYS[i + 1];
@@ -37,6 +46,11 @@ export function cameraAt(t: number): Pose {
   }
   const last = KEYS[KEYS.length - 1];
   return { pos: last.pos, look: last.look };
+}
+
+/** The approach only: from the first wide view to the front door. */
+export function cameraAt(t: number): Pose {
+  return journeyAt(clamp01(t));
 }
 
 /** On a tall, narrow screen the camera stands further back so the whole house still fits. */

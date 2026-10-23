@@ -97,9 +97,10 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
 .wm-desc { font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--stone); font-weight: 600; }
 
 /* ========== workspace: paper, hairlines, a faint elevation of vertical fins at the top ========== */
-.workspace { position: relative; min-height: 100vh; padding-bottom: 40px; background: #1b1814 url("/photos/hall.jpg") center / cover fixed no-repeat; }
-.workspace::before { content: ""; position: fixed; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(20, 17, 13, 0.55), rgba(20, 17, 13, 0.78)); }
-.workspace > * { position: relative; }
+.workspace { position: relative; min-height: 100vh; padding-bottom: 40px; background: #1b1814; }
+.workspace::before { content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(20, 17, 13, 0.5), rgba(20, 17, 13, 0.78)); }
+.workspace > *:not(.hs) { position: relative; z-index: 2; }
+.workspace > .hs { position: fixed; z-index: 0; }
 .app-header { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; padding: 16px 40px; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 10px 40px -20px rgba(0, 0, 0, 0.6); }
 .app-header-r { justify-self: end; }
 .app-header .wm-desc { display: none; }
@@ -421,3 +422,9 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
 .app-header :focus-visible { outline-color: #e2bd85; }
 .workspace-main { margin-top: clamp(80px, 20vh, 220px); }
 @media (max-width: 760px) { .workspace-main { margin-top: 90px; } }
+
+/* Motion system (see docs/MOTION.md): one easing, three durations, children of a screen arrive in order. */
+:root { --ease-out: cubic-bezier(0.22, 0.8, 0.2, 1); --t-fast: 0.25s; --t-base: 0.6s; --t-slow: 1.2s; --stagger: 70ms; }
+.screen > *:not(.action-bar) { animation-delay: calc(var(--n, 0) * var(--stagger)); animation-timing-function: var(--ease-out); }
+.screen > *:nth-child(2) { --n: 1; } .screen > *:nth-child(3) { --n: 2; } .screen > *:nth-child(4) { --n: 3; }
+.screen > *:nth-child(5) { --n: 4; } .screen > *:nth-child(6) { --n: 5; } .screen > *:nth-child(n+7) { --n: 6; }

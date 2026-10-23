@@ -1,6 +1,6 @@
 /* The scrolling site: the house, the work shown as short walkthroughs, sample reels, pricing. Dark, warm, photographic. */
 
-.sb { --ink: #14120f; --ink-2: #1b1814; --line: #38332b; --ivory: #f4efe6; --dim: rgba(244, 239, 230, 0.76); --bronze: #d3a566; background: var(--ink); color: var(--ivory); position: relative; }
+.sb { --ink: #14120f; --ink-2: #1b1814; --line: #38332b; --ivory: #f4efe6; --dim: rgba(244, 239, 230, 0.76); --bronze: #d3a566; background: transparent; color: var(--ivory); position: relative; }
 .sb h1, .sb h2, .sb h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: lining-nums; }
 .sb button { cursor: pointer; }
 .sb :focus-visible { outline: 2px solid #e2bd85; outline-offset: 4px; }
@@ -24,10 +24,10 @@
 .sb[data-light="golden"] .sb-photo img { filter: brightness(1.04) saturate(1.18) sepia(0.26) contrast(1.02); }
 .sb[data-light="dusk"] .sb-photo img { filter: none; }
 .sb[data-light="night"] .sb-photo img { filter: brightness(0.55) saturate(1.1) contrast(1.12) hue-rotate(6deg); }
-.sb-shade { background: linear-gradient(90deg, rgba(14, 12, 9, 0.78) 0%, rgba(14, 12, 9, 0.5) 42%, rgba(14, 12, 9, 0.05) 78%), linear-gradient(0deg, rgba(14, 12, 9, 0.7) 0%, rgba(14, 12, 9, 0) 38%); }
+.sb-shade { background: linear-gradient(90deg, rgba(14, 12, 9, 0.72) 0%, rgba(14, 12, 9, 0.38) 38%, rgba(14, 12, 9, 0) 66%), linear-gradient(0deg, rgba(14, 12, 9, 0.6) 0%, rgba(14, 12, 9, 0) 36%); }
 .sb-hero-in { position: absolute; left: clamp(20px, 6vw, 96px); right: clamp(20px, 6vw, 96px); bottom: clamp(120px, 22vh, 210px); max-width: 900px; transition: opacity 0.5s; }
 .sb-hi { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: #fff8ec; font-weight: 600; margin: 0 0 18px; text-shadow: 0 1px 14px rgba(10, 8, 6, 0.7); }
-.sb-tag { font-size: clamp(3.4rem, 9vw, 8.2rem); line-height: 0.96; margin: 0; color: #fffaf0; text-shadow: 0 2px 30px rgba(10, 8, 6, 0.5); }
+.sb-tag { font-size: clamp(2.8rem, 6.6vw, 5.8rem); line-height: 0.96; margin: 0; color: #fffaf0; text-shadow: 0 2px 30px rgba(10, 8, 6, 0.5); }
 .sb-tag span { font-style: italic; background: linear-gradient(transparent 88%, var(--bronze) 88%, var(--bronze) 94%, transparent 94%); }
 .sb-sub { font-size: clamp(1.05rem, 1.6vw, 1.3rem); color: rgba(255, 250, 240, 0.92); margin: 24px 0 0; max-width: 36ch; line-height: 1.5; text-shadow: 0 1px 12px rgba(10, 8, 6, 0.6); }
 .sb-cta-row { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 34px; }
@@ -151,7 +151,7 @@
 .sb-plan-cta { margin-top: auto; background: transparent; color: var(--ivory); border: 1px solid rgba(244, 239, 230, 0.4); padding: 14px; border-radius: 999px; font-weight: 600; font-size: 0.92rem; transition: background 0.25s, color 0.25s; }
 .sb-plan.hi .sb-plan-cta, .sb-plan-cta:hover { background: var(--ivory); color: var(--ink); }
 
-.sb-foot { padding: 56px clamp(20px, 6vw, 96px) 120px; border-top: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr auto; gap: 32px; align-items: center; }
+.sb-foot { background: var(--ink); padding: 56px clamp(20px, 6vw, 96px) 120px; border-top: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr auto; gap: 32px; align-items: center; }
 .sb-foot p { margin: 0; color: rgba(244, 239, 230, 0.55); font-size: 0.85rem; max-width: 60ch; }
 
 /* the floating pill, like Flow's */

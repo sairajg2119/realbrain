@@ -102,14 +102,13 @@ export function Inside({ onStart }: { onStart: () => void }) {
       </header>
 
       <section id="top" data-spy className="sb-hero">
-        <div className="sb-photo" aria-hidden="true"><img src="/photos/hall.jpg" alt="" fetchPriority="high" /></div>
         <div className="sb-shade" aria-hidden="true" />
         <div className="sb-hero-in">
-          <p className="sb-hi">You&apos;re inside</p>
-          <h1 className="sb-tag">Welcome <span>in.</span></h1>
-          <p className="sb-sub">Turn your property into a story worth watching. Start with the brochure; we&apos;ll do the rest.</p>
+          <p className="sb-hi">RealBrain</p>
+          <h1 className="sb-tag">Stories that <span>sell home.</span></h1>
+          <p className="sb-sub">Welcome in. Turn your property into a story worth watching, starting with the brochure.</p>
           <div className="sb-cta-row">
-            <button type="button" className="sb-cta" onClick={begin}>Start with my brochure <IconArrow size={20} /></button>
+            <button type="button" className="sb-cta" onClick={begin}>Create my first reel <IconArrow size={20} /></button>
             <button type="button" className="sb-link" onClick={() => go("brochure")}>See how it works</button>
           </div>
         </div>

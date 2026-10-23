@@ -1,13 +1,18 @@
 /* The opening: a house seen from the road, with the words set in front of it. Palette: charcoal, ivory, limestone, bronze. */
 
-.wl { position: fixed; inset: 0; overflow: hidden; background: #1b1a18; color: #f4efe6; z-index: 5; }
-
-.wl-stage, .wl-3d, .arch-host, .arch-poster { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* The house, mounted once behind everything (see HouseStage). The words and pages sit in front of it. */
+.hs { position: fixed; inset: 0; z-index: 0; background: #14110d; overflow: hidden; }
+.hs-poster, .hs-3d, .arch-host, .arch-poster, .hs-hall { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hs-hall { object-fit: cover; }
 .arch-canvas { display: block; width: 100%; height: 100%; }
-.wl-3d { opacity: 0; transition: opacity 1.4s ease; }
-.wl[data-scene="ready"] .wl-3d { opacity: 1; }
-.arch-poster { transition: opacity 1.4s ease, transform 14s ease-out; transform: scale(1.04); }
-.wl[data-scene="ready"] .arch-poster { opacity: 0; }
+.hs-3d { opacity: 0; transition: opacity 1.4s ease; }
+.hs[data-scene="ready"] .hs-3d { opacity: 1; }
+.hs-poster { transition: opacity 1.4s ease; }
+.hs[data-scene="ready"] .hs-poster { opacity: 0; }
+.app-root { position: relative; }
+.app-layer { position: relative; z-index: 2; }
+
+.wl { position: fixed; inset: 0; overflow: hidden; background: transparent; color: #f4efe6; z-index: 5; }
 
 /* Keeps ivory type readable in every mood of light. A plain shade from the left and the bottom, nothing frosted. */
 .wl-veil {
@@ -68,7 +73,13 @@
   clip-path: inset(50% 50% 50% 50%); transition: clip-path 1s cubic-bezier(0.65, 0, 0.2, 1);
 }
 .wl-door[data-open="true"] { clip-path: inset(0 0 0 0); }
-.wl[data-entering="true"] .wl-s, .wl[data-entering="true"] .wl-foot, .wl[data-entering="true"] .wl-top { opacity: 0; transition: opacity 0.6s; }
+.wl[data-entering="true"] .wl-s, .wl[data-entering="true"] .wl-foot, .wl[data-entering="true"] .wl-top .wordmark, .wl[data-entering="true"] .wl-dots, .wl[data-entering="true"] .wl-veil { opacity: 0; transition: opacity 0.6s; }
+.wl-right { display: flex; align-items: center; gap: 22px; }
+.wl-skip { background: none; border: 0; color: rgba(244, 239, 230, 0.85); font: inherit; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 10px 6px; text-decoration: underline; text-decoration-color: #d3a566; text-underline-offset: 6px; }
+.wl-skip:hover { color: #fff; }
+.wl-skip:focus-visible { outline: 2px solid #e2bd85; outline-offset: 4px; }
+.wl-walk { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); margin: 0; font-size: 0.8rem; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(244, 239, 230, 0.85); z-index: 3; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7); animation: wl-walk 2.4s ease-in-out infinite; }
+@keyframes wl-walk { 50% { opacity: 0.5; } }
 
 @media (max-width: 720px) {
   .wl-top { padding-top: 18px; }

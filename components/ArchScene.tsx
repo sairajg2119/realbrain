@@ -2,25 +2,32 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { cameraAt, introProgress, portraitScale } from "@/lib/scene/cameraPath";
+import { introProgress, journeyAt, portraitScale } from "@/lib/scene/cameraPath";
 import { lightById, mixLight, type Light, type LightId } from "@/lib/scene/timeOfDay";
 
 /**
- * The opening scene: a modern house, built from simple solids and lit by a sun that moves through four moods of light.
- * Everything here is drawn by code, so nothing is downloaded. The camera drifts in from afar; when `enter` turns true
- * it walks up to the front door. With `still` set (reduced motion) it draws single frames and never animates.
- * This file is only ever loaded in the browser, after the page is up (see Landing).
+ * One house, outside and in: a modern residence and its hall, built from the same solids and materials and lit by a sun
+ * that moves through four moods of light. Everything is drawn by code, so nothing is downloaded.
+ * phase "outside": the camera drifts in from afar. "entering": it walks up the path, the front door opens and it glides
+ * through into the hall (one unbroken camera move). "inside": it rests in the hall. The scene then stays mounted behind the
+ * workspace, so the hall is still there while the user works. `calm` draws fewer frames for that. `still` (reduced motion)
+ * draws single frames and never animates. This file is only ever loaded in the browser (see Landing and page).
  */
+export type HousePhase = "outside" | "entering" | "inside";
+
 export interface ArchSceneProps {
   light: LightId;
-  enter: boolean;
+  phase: HousePhase;
   still: boolean;
+  calm?: boolean;
   onReady?: () => void;
+  onArrive?: () => void;
   onFail?: () => void;
 }
 
 const FADE_MS = 1600;
-const ENTER_MS = 2400;
+const ENTER_MS = 5600; // from the path to the hall
+const SKIP_MS = 1500;
 
 function rng(seed: number) {
   let a = seed;
@@ -35,14 +42,14 @@ function rng(seed: number) {
 
 const smooth = (u: number) => u * u * (3 - 2 * u);
 
-export default function ArchScene({ light, enter, still, onReady, onFail }: ArchSceneProps) {
+export default function ArchScene({ light, phase, still, calm, onReady, onArrive, onFail }: ArchSceneProps) {
   const host = useRef<HTMLDivElement>(null);
-  const props = useRef({ light, enter, still, onReady, onFail });
-  props.current = { light, enter, still, onReady, onFail };
+  const props = useRef({ light, phase, still, calm, onReady, onArrive, onFail });
+  props.current = { light, phase, still, calm, onReady, onArrive, onFail };
   const poke = useRef<() => void>(() => {});
 
   // A change of props wakes the loop when it is in still mode.
-  useEffect(() => { poke.current(); }, [light, enter, still]);
+  useEffect(() => { poke.current(); }, [light, phase, still, calm]);
 
   useEffect(() => {
     const el = host.current;
@@ -140,6 +147,14 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
       inner.push(p);
     }
 
+    const hallLights: THREE.PointLight[] = [];
+    for (const [x, y, z] of [[6, 3.4, 1.8], [7.6, 3.4, -1.6]] as const) {
+      const p = new THREE.PointLight("#ffd9ab", 30, 18, 2);
+      p.position.set(x, y, z);
+      scene.add(p);
+      hallLights.push(p);
+    }
+
     // ---- materials -------------------------------------------------------------------------------------------
     const std = (color: string, rough: number, metal = 0) => track(new THREE.MeshStandardMaterial({ color, roughness: rough, metalness: metal }));
     const limestone = std("#d9cfbd", 0.92);
@@ -150,6 +165,11 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
     const paving = std("#b5ab9a", 0.95);
     const lawn = std("#6a7a4c", 1);
     const interiorWall = std("#4a4036", 0.9);
+    const plaster = std("#e3dac9", 0.9);
+    const oak = std("#a98259", 0.6);
+    const floorStone = std("#a99f8d", 0.24, 0.06);
+    const ceilWhite = std("#efe9dd", 0.95);
+    const daylight = track(new THREE.MeshStandardMaterial({ color: "#2a2a2a", emissive: new THREE.Color("#f4d9b0"), emissiveIntensity: 1.2, roughness: 1 }));
     const glass = track(new THREE.MeshStandardMaterial({ color: "#a9bcc4", roughness: 0.05, metalness: 0.85, transparent: true, opacity: 0.38, envMapIntensity: 1.6 }));
     const warm = track(new THREE.MeshStandardMaterial({ color: "#2a2018", emissive: new THREE.Color("#ffbf74"), emissiveIntensity: 0.3, roughness: 0.8 }));
     const lampMat = track(new THREE.MeshStandardMaterial({ color: "#2a2018", emissive: new THREE.Color("#ffcf8a"), emissiveIntensity: 0.2 }));
@@ -173,13 +193,23 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
     box(34, 0.3, 17, paving, 0, 0.15, 1.5, false); // terrace
 
     // ---- the house, facing +z --------------------------------------------------------------------------------
-    box(24, 4, 10, interiorWall, 0, 2.3, 0); // ground-floor volume
+    // The ground floor leaves room for the hall (x 1.6 to 10.4, z -3.4 to 5.0) with a doorway in its front wall (x 5.15 to 6.85).
+    // Masses either side of and behind the hall stop just short of its walls, so they never fight with the hall's own surfaces.
+    box(13.5, 4, 10, interiorWall, -5.25, 2.3, 0);
+    box(1.5, 4, 10, interiorWall, 11.25, 2.3, 0);
+    box(8.8, 4, 1.5, interiorWall, 6, 2.3, -4.25);
+    const plasterSide = plaster; // the inside face of the front wall is seen from the hall, so it matches the hall
+    box(3.55, 4, 0.5, plasterSide, 3.375, 2.3, 4.75);
+    box(3.55, 4, 0.5, plasterSide, 8.625, 2.3, 4.75);
+    box(1.7, 1.0, 0.5, plasterSide, 6, 3.8, 4.75);
     box(8, 4, 0.5, limestone, -8, 2.3, 5.1); // solid wall, left
     box(3, 4, 0.5, darkStone, 10.5, 2.3, 5.1); // dark stone, right
-    const glow1 = add(new THREE.PlaneGeometry(12.6, 3.5), warm, 2.5, 2.2, 5.06, false, false); // lit interior, just behind the glass
-    glow1.castShadow = false;
-    add(new THREE.PlaneGeometry(12.6, 3.5), glass, 2.5, 2.2, 5.2, false, false);
-    for (let i = 0; i <= 8; i++) box(0.09, 3.6, 0.16, bronze, -3.8 + i * 1.575, 2.2, 5.25, false); // mullions
+    // lit interior and glass, in two pieces either side of the doorway
+    for (const [w, cx] of [[8.95, 0.675], [1.95, 7.825]] as const) {
+      add(new THREE.PlaneGeometry(w, 3.5), warm, cx, 2.2, 5.06, false, false);
+      add(new THREE.PlaneGeometry(w, 3.5), glass, cx, 2.2, 5.2, false, false);
+    }
+    for (let i = 0; i <= 8; i++) if (i !== 6) box(0.09, 3.6, 0.16, bronze, -3.8 + i * 1.575, 2.2, 5.25, false); // mullions (none across the doorway)
     box(13.2, 0.1, 0.2, bronze, 2.5, 4.05, 5.25, false);
     // furniture seen through the glass
     box(3.6, 0.9, 0.5, std("#2a2018", 0.9), -0.6, 0.95, 5.0, false); // a sofa back against the glass
@@ -189,8 +219,16 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
       pendant.castShadow = false;
     }
     // the door and its canopy
-    box(1.7, 2.9, 0.14, bronze, 6, 1.75, 5.32, false);
-    box(0.06, 0.9, 0.08, white, 6.55, 1.7, 5.43, false);
+    const doorPivot = new THREE.Group(); // hinged on its left edge; swings inward
+    doorPivot.position.set(5.15, 0, 5.32);
+    scene.add(doorPivot);
+    const doorLeaf = new THREE.Mesh(track(new THREE.BoxGeometry(1.7, 2.9, 0.14)), bronze);
+    doorLeaf.position.set(0.85, 1.75, 0);
+    doorLeaf.castShadow = true;
+    doorPivot.add(doorLeaf);
+    const doorPull = new THREE.Mesh(track(new THREE.BoxGeometry(0.06, 0.9, 0.08)), white);
+    doorPull.position.set(1.4, 1.7, 0.11);
+    doorPivot.add(doorPull);
     box(5, 0.26, 3.2, white, 6, 3.55, 6.7);
     for (const dx of [-2.2, 2.2]) {
       const w = add(new THREE.SphereGeometry(0.16, 12, 10), lampMat, 6 + dx * 0.55, 2.7, 5.5, false, false);
@@ -211,6 +249,46 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
     box(25, 0.34, 10.8, white, 0, 4.47, 0.4);
     box(1.3, 10.6, 6, darkStone, 11.2, 5.6, -1.2); // the tall stone wall
     box(6, 1.2, 4, limestone, 8, 5.1, -2); // upper terrace wall
+    // ---- the hall: the same limestone, timber, bronze and warm light as the outside --------------------------------
+    // A shell seen from the inside only (BackSide), so from the garden it is invisible and the doorway simply shows the room.
+    {
+      const faces = [plaster, plaster, ceilWhite, floorStone, plaster, oak].map((m) => {
+        const c = m.clone();
+        c.side = THREE.BackSide;
+        track(c);
+        return c;
+      });
+      const shell = new THREE.Mesh(track(new THREE.BoxGeometry(8.8, 3.8, 8.4)), faces);
+      shell.position.set(6, 2.2, 0.8);
+      shell.receiveShadow = true;
+      scene.add(shell);
+    }
+    // timber slats on the back wall, with a niche light above
+    for (let i = 0; i < 14; i++) box(0.06, 3.5, 0.08, bronze, 2.2 + i * 0.6, 2.2, -3.32, false);
+    box(8.2, 0.08, 0.5, warm, 6, 4.0, -3.15, false);
+    // a window onto the garden in the left wall, glowing with the light outside
+    add(new THREE.PlaneGeometry(5.2, 2.6), daylight, 1.64, 2.0, 0.6, false, false).rotation.y = Math.PI / 2;
+    box(0.06, 2.7, 0.1, bronze, 1.66, 2.0, -2.0, false);
+    box(0.06, 2.7, 0.1, bronze, 1.66, 2.0, 3.2, false);
+    // a floating staircase along the right wall
+    for (let i = 0; i < 10; i++) box(1.5, 0.12, 0.62, limestone, 9.6, 0.5 + i * 0.3, 3.4 - i * 0.62, false);
+    box(0.05, 2.4, 6.2, glass, 8.82, 2.3, 0.3, false);
+    // the seating group, a rug, a console and a plant
+    box(4.6, 0.02, 3.4, std("#cdbb9d", 1), 4.6, 0.31, -0.9, false);
+    box(2.9, 0.62, 1.0, std("#7d7366", 0.9), 4.6, 0.65, -1.7);
+    box(2.9, 0.7, 0.26, std("#7d7366", 0.9), 4.6, 0.95, -2.2);
+    box(1.3, 0.34, 0.75, white, 4.6, 0.5, -0.5);
+    box(0.8, 0.62, 0.9, std("#9a6b3c", 0.8), 2.9, 0.65, -0.2);
+    box(2.3, 0.8, 0.5, darkStone, 6.4, 0.7, -3.0);
+    box(1.7, 1.15, 0.05, bronze, 6.4, 2.3, -3.3, false);
+    box(1.52, 0.97, 0.03, limestone, 6.4, 2.3, -3.27, false);
+    box(0.5, 0.45, 0.5, darkStone, 2.4, 0.55, -2.9);
+    add(new THREE.SphereGeometry(0.62, 14, 10), std("#3d5233", 0.95), 2.4, 1.45, -2.9);
+    for (const px of [5.2, 6.8, 8.4]) {
+      box(0.03, 0.9, 0.03, bronze, px, 3.65, -0.4, false);
+      const pend = add(new THREE.SphereGeometry(0.24, 16, 12), lampMat, px, 3.12, -0.4, false, false);
+      pend.castShadow = false;
+    }
     // ---- pool ------------------------------------------------------------------------------------------------
     box(10.6, 0.34, 4.6, white, -11, 0.17, 12.2, false);
     const pool = add(new THREE.PlaneGeometry(9.6, 3.6), water, -11, 0.36, 12.2, false, true);
@@ -302,6 +380,9 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
       lampMat.emissiveIntensity = 0.1 + l.glow * 3;
       water.emissiveIntensity = l.glow * 0.5;
       for (const p of inner) p.intensity = l.glow * 90;
+      for (const p of hallLights) p.intensity = 26 + l.glow * 50;
+      daylight.emissive.set(l.skyHorizon);
+      daylight.emissiveIntensity = 0.35 + (1 - l.glow) * 1.3;
       for (const p of lamps) p.intensity = l.glow * 40;
       moteMat.opacity = 0.15 + (1 - l.glow) * 0.45;
     };
@@ -316,8 +397,10 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
       camera.aspect = w / h;
       camera.fov = w / h < 1 ? 48 : w / h < 1.5 ? 44 : 38;
       camera.updateProjectionMatrix();
+      baseFov = camera.fov;
       dirty = true;
     };
+    let baseFov = camera.fov;
     let dirty = true;
     poke.current = () => { dirty = true; };
     const ro = new ResizeObserver(resize);
@@ -340,7 +423,11 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
     let lastEnv = 0;
     let enterStart = -1;
     let enterFrom = 0;
-    let wasEnter = false;
+    let enterMs = ENTER_MS;
+    let phaseSeen = props.current.phase;
+    let jt = props.current.phase === "inside" ? 2 : 0; // where we are on the journey: 0 wide view, 1 the door, 2 the hall
+    let arrived = props.current.phase === "inside";
+    let lastDraw = 0;
     let ready = false;
     const t0 = performance.now();
     applyLight(cur);
@@ -369,21 +456,37 @@ export default function ArchScene({ light, enter, still, onReady, onFail }: Arch
       }
 
       if (!animating && !dirty) return;
+      // In the workspace the hall only needs to be there: about 20 frames a second is plenty and saves the machine.
+      if (p.calm && !dirty && now - lastDraw < 48) return;
+      lastDraw = now;
 
       const elapsed = (now - t0) / 1000;
-      let prog = animating ? introProgress(elapsed) : introProgress(99);
-      if (p.enter && !wasEnter) { wasEnter = true; enterStart = now; enterFrom = prog; }
-      if (!p.enter && wasEnter) { wasEnter = false; enterStart = -1; }
-      if (wasEnter) {
-        const e = p.still ? 1 : Math.min(1, (now - enterStart) / ENTER_MS);
-        prog = enterFrom + (1 - enterFrom) * smooth(e);
+      if (p.phase !== phaseSeen) {
+        phaseSeen = p.phase;
+        if (p.phase === "entering" && jt < 2) { enterStart = now; enterFrom = jt; enterMs = ENTER_MS; arrived = false; }
+        else if (p.phase === "inside" && jt < 2) {
+          if (p.still) jt = 2;
+          else { enterStart = enterStart < 0 ? now : enterStart; enterFrom = enterStart === now ? jt : enterFrom; enterMs = SKIP_MS; }
+        } else if (p.phase === "outside") { jt = 0; enterStart = -1; arrived = false; }
       }
-      const pose = cameraAt(prog);
+      if (p.phase === "outside") jt = animating ? introProgress(elapsed) : introProgress(99);
+      else if (enterStart >= 0 && jt < 2) {
+        const e = p.still ? 1 : Math.min(1, (now - enterStart) / enterMs);
+        jt = enterFrom + (2 - enterFrom) * (e < 0.5 ? 2 * e * e : 1 - Math.pow(-2 * e + 2, 2) / 2);
+        if (e >= 1) jt = 2;
+      }
+      if (jt >= 2 && !arrived) { arrived = true; props.current.onArrive?.(); }
+      doorPivot.rotation.y = smooth(Math.max(0, Math.min(1, (jt - 0.92) / 0.34))) * 1.7;
+      const pose = journeyAt(jt);
       ptr.sx += (ptr.x - ptr.sx) * 0.05;
       ptr.sy += (ptr.y - ptr.sy) * 0.05;
-      const par = p.still ? 0 : 1;
-      const sway = animating ? Math.sin(elapsed * 0.35) * 0.35 : 0;
-      const scale = portraitScale(camera.aspect);
+      const par = p.still ? 0 : jt > 1.3 ? 0.22 : 1; // inside the hall, keep the look-around small so the camera stays in the room
+      const sway = animating ? Math.sin(elapsed * 0.35) * (jt > 1.3 ? 0.06 : 0.35) : 0;
+      const portrait = portraitScale(camera.aspect);
+      const scale = portrait + (1 - portrait) * Math.max(0, Math.min(1, (jt - 0.8) / 0.5));
+      // Inside, open the lens a little so the whole room reads.
+      const fov = baseFov + 16 * smooth(Math.max(0, Math.min(1, (jt - 1.15) / 0.55)));
+      if (Math.abs(fov - camera.fov) > 0.01) { camera.fov = fov; camera.updateProjectionMatrix(); }
       look.set(pose.look[0], pose.look[1], pose.look[2]);
       camera.position.set(
         look.x + (pose.pos[0] - look.x) * scale + (ptr.sx * 1.4 + sway) * par,

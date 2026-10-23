@@ -4,11 +4,13 @@ import { upload } from "@vercel/blob/client";
 import { useEffect, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ApprovalScreen } from "@/components/ApprovalScreen";
+import { HouseStage, type SceneState } from "@/components/HouseStage";
 import { Landing } from "@/components/Landing";
 import { ProjectScreen } from "@/components/ProjectScreen";
 import { ScriptStudio } from "@/components/ScriptStudio";
 import { loadDemoResult } from "@/lib/mock";
 import { extractPdfText } from "@/lib/pdftext";
+import type { LightId } from "@/lib/scene/timeOfDay";
 import type { AnalyzeResponse, BuyerChoice } from "@/lib/types";
 import { startVideo, type VideoState } from "@/lib/video";
 import { activeStep, SERVER_PDF_BYTES, type Stage } from "@/lib/workflow";
@@ -17,6 +19,11 @@ const DIRECT_LIMIT = 4 * 1024 * 1024; // what we can send through the server wit
 
 export default function Home() {
   const [stage, setStage] = useState<Stage>("landing");
+  // The house: outside (garden, front door), entering (the walk through the door), inside (the hall, kept behind the workspace).
+  const [phase, setPhase] = useState<"outside" | "entering" | "inside">("outside");
+  const [light, setLight] = useState<LightId>("golden");
+  const [scene, setScene] = useState<SceneState>("pending");
+  const [still, setStill] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [buyer, setBuyer] = useState<BuyerChoice>("auto");
   const [notes, setNotes] = useState("");
@@ -33,6 +40,14 @@ export default function Home() {
   const [image, setImage] = useState<File | null>(null);
   const [video, setVideo] = useState<VideoState>({ kind: "idle" });
   const root = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setStill(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   // Real elapsed time while the brochure is being processed.
   useEffect(() => {
@@ -159,19 +174,43 @@ export default function Home() {
   const chosen = ok && selected !== null ? ok.scripts[selected] : null;
   const step = activeStep(stage, approved, video.kind !== "idle");
 
+  const stageEl = (
+    <HouseStage
+      light={light}
+      phase={stage === "landing" ? phase : "inside"}
+      still={still}
+      calm={stage !== "landing"}
+      scene={scene}
+      onScene={setScene}
+      onArrive={() => setPhase("inside")}
+    />
+  );
+
   if (stage === "landing") {
     return (
-      <div ref={root}>
-        <Landing onStart={() => setStage("project")} />
+      <div ref={root} className="app-root">
+        {stageEl}
+        <div className="app-layer">
+          <Landing
+            phase={phase}
+            light={light}
+            onLight={setLight}
+            scene={scene}
+            onEnter={() => (still ? setPhase("inside") : setPhase("entering"))}
+            onSkip={() => setPhase("inside")}
+            onStart={() => setStage("project")}
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <div ref={root} className="workspace">
+    <div ref={root} className="workspace" data-scene={scene}>
+      {stageEl}
       <AppHeader
         step={step}
-        onHome={() => setStage("landing")}
+        onHome={() => { setPhase("inside"); setStage("landing"); }}
         onStartOver={() => {
           resetJourney();
           setStage("project");
@@ -196,7 +235,7 @@ export default function Home() {
             result={result}
             onSubmit={createScripts}
             onDemo={exploreSample}
-            onBack={() => setStage("landing")}
+            onBack={() => { setPhase("inside"); setStage("landing"); }}
           />
         )}
         {stage === "script" && ok && (
