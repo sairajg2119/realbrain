@@ -20,6 +20,10 @@ export interface ArchSceneProps {
   phase: HousePhase;
   still: boolean;
   calm?: boolean;
+  /** When set, the camera's place on the journey follows this value (the page sets it from the scroll). */
+  drive?: { current: number | null };
+  /** When true, nothing is drawn: the scene is covered by the page. */
+  paused?: { current: boolean };
   onReady?: () => void;
   onArrive?: () => void;
   onFail?: () => void;
@@ -42,10 +46,10 @@ function rng(seed: number) {
 
 const smooth = (u: number) => u * u * (3 - 2 * u);
 
-export default function ArchScene({ light, phase, still, calm, onReady, onArrive, onFail }: ArchSceneProps) {
+export default function ArchScene({ light, phase, still, calm, drive, paused, onReady, onArrive, onFail }: ArchSceneProps) {
   const host = useRef<HTMLDivElement>(null);
-  const props = useRef({ light, phase, still, calm, onReady, onArrive, onFail });
-  props.current = { light, phase, still, calm, onReady, onArrive, onFail };
+  const props = useRef({ light, phase, still, calm, drive, paused, onReady, onArrive, onFail });
+  props.current = { light, phase, still, calm, drive, paused, onReady, onArrive, onFail };
   const poke = useRef<() => void>(() => {});
 
   // A change of props wakes the loop when it is in still mode.
@@ -455,7 +459,9 @@ export default function ArchScene({ light, phase, still, calm, onReady, onArrive
         if (!fading || now - lastEnv > 380) { refreshEnv(); lastEnv = now; }
       }
 
-      if (!animating && !dirty) return;
+      if (p.paused?.current && cur === to) return;
+      const driven = p.drive?.current ?? null;
+      if (!animating && !dirty && driven === null) return;
       // In the workspace the hall only needs to be there: about 20 frames a second is plenty and saves the machine.
       if (p.calm && !dirty && now - lastDraw < 48) return;
       lastDraw = now;
@@ -469,7 +475,11 @@ export default function ArchScene({ light, phase, still, calm, onReady, onArrive
           else { enterStart = enterStart < 0 ? now : enterStart; enterFrom = enterStart === now ? jt : enterFrom; enterMs = SKIP_MS; }
         } else if (p.phase === "outside") { jt = 0; enterStart = -1; arrived = false; }
       }
-      if (p.phase === "outside") jt = animating ? introProgress(elapsed) : introProgress(99);
+      if (p.phase === "outside") {
+        // Before the walk the camera rests at the end of its opening drift; on the walk it follows the scroll, eased.
+        const target = driven ?? (animating ? introProgress(elapsed) : introProgress(99));
+        jt = driven === null && animating && elapsed < 18 ? target : jt + (target - jt) * (p.still ? 1 : 0.12);
+      }
       else if (enterStart >= 0 && jt < 2) {
         const e = p.still ? 1 : Math.min(1, (now - enterStart) / enterMs);
         jt = enterFrom + (2 - enterFrom) * (e < 0.5 ? 2 * e * e : 1 - Math.pow(-2 * e + 2, 2) / 2);

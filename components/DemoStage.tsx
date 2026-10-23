@@ -24,12 +24,12 @@ function useClock(active: boolean, total: number, still: boolean) {
 
 const typed = (text: string, t: number, start: number, cps = 26) => text.slice(0, Math.max(0, Math.min(text.length, Math.floor((t - start) * cps))));
 
-function Window({ title, children, label }: { title: string; children: React.ReactNode; label: string }) {
+function Window({ title, children, label, tag = "Walkthrough · not a finished reel" }: { title: string; children: React.ReactNode; label: string; tag?: string }) {
   return (
     <div className="dw" role="img" aria-label={label}>
       <div className="dw-bar"><span /><span /><span /><b>{title}</b></div>
       <div className="dw-body">{children}</div>
-      <p className="dw-tag">Walkthrough · not a finished reel</p>
+      <p className="dw-tag">{tag}</p>
     </div>
   );
 }
@@ -68,7 +68,7 @@ const LINES: { time: string; label: string; say: string; at: number }[] = [
 function Script({ active, still }: { active: boolean; still: boolean }) {
   const t = useClock(active, 12, still);
   return (
-    <Window title="Script 1 · families" label="A script appears beat by beat with timings, then two checks pass.">
+    <Window title="Script 1 · families" label="A script appears beat by beat with timings, then two checks pass." tag="Lines from a script RealBrain wrote from a real brochure">
       <ol className="dw-script">
         {LINES.map((l) => (
           <li key={l.time} className={t > l.at ? "on" : ""}>
@@ -91,7 +91,7 @@ function Reel({ active, still }: { active: boolean; still: boolean }) {
   const t = useClock(active, 12, still);
   const i = Math.min(3, Math.floor(t / 3));
   return (
-    <Window title="Your reel" label="A vertical reel preview with the avatar slot, spoken captions, and the RERA and AI labels.">
+    <Window title="Your reel" label="A vertical reel preview with the avatar slot, spoken captions, and the RERA and AI labels." tag="Preview · avatar rendering not connected yet">
       <div className="dw-reel">
         <div className="dw-phone">
           <img src="/photos/entrance.jpg" alt="" className={active || still ? "kb" : ""} />

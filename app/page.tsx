@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { ApprovalScreen } from "@/components/ApprovalScreen";
 import { HouseStage, type SceneState } from "@/components/HouseStage";
-import { Landing } from "@/components/Landing";
+import { Home as HomePage } from "@/components/Home";
 import { ProjectScreen } from "@/components/ProjectScreen";
 import { ScriptStudio } from "@/components/ScriptStudio";
 import { loadDemoResult } from "@/lib/mock";
@@ -19,11 +19,13 @@ const DIRECT_LIMIT = 4 * 1024 * 1024; // what we can send through the server wit
 
 export default function Home() {
   const [stage, setStage] = useState<Stage>("landing");
-  // The house: outside (garden, front door), entering (the walk through the door), inside (the hall, kept behind the workspace).
-  const [phase, setPhase] = useState<"outside" | "entering" | "inside">("outside");
+  // The house on the homepage. Its camera follows the scroll (drive); it stops drawing once the page covers it (paused).
+  const phase = "outside" as const;
   const [light, setLight] = useState<LightId>("golden");
   const [scene, setScene] = useState<SceneState>("pending");
   const [still, setStill] = useState(false);
+  const drive = useRef<number | null>(null);
+  const paused = useRef(false);
   const [file, setFile] = useState<File | null>(null);
   const [buyer, setBuyer] = useState<BuyerChoice>("auto");
   const [notes, setNotes] = useState("");
@@ -174,30 +176,27 @@ export default function Home() {
   const chosen = ok && selected !== null ? ok.scripts[selected] : null;
   const step = activeStep(stage, approved, video.kind !== "idle");
 
-  const stageEl = (
-    <HouseStage
-      light={light}
-      phase={stage === "landing" ? phase : "inside"}
-      still={still}
-      calm={stage !== "landing"}
-      scene={scene}
-      onScene={setScene}
-      onArrive={() => setPhase("inside")}
-    />
-  );
-
   if (stage === "landing") {
     return (
       <div ref={root} className="app-root">
-        {stageEl}
+        <HouseStage light={light} phase={phase} still={still} calm={false} scene={scene} onScene={setScene} onArrive={() => {}} drive={drive} paused={paused} />
         <div className="app-layer">
-          <Landing
-            phase={phase}
+          <HomePage
             light={light}
             onLight={setLight}
-            scene={scene}
-            onEnter={() => (still ? setPhase("inside") : setPhase("entering"))}
-            onSkip={() => setPhase("inside")}
+            still={still}
+            drive={drive}
+            paused={paused}
+            composer={{
+              file,
+              onFile: pickFile,
+              notes,
+              onNotes: setNotes,
+              buyer,
+              onBuyer: setBuyer,
+              onSubmit: () => { setStage("project"); void createScripts(); },
+              onDemo: exploreSample,
+            }}
             onStart={() => setStage("project")}
           />
         </div>
@@ -206,11 +205,10 @@ export default function Home() {
   }
 
   return (
-    <div ref={root} className="workspace" data-scene={scene}>
-      {stageEl}
+    <div ref={root} className="workspace">
       <AppHeader
         step={step}
-        onHome={() => { setPhase("inside"); setStage("landing"); }}
+        onHome={() => setStage("landing")}
         onStartOver={() => {
           resetJourney();
           setStage("project");
@@ -235,7 +233,7 @@ export default function Home() {
             result={result}
             onSubmit={createScripts}
             onDemo={exploreSample}
-            onBack={() => { setPhase("inside"); setStage("landing"); }}
+            onBack={() => setStage("landing")}
           />
         )}
         {stage === "script" && ok && (

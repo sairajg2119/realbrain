@@ -34,6 +34,8 @@ export function HouseStage({
   scene,
   onScene,
   onArrive,
+  drive,
+  paused,
 }: {
   light: LightId;
   phase: HousePhase;
@@ -42,6 +44,8 @@ export function HouseStage({
   scene: SceneState;
   onScene: (s: SceneState) => void;
   onArrive: () => void;
+  drive?: { current: number | null };
+  paused?: { current: boolean };
 }) {
   useEffect(() => {
     const saver = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
@@ -53,7 +57,7 @@ export function HouseStage({
       <div className="hs-poster">{phase === "outside" || phase === "entering" ? <ArchPoster /> : <img src="/photos/hall.jpg" alt="" className="hs-hall" />}</div>
       {scene !== "off" && (
         <div className="hs-3d">
-          <ArchScene light={light} phase={phase} still={still} calm={calm} onReady={() => onScene("ready")} onArrive={onArrive} onFail={() => onScene("off")} />
+          <ArchScene light={light} phase={phase} still={still} calm={calm} drive={drive} paused={paused} onReady={() => onScene("ready")} onArrive={onArrive} onFail={() => onScene("off")} />
         </div>
       )}
     </div>
