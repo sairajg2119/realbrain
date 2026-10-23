@@ -1,6 +1,6 @@
 /* The homepage: one continuous scroll over the house. Uses the same tokens as the workspace (globals.css). */
 
-.hm { position: relative; color: var(--ivory); }
+.hm { position: relative; color: var(--ivory); --bronze: var(--gold); --dim: rgba(244, 239, 230, 0.76); }
 .hm h1, .hm h2 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; margin: 0; }
 .hm :focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 4px; }
 
@@ -109,3 +109,87 @@
 }
 /* the doorway's light fades into the brochure section, so there is no hard edge between the house and the page */
 .hm-brochure::before { content: ""; position: absolute; left: 0; right: 0; top: -240px; height: 240px; background: linear-gradient(180deg, rgba(42, 33, 22, 0), #2a2116); pointer-events: none; }
+
+/* The product window used by the walkthroughs (moved from the old site.css). */
+.dw { background: #1e1b16; border: 1px solid #3b362d; border-radius: 14px; overflow: hidden; box-shadow: 0 50px 100px -40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03); position: relative; }
+.dw-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid #332e26; }
+.dw-bar span { width: 10px; height: 10px; border-radius: 50%; background: #3f392f; }
+.dw-bar b { margin-left: 10px; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; color: rgba(244, 239, 230, 0.6); }
+.dw-body { padding: clamp(16px, 2.4vw, 28px); min-height: 360px; }
+.dw-tag { position: absolute; right: 14px; bottom: 10px; margin: 0; font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(244, 239, 230, 0.42); }
+.dw-chat { display: grid; gap: 14px; }
+.dw-file { display: inline-flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid #453f35; border-radius: 10px; font-size: 0.9rem; width: fit-content; opacity: 0; transform: translateY(8px); transition: opacity 0.5s, transform 0.5s; }
+.dw-file.on { opacity: 1; transform: none; }
+.dw-file i { width: 20px; height: 24px; border: 1.5px solid var(--bronze); border-radius: 3px; display: inline-block; }
+.dw-file em { color: rgba(244, 239, 230, 0.55); font-style: normal; font-size: 0.8rem; }
+.dw-input { border: 1px solid #4a443a; border-radius: 14px; padding: 16px 18px 12px; background: #17140f; }
+.dw-input p { margin: 0; min-height: 3.2em; font-size: 1.02rem; line-height: 1.55; }
+.dw-ph { color: rgba(244, 239, 230, 0.4); }
+.dw-input u { display: inline-block; width: 2px; height: 1.1em; background: var(--bronze); vertical-align: text-bottom; margin-left: 2px; opacity: 0; }
+.dw-input u.on { opacity: 1; }
+.dw-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+.dw-clip { font-size: 0.8rem; color: rgba(244, 239, 230, 0.6); }
+.dw-send { font-size: 0.82rem; font-weight: 600; padding: 9px 16px; border-radius: 999px; background: #3a342b; color: rgba(244, 239, 230, 0.7); transition: background 0.3s, color 0.3s; }
+.dw-send.go { background: var(--ivory); color: var(--on-dark); }
+.dw-read p { margin: 0 0 10px; font-size: 0.95rem; color: var(--dim); }
+.dw-bar2 { height: 3px; background: #3a342b; border-radius: 3px; overflow: hidden; }
+.dw-bar2 div { height: 100%; background: var(--bronze); transition: width 0.15s linear; }
+.dw-script { display: grid; gap: 0; }
+.dw-script li { display: grid; grid-template-columns: 92px 1fr; gap: 18px; padding: 14px 0; border-bottom: 1px solid #2f2a23; opacity: 0.14; transform: translateY(6px); transition: opacity 0.6s, transform 0.6s; }
+.dw-script li.on { opacity: 1; transform: none; }
+.dw-script span { display: flex; flex-direction: column; font-size: 0.78rem; color: rgba(244, 239, 230, 0.55); font-variant-numeric: tabular-nums; }
+.dw-script b { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bronze); margin-top: 3px; }
+.dw-script p { margin: 0; font-family: var(--font-display), Georgia, serif; font-size: 1.4rem; line-height: 1.3; }
+.dw-checks { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; font-size: 0.85rem; color: #8fd0ad; opacity: 0; transition: opacity 0.6s; }
+.dw-checks.on { opacity: 1; }
+.dw-reel { display: grid; grid-template-columns: auto 1fr; gap: clamp(20px, 3vw, 40px); align-items: center; }
+.dw-phone { position: relative; width: clamp(190px, 21vw, 250px); aspect-ratio: 9 / 16; border-radius: 22px; overflow: hidden; border: 1px solid #4a443a; background: #000; box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.9); }
+.dw-phone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 48% 60%; }
+.dw-phone img.kb { animation: sb-kb 12s linear infinite; }
+@keyframes sb-kb { from { transform: scale(1); } to { transform: scale(1.22) translate3d(-2%, -2%, 0); } }
+.dw-phone::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.75)); }
+.dw-ai { position: absolute; top: 56px; left: 12px; z-index: 2; background: rgba(0, 0, 0, 0.75); border: 1px solid rgba(255, 255, 255, 0.4); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; padding: 4px 8px; }
+.dw-rera { position: absolute; top: 12px; right: 10px; z-index: 2; max-width: calc(100% - 20px); text-align: right; font-size: 0.5rem; line-height: 1.3; background: rgba(0, 0, 0, 0.6); padding: 4px 6px; overflow-wrap: anywhere; }
+.dw-cap { position: absolute; left: 14px; right: 14px; bottom: 26px; z-index: 2; margin: 0; font-family: var(--font-display), Georgia, serif; font-size: 1.35rem; line-height: 1.2; text-shadow: 0 2px 12px #000; animation: sb-cap 0.6s ease both; }
+@keyframes sb-cap { from { opacity: 0; transform: translateY(8px); } }
+.dw-prog { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 3; background: rgba(255, 255, 255, 0.2); }
+.dw-prog div { height: 100%; background: var(--bronze); transition: width 0.1s linear; }
+.dw-side { display: grid; gap: 14px; }
+.dw-side li { font-size: 0.95rem; color: rgba(244, 239, 230, 0.35); padding-left: 24px; position: relative; transition: color 0.5s; }
+.dw-side li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid currentColor; }
+.dw-side li.on { color: var(--ivory); }
+.dw-side li.on::before { background: var(--bronze); border-color: var(--bronze); }
+.dw-refine { display: grid; gap: 22px; }
+.dw-hook { border: 1px solid #453f35; border-radius: 12px; padding: 18px 20px; }
+.dw-hook small { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bronze); }
+.dw-hook p { margin: 8px 0 0; font-family: var(--font-display), Georgia, serif; font-size: 1.6rem; line-height: 1.25; }
+.dw-hook p.old { text-decoration: line-through; color: rgba(244, 239, 230, 0.4); font-size: 1.2rem; }
+.dw-hook p.new { animation: sb-cap 0.6s ease both; }
+.dw-msgs { display: grid; gap: 10px; }
+.dw-msgs p { margin: 0; padding: 10px 14px; border-radius: 12px; font-size: 0.95rem; max-width: 34ch; animation: sb-cap 0.4s ease both; }
+.dw-u { background: #3a342b; justify-self: end; }
+.dw-a { background: #17140f; border: 1px solid #3b362d; }
+.dw-chip { background: rgba(143, 208, 173, 0.14); color: #8fd0ad; border: 1px solid rgba(143, 208, 173, 0.4); width: fit-content; font-size: 0.85rem; }
+
+/* the brochure walkthrough: the product window and, beside it, the reel that comes in */
+.hm-wide { max-width: 1240px; }
+.hm-brochure .dw, .hm-brochure .bd { margin-top: 40px; }
+.bd { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(20px, 3vw, 44px); align-items: center; }
+.bd .dw { margin-top: 0; }
+.dw-name { font-family: var(--serif); font-size: 1.5rem !important; min-height: 0 !important; margin-bottom: 6px !important; }
+.dw-drop { transform: translateY(-26px) scale(0.96); }
+.dw-drop.on { transform: none; transition: opacity 0.5s, transform 0.7s cubic-bezier(0.34, 1.4, 0.5, 1); }
+.dw-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.dw-chips span { font-size: 0.78rem; padding: 5px 12px; border: 1px solid #4a443a; border-radius: 999px; color: rgba(244, 239, 230, 0.7); transition: background 0.35s, color 0.35s, border-color 0.35s; }
+.dw-chips span.on { background: var(--ivory); color: var(--on-dark); border-color: var(--ivory); }
+.bd-phone { position: relative; width: clamp(200px, 22vw, 290px); aspect-ratio: 9 / 16; border-radius: 22px; overflow: hidden; border: 1px solid #4a443a; background: radial-gradient(circle at 50% 40%, #2a241c, #12100d); box-shadow: 0 50px 100px -40px rgba(0, 0, 0, 0.95); }
+.bd-phone video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: translateY(14%) scale(1.04); transition: opacity 0.9s var(--ease-out), transform 1.1s var(--ease-out); }
+.bd-phone.in video { opacity: 1; transform: none; }
+.bd-phone::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.7)); opacity: 0; transition: opacity 0.9s; pointer-events: none; }
+.bd-phone.in::after { opacity: 1; }
+.bd-phone .dw-ai, .bd-phone .dw-rera, .bd-phone .dw-cap { z-index: 3; opacity: 0; transition: opacity 0.6s 0.4s; }
+.bd-phone.in .dw-ai, .bd-phone.in .dw-rera, .bd-phone.in .dw-cap { opacity: 1; }
+.bd-wait { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 20px; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(244, 239, 230, 0.45); transition: opacity 0.5s; }
+.bd-phone.in .bd-wait { opacity: 0; }
+.bd-tag { position: absolute; z-index: 3; left: 0; right: 0; bottom: 6px; text-align: center; font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
+@media (max-width: 860px) { .bd { grid-template-columns: 1fr; justify-items: center; } .bd .dw { width: 100%; } }

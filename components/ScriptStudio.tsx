@@ -16,6 +16,7 @@ export function ScriptStudio({
   onChoose,
   onContinue,
   onBack,
+  hideBar = false,
 }: {
   result: Ok;
   demo: boolean;
@@ -23,6 +24,8 @@ export function ScriptStudio({
   onChoose: (i: number) => void;
   onContinue: () => void;
   onBack: () => void;
+  /** The approval step is on screen, so the bar that points to it is not needed. */
+  hideBar?: boolean;
 }) {
   return (
     <div className="screen">
@@ -54,7 +57,7 @@ export function ScriptStudio({
         </details>
       )}
 
-      <div className={`action-bar${selected !== null ? " show" : ""}`}>
+      <div className={`action-bar${selected !== null && !hideBar ? " show" : ""}`}>
         <div className="action-bar-in">
           <p>{selected !== null ? <>Script <strong>0{selected + 1}</strong> is selected. Nothing is created until you approve it.</> : "Choose a script to continue."}</p>
           <button className="btn btn-gold btn-lg" onClick={onContinue} disabled={selected === null}>

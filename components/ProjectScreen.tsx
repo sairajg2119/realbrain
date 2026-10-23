@@ -9,8 +9,8 @@ import { ProgressPanel } from "./ProgressPanel";
 export function ProjectScreen({
   file,
   onFile,
-  buyer,
-  onBuyer,
+  buyers,
+  onBuyers,
   notes,
   onNotes,
   busy,
@@ -26,8 +26,8 @@ export function ProjectScreen({
 }: {
   file: File | null;
   onFile: (f: File | null) => void;
-  buyer: BuyerChoice | null;
-  onBuyer: (b: BuyerChoice) => void;
+  buyers: BuyerChoice[];
+  onBuyers: (b: BuyerChoice[]) => void;
   notes: string;
   onNotes: (n: string) => void;
   busy: boolean;
@@ -57,7 +57,7 @@ export function ProjectScreen({
       <h1 className="display display-md" data-focus>What are we <em>selling</em> today?</h1>
       <p className="screen-lead">Attach your brochure and tell us a little about the property if you like. We already know the market. We&apos;ll write the scripts.</p>
 
-      <Composer file={file} onFile={onFile} notes={notes} onNotes={onNotes} buyer={buyer} onBuyer={onBuyer} onSubmit={onSubmit} />
+      <Composer file={file} onFile={onFile} notes={notes} onNotes={onNotes} buyers={buyers} onBuyers={onBuyers} onSubmit={onSubmit} />
 
       <p className="sample-line">
         No brochure to hand? <button className="text-btn" onClick={onDemo}>Explore with a sample project</button>

@@ -13,7 +13,7 @@ import { extractPdfText } from "@/lib/pdftext";
 import type { LightId } from "@/lib/scene/timeOfDay";
 import type { AnalyzeResponse, BuyerChoice } from "@/lib/types";
 import { startVideo, type VideoState } from "@/lib/video";
-import { activeStep, SERVER_PDF_BYTES, type Stage } from "@/lib/workflow";
+import { SERVER_PDF_BYTES, type Stage } from "@/lib/workflow";
 
 const DIRECT_LIMIT = 4 * 1024 * 1024; // what we can send through the server without Blob
 
@@ -27,7 +27,8 @@ export default function Home() {
   const drive = useRef<number | null>(null);
   const paused = useRef(false);
   const [file, setFile] = useState<File | null>(null);
-  const [buyer, setBuyer] = useState<BuyerChoice>("auto");
+  const [buyers, setBuyers] = useState<BuyerChoice[]>(["auto"]);
+  const buyer = buyers.join(","); // the server reads "family,investor" as a mix
   const [notes, setNotes] = useState("");
   const [busy, setBusy] = useState(false);
   const [uploaded, setUploaded] = useState(false);
@@ -42,6 +43,7 @@ export default function Home() {
   const [image, setImage] = useState<File | null>(null);
   const [video, setVideo] = useState<VideoState>({ kind: "idle" });
   const root = useRef<HTMLDivElement>(null);
+  const [view, setView] = useState(0);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -50,6 +52,25 @@ export default function Home() {
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
   }, []);
+
+  // Which step of the workspace is on screen, for the step bar.
+  useEffect(() => {
+    if (stage === "landing") return;
+    const ids = ["ws-project", "ws-script", "ws-approval"];
+    const onScroll = () => {
+      let v = 0;
+      ids.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) v = i;
+      });
+      const reel = document.querySelector(".video-panel");
+      if (reel && reel.getBoundingClientRect().top < window.innerHeight * 0.5) v = 3;
+      setView(v);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [stage]);
 
   // Real elapsed time while the brochure is being processed.
   useEffect(() => {
@@ -73,7 +94,7 @@ export default function Home() {
 
   function resetJourney() {
     setFile(null);
-    setBuyer("auto");
+    setBuyers(["auto"]);
     setNotes("");
     setResult(null);
     setDemo(false);
@@ -140,7 +161,7 @@ export default function Home() {
       }
       const data = (await res.json()) as AnalyzeResponse;
       setResult(data);
-      if (data.status === "ok") setStage("script");
+      if (data.status === "ok") reveal("ws-script");
     } catch (e) {
       setResult({ status: "error", message: e instanceof Error ? e.message : "Something went wrong. Please try again." });
     } finally {
@@ -159,10 +180,16 @@ export default function Home() {
       setVideo({ kind: "idle" });
       setResult(data);
       setDemo(true);
-      if (data.status === "ok") setStage("script");
+      setStage("project");
+      if (data.status === "ok") reveal("ws-script");
     } catch (e) {
       setResult({ status: "error", message: e instanceof Error ? e.message : "Could not load the sample project." });
     }
+  }
+
+  /** Once a step unlocks, bring it into view: the workspace is one page that grows downwards as the work is done. */
+  function reveal(id: string) {
+    window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" }), 140);
   }
 
   function chooseScript(i: number) {
@@ -174,31 +201,15 @@ export default function Home() {
   }
 
   const chosen = ok && selected !== null ? ok.scripts[selected] : null;
-  const step = activeStep(stage, approved, video.kind !== "idle");
+  // What is done: the project (scripts exist), the script (one chosen), the approval, the reel (a video exists).
+  const progress = [!!ok, selected !== null, approved, video.kind === "ready"];
 
   if (stage === "landing") {
     return (
       <div ref={root} className="app-root">
         <HouseStage light={light} phase={phase} still={still} calm={false} scene={scene} onScene={setScene} onArrive={() => {}} drive={drive} paused={paused} />
         <div className="app-layer">
-          <HomePage
-            light={light}
-            onLight={setLight}
-            still={still}
-            drive={drive}
-            paused={paused}
-            composer={{
-              file,
-              onFile: pickFile,
-              notes,
-              onNotes: setNotes,
-              buyer,
-              onBuyer: setBuyer,
-              onSubmit: () => { setStage("project"); void createScripts(); },
-              onDemo: exploreSample,
-            }}
-            onStart={() => setStage("project")}
-          />
+          <HomePage light={light} onLight={setLight} still={still} drive={drive} paused={paused} onStart={() => setStage("project")} />
         </div>
       </div>
     );
@@ -207,21 +218,23 @@ export default function Home() {
   return (
     <div ref={root} className="workspace">
       <AppHeader
-        step={step}
+        progress={progress}
+        view={view}
+        onGo={(i) => reveal(WS_IDS[i])}
         onHome={() => setStage("landing")}
         onStartOver={() => {
           resetJourney();
-          setStage("project");
+          reveal("ws-project");
         }}
-        canStartOver={!busy && (!!file || !!result || stage !== "project")}
+        canStartOver={!busy && (!!file || !!result)}
       />
       <main className="workspace-main">
-        {stage === "project" && (
+        <section id="ws-project" className="ws-sec">
           <ProjectScreen
             file={file}
             onFile={pickFile}
-            buyer={buyer}
-            onBuyer={setBuyer}
+            buyers={buyers}
+            onBuyers={setBuyers}
             notes={notes}
             onNotes={setNotes}
             busy={busy}
@@ -235,39 +248,61 @@ export default function Home() {
             onDemo={exploreSample}
             onBack={() => setStage("landing")}
           />
-        )}
-        {stage === "script" && ok && (
-          <ScriptStudio
-            result={ok}
-            demo={demo}
-            selected={selected}
-            onChoose={chooseScript}
-            onContinue={() => selected !== null && setStage("approval")}
-            onBack={() => setStage("project")}
-          />
-        )}
-        {stage === "approval" && chosen && selected !== null && (
-          <ApprovalScreen
-            item={chosen}
-            index={selected}
-            demo={demo}
-            approved={approved}
-            onApprove={() => setApproved(true)}
-            image={image}
-            onImage={setImage}
-            video={video}
-            onCreateVideo={() => setVideo(startVideo())}
-            onBack={() => {
-              setApproved(false);
-              setVideo({ kind: "idle" });
-              setStage("script");
-            }}
-          />
-        )}
+        </section>
+
+        <section id="ws-script" className="ws-sec">
+          {ok ? (
+            <ScriptStudio
+              result={ok}
+              demo={demo}
+              selected={selected}
+              onChoose={chooseScript}
+              onContinue={() => selected !== null && reveal("ws-approval")}
+              onBack={() => reveal("ws-project")}
+              hideBar={view >= 2}
+            />
+          ) : (
+            <Locked n="02" title="Script studio" text="Your scripts appear here, right below, once your brochure has been read. Add it above and press Create scripts." />
+          )}
+        </section>
+
+        <section id="ws-approval" className="ws-sec">
+          {chosen && selected !== null ? (
+            <ApprovalScreen
+              item={chosen}
+              index={selected}
+              demo={demo}
+              approved={approved}
+              onApprove={() => setApproved(true)}
+              image={image}
+              onImage={setImage}
+              video={video}
+              onCreateVideo={() => setVideo(startVideo())}
+              onBack={() => reveal("ws-script")}
+            />
+          ) : (
+            <Locked n="03" title="Approval and your reel" text={ok ? "Choose one of the scripts above. It opens here for your review, and your reel follows once you approve it." : "This opens once you have scripts and have chosen one."} />
+          )}
+        </section>
       </main>
       <p className="disclaimer">
         Scripts are written by AI from your brochure. You approve what is posted and you are responsible for it under RERA Section 12. Check with your legal advisor before publishing.
       </p>
+    </div>
+  );
+}
+
+const WS_IDS = ["ws-project", "ws-script", "ws-approval", "ws-reel"];
+
+/** A step that is not open yet: what will be here, and what opens it. */
+function Locked({ n, title, text }: { n: string; title: string; text: string }) {
+  return (
+    <div className="locked-sec" aria-disabled="true">
+      <span className="locked-ico" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V8a4 4 0 018 0v3" /></svg>
+      </span>
+      <p className="eyebrow">{n} · {title}</p>
+      <p className="locked-text">{text}</p>
     </div>
   );
 }

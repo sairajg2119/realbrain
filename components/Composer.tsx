@@ -6,6 +6,18 @@ import { BUYER_COPY, formatSize, MAX_PDF_BYTES } from "@/lib/workflow";
 import { IconArrow, IconClose, IconDoc } from "./Icons";
 
 const CHOICES: BuyerChoice[] = ["auto", ...BUYER_TYPES];
+const MAX_AUDIENCES = 3;
+
+/** Best fit on its own, or up to three buyer types together. Choosing Best fit clears the others; clearing them all returns to Best fit. */
+export function toggleAudience(current: BuyerChoice[], b: BuyerChoice): BuyerChoice[] {
+  if (b === "auto") return ["auto"];
+  const named = current.filter((x) => x !== "auto");
+  if (named.includes(b)) {
+    const left = named.filter((x) => x !== b);
+    return left.length ? left : ["auto"];
+  }
+  return named.length >= MAX_AUDIENCES ? named : [...named, b];
+}
 const MAX_NOTES = 800;
 
 function isPdf(f: File) {
@@ -22,16 +34,16 @@ export function Composer({
   onFile,
   notes,
   onNotes,
-  buyer,
-  onBuyer,
+  buyers,
+  onBuyers,
   onSubmit,
 }: {
   file: File | null;
   onFile: (f: File | null) => void;
   notes: string;
   onNotes: (n: string) => void;
-  buyer: BuyerChoice | null;
-  onBuyer: (b: BuyerChoice) => void;
+  buyers: BuyerChoice[];
+  onBuyers: (b: BuyerChoice[]) => void;
   onSubmit: () => void;
 }) {
   const id = useId();
@@ -92,16 +104,21 @@ export function Composer({
         </button>
       </div>
 
-      <div className="cmp-aud" role="radiogroup" aria-label="Who should the scripts speak to?">
+      <div className="cmp-aud" role="group" aria-label="Who should the scripts speak to? Choose Best fit, or up to three.">
         <span className="cmp-aud-l">Speak to</span>
-        {CHOICES.map((b) => (
-          <button key={b} type="button" role="radio" aria-checked={buyer === b} className="cmp-chip" title={BUYER_COPY[b].blurb} onClick={() => onBuyer(b)}>
-            {BUYER_COPY[b].label}
-          </button>
-        ))}
+        {CHOICES.map((b) => {
+          const on = buyers.includes(b);
+          const full = !on && b !== "auto" && buyers.filter((x) => x !== "auto").length >= MAX_AUDIENCES;
+          return (
+            <button key={b} type="button" aria-pressed={on} className="cmp-chip" title={BUYER_COPY[b].blurb} disabled={full} onClick={() => onBuyers(toggleAudience(buyers, b))}>
+              {on && b !== "auto" && <span aria-hidden="true">✓ </span>}{BUYER_COPY[b].label}
+            </button>
+          );
+        })}
+        <span className="cmp-aud-hint">{buyers.includes("auto") ? "We choose the audiences this property suits." : buyers.length > 1 ? "Scripts will be written across these buyers." : "All three scripts for this buyer."}</span>
       </div>
       {error && <p className="field-error" role="alert">{error}</p>}
-      {!file && <p className="hint cmp-need">Add your brochure to continue. The audience stays on Best fit unless you choose one.</p>}
+      {!file && <p className="hint cmp-need">Add your brochure to continue. The audience stays on Best fit unless you choose up to three.</p>}
     </form>
   );
 }

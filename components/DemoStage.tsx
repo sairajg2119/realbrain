@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Four short walkthroughs of what RealBrain does, played in a product window: bring a brochure, get a script, see the reel,
@@ -34,27 +34,63 @@ function Window({ title, children, label, tag = "Walkthrough · not a finished r
   );
 }
 
+/** The reel that comes in at the end of the brochure walkthrough. To show your own, put it in public/showcase and change this. */
+export const DEMO_REEL = "/showcase/reel-2.mp4";
+
+const DEMO_CAPTIONS = ["A FIFA-sized pitch right at home.", "Twenty plus acres of sport.", "Comment SPORT for the details."];
+
+/**
+ * The whole flow in one loop: the brochure drops in, the project's name and a line about it are typed, two audiences are
+ * chosen, Create scripts is pressed, the brochure is read, and a reel slides in beside it and plays.
+ */
 function Brochure({ active, still }: { active: boolean; still: boolean }) {
-  const t = useClock(active, 10, still);
-  const note = typed("For first-time buyers. Lean on the clubhouse and the open space.", t, 1.4);
-  const busy = t > 4.6;
-  const pct = Math.min(1, Math.max(0, (t - 4.8) / 3.6));
+  const t = useClock(active, 18, still);
+  const name = typed("Nambiar District 25 · Phase 3", t, 1.1, 22);
+  const note = typed("3 and 4 BHK homes. Lean on the 7 acre clubhouse and the open space.", t, 2.8, 26);
+  const pressed = t > 7.4;
+  const pct = Math.min(1, Math.max(0, (t - 7.8) / 2.6));
+  const reel = t > 10.6;
+  const video = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = video.current;
+    if (!v) return;
+    if (reel && active && !still) v.play().catch(() => {});
+    else { v.pause(); if (!reel) v.currentTime = 0; }
+  }, [reel, active, still]);
+  const cap = DEMO_CAPTIONS[Math.min(DEMO_CAPTIONS.length - 1, Math.floor(Math.max(0, t - 10.8) / 2.3))];
   return (
-    <Window title="New reel" label="A brochure PDF is attached and a short note typed, then RealBrain reads the brochure.">
-      <div className="dw-chat">
-        <div className={`dw-file${t > 0.4 ? " on" : ""}`}><i /> <span>Nambiar-District-25-Phase-3.pdf</span><em>26 MB</em></div>
-        <div className="dw-input">
-          <p>{note || <span className="dw-ph">Tell me about the property…</span>}<u className={t % 1 < 0.5 ? "on" : ""} /></p>
-          <div className="dw-row"><span className="dw-clip">Attach brochure</span><b className={`dw-send${t > 4.1 ? " go" : ""}`}>Create scripts →</b></div>
-        </div>
-        {busy && (
-          <div className="dw-read">
-            <p>{pct < 1 ? "Reading your brochure…" : "Done. 48 facts found, each one numbered."}</p>
-            <div className="dw-bar2"><div style={{ width: `${pct * 100}%` }} /></div>
+    <div className="bd">
+      <Window title="New reel" label="A brochure is dropped in, the project is named and described, two audiences are chosen, Create scripts is pressed and the brochure is read." tag="Walkthrough of the real flow">
+        <div className="dw-chat">
+          <div className={`dw-file dw-drop${t > 0.4 ? " on" : ""}`}><i /> <span>Nambiar-District-25-Phase-3.pdf</span><em>26 MB</em></div>
+          <div className="dw-input">
+            <p className="dw-name">{name || <span className="dw-ph">Project name</span>}</p>
+            <p>{note || <span className="dw-ph">Tell me about the property…</span>}<u className={t % 1 < 0.5 && t > 2.8 && t < 7 ? "on" : ""} /></p>
+            <div className="dw-chips" aria-hidden="true">
+              <span className={t > 5.8 ? "" : "on"}>Best fit</span>
+              <span className={t > 5.8 ? "on" : ""}>Families</span>
+              <span className={t > 6.4 ? "on" : ""}>First-time buyers</span>
+              <span>Investors</span>
+            </div>
+            <div className="dw-row"><span className="dw-clip">Brochure attached</span><b className={`dw-send${pressed ? " go" : ""}`}>Create scripts →</b></div>
           </div>
-        )}
+          {pressed && (
+            <div className="dw-read">
+              <p>{pct < 1 ? "Reading your brochure…" : "Brochure read. Three scripts written, every number checked."}</p>
+              <div className="dw-bar2"><div style={{ width: `${pct * 100}%` }} /></div>
+            </div>
+          )}
+        </div>
+      </Window>
+      <div className={`bd-phone${reel ? " in" : ""}`} aria-hidden="true">
+        <video ref={video} src={`${DEMO_REEL}#t=0.1`} muted loop playsInline preload="metadata" />
+        <span className="dw-ai">AI-generated</span>
+        <span className="dw-rera">RERA: PRM/KA/RERA/1251/308/PR/260526/008686<br />rera.karnataka.gov.in</span>
+        {reel && <p className="dw-cap" key={cap}>{cap}</p>}
+        <span className="bd-wait">Your reel appears here</span>
+        <span className="bd-tag">Example footage</span>
       </div>
-    </Window>
+    </div>
   );
 }
 

@@ -16,12 +16,12 @@ export function Wordmark({ onClick }: { onClick?: () => void }) {
   );
 }
 
-/** Header for the workspace screens: wordmark, step indicator and a way to start over. */
-export function AppHeader({ step, onHome, onStartOver, canStartOver }: { step: number; onHome: () => void; onStartOver: () => void; canStartOver: boolean }) {
+/** Header for the workspace: wordmark, the four steps (places on the page, opened in order) and a way to start over. */
+export function AppHeader({ progress, view, onGo, onHome, onStartOver, canStartOver }: { progress: boolean[]; view: number; onGo: (i: number) => void; onHome: () => void; onStartOver: () => void; canStartOver: boolean }) {
   return (
     <header className="app-header">
       <Wordmark onClick={onHome} />
-      <StepIndicator current={step} />
+      <StepIndicator progress={progress} view={view} onGo={onGo} />
       <div className="app-header-r">
         {canStartOver && (
           <button className="text-btn" onClick={onStartOver}>

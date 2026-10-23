@@ -2,7 +2,7 @@ import { ApiError, GoogleGenAI, ThinkingLevel, type Part } from "@google/genai";
 import { classifyAiError, ModelPool, rateLimitRestMs, REST_MS } from "./aiPool.ts";
 import { parseModelJson } from "./jsonExtract.ts";
 import { normaliseRawScript } from "./script.ts";
-import type { BuyerChoice, BuyerType, Facts, Script, Teardown } from "./types.ts";
+import type { Audience, BuyerType, Facts, Script, Teardown } from "./types.ts";
 
 // Free-plan quotas are counted per model, so a model that is over quota, busy or too slow is rested for a while and the next
 // one is used. The light model goes first: it has been the fastest and the most available, and it wrote every script we have checked.
@@ -230,7 +230,13 @@ Hard rules:
 const SCRIPT_SHAPE = `{"scripts":[{"audience":"families","audience_reason":"","hook_type":"","format":"","beats":[{"label":"Hook","spoken":"","visual":"","on_screen_text":""},{"label":"Build","spoken":"","visual":"","on_screen_text":""},{"label":"Proof","spoken":"","visual":"","on_screen_text":""},{"label":"CTA","spoken":"comment-keyword CTA","visual":"","on_screen_text":""}],"caption":"","facts_used":[""],"why_this_works":{"reel_id":"","page":"","multiple_vs_median":0,"reason":""}}]}`;
 
 /** What to tell the model about who the scripts are for. "auto" lets it choose the audiences the property suits. */
-function audienceLine(buyer: BuyerChoice): string {
+const AUDIENCE_WORDS: Record<BuyerType, string> = { family: "families", investor: "investors", nri: "NRI buyers", "first-time buyer": "first-time buyers" };
+
+function audienceLine(buyer: Audience): string {
+  if (Array.isArray(buyer)) {
+    const names = buyer.map((b) => AUDIENCE_WORDS[b]);
+    return `A MIX of ${names.join(", ")}. Write at least one script for each of these audiences and set each script's audience to the one it is written for. With two audiences, the third script may speak to both at once (for example a young family that also thinks like an investor). Never write for an audience outside this list.`;
+  }
   return buyer === "auto"
     ? "BEST FIT. Choose the audiences this property genuinely suits (families, first-time buyers, investors, NRI buyers, everyone). Do not force an audience the facts do not support."
     : buyer;
@@ -244,7 +250,7 @@ function compactTeardowns(t: Teardown[]) {
 
 export async function writeScripts(args: {
   facts: Facts;
-  buyer: BuyerChoice;
+  buyer: Audience;
   playbook: string;
   teardowns: Teardown[];
   localityFacts: string[];
@@ -271,7 +277,7 @@ ${compactTeardowns(args.teardowns)}
 COMPLIANCE RULES:
 ${args.rulesJson}
 ${args.ownerNotes ? `\nTHE DEVELOPER'S OWN NOTES (they tell you what to emphasise and the tone they want. They are NOT a source of facts: never copy a number, claim or name from them unless the brochure facts above say the same):\n${args.ownerNotes}\n` : ""}${args.angles ? `\nPROPERTY BRIEF ANGLES (built from this brochure; let each script follow a different angle, still using only the facts above):\n${args.angles}\n` : ""}${args.avoid ? `\nDO NOT USE these figures or claims. The brochure contradicts itself or leaves them unclear, so any script that repeats them is wrong:\n${args.avoid}\n` : ""}
-Write exactly 3 complete scripts (full timed beats: hook, middle, CTA), each with a different hook type and a different angle. For BEST FIT, give each script the audience it suits best and use at least two different audiences across the three (for example families, first-time buyers, everyone), whenever the facts genuinely support them; use 'everyone' for at most one. For a named audience, write all three for that audience. ${args.extraNote ?? ""}
+Write exactly 3 complete scripts (full timed beats: hook, middle, CTA), each with a different hook type and a different angle. For BEST FIT, give each script the audience it suits best and use at least two different audiences across the three (for example families, first-time buyers, everyone), whenever the facts genuinely support them; use 'everyone' for at most one. For a named audience, write all three for that audience. For a MIX, follow the AUDIENCE line. ${args.extraNote ?? ""}
 Return JSON in this shape: ${SCRIPT_SHAPE}`;
   return askJson([{ text: prompt }], SCRIPT_SYSTEM, (x) => {
     const s = validateScripts(x);
@@ -301,7 +307,7 @@ export interface BriefRaw {
 /** AI call: draft the brief. The caller (lib/brief.ts) validates every citation, so nothing here is trusted as-is. */
 export async function writeBrief(args: {
   facts: { id: string; text: string }[];
-  buyer: BuyerChoice;
+  buyer: Audience;
   hookTypes: string[];
   exampleReels: { id: string; hook_type: string; hook: string }[];
   location: string | null;
@@ -334,7 +340,7 @@ Give 3 to 5 selling_points ranked by relevance, 3 to 6 limitations, 2 to 3 perso
 
 export async function rewriteScript(args: {
   facts: Facts;
-  buyer: BuyerChoice;
+  buyer: Audience;
   script: Script;
   failures: string[];
   teardowns: Teardown[];

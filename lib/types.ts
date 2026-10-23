@@ -2,6 +2,8 @@ export type BuyerType = "family" | "investor" | "nri" | "first-time buyer";
 export const BUYER_TYPES: BuyerType[] = ["family", "investor", "nri", "first-time buyer"];
 /** "auto" lets RealBrain choose the audiences the property suits best. */
 export type BuyerChoice = BuyerType | "auto";
+/** Who the scripts are for: Best fit, one buyer type, or a mix of up to three chosen together. */
+export type Audience = BuyerChoice | BuyerType[];
 
 export interface Facts {
   is_real_estate_brochure: boolean;

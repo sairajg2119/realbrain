@@ -425,3 +425,19 @@ mark.red, .red { background: var(--bad-soft); color: var(--bad); font-weight: 70
 .screen > *:not(.action-bar) { animation-delay: calc(var(--n, 0) * var(--stagger)); animation-timing-function: var(--ease-out); }
 .screen > *:nth-child(2) { --n: 1; } .screen > *:nth-child(3) { --n: 2; } .screen > *:nth-child(4) { --n: 3; }
 .screen > *:nth-child(5) { --n: 4; } .screen > *:nth-child(6) { --n: 5; } .screen > *:nth-child(n+7) { --n: 6; }
+.cmp-chip[aria-pressed="true"] { background: var(--ivory); color: var(--on-dark); border-color: var(--ivory); }
+.cmp-chip:disabled { opacity: 0.4; cursor: not-allowed; }
+.cmp-aud-hint { flex-basis: 100%; font-size: 0.82rem; color: var(--stone); margin-top: 2px; }
+
+/* The workspace is one page: each step is a section, locked until the one before is done. */
+.ws-sec { scroll-margin-top: 90px; }
+.ws-sec + .ws-sec { margin-top: 72px; padding-top: 64px; border-top: 1px solid var(--line); }
+.steps li { list-style: none; }
+.steps .step { background: none; border: 0; border-bottom: 2px solid transparent; cursor: pointer; font: inherit; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
+.steps .step.locked { opacity: 0.4; cursor: not-allowed; }
+.locked-sec { position: relative; border: 1px dashed var(--line); padding: 34px 32px 30px 76px; color: var(--stone); background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.015) 0 12px, transparent 12px 24px); }
+.locked-sec .eyebrow { margin-bottom: 8px; color: var(--stone); }
+.locked-sec .eyebrow::after { background: var(--stone); }
+.locked-ico { position: absolute; left: 28px; top: 30px; width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; color: var(--stone); }
+.locked-text { margin: 0; max-width: 60ch; font-size: 1rem; }
+.workspace > .app-header { position: sticky; top: 0; z-index: 30; }
