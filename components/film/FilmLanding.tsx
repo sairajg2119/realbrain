@@ -6,6 +6,7 @@ import type { LightId } from "@/lib/scene/timeOfDay";
 import { HouseStage, PhotoWalk, type SceneState } from "../HouseStage";
 import { IconArrow } from "../Icons";
 import { Logo, LogoMark } from "../Logo";
+import { ContactForm } from "./ContactForm";
 import { HowItWorks } from "./HowItWorks";
 
 /**
@@ -133,6 +134,7 @@ export function FilmLanding({ onStart }: { onStart: () => void }) {
           <a href="#top" onClick={(e) => { e.preventDefault(); home(); }}>Home</a>
           <a href="#how" onClick={(e) => { e.preventDefault(); go("how"); }}>How it works</a>
           <a href="#studio" onClick={(e) => { e.preventDefault(); go("studio"); }}>Video studio</a>
+          <a href="#contact" onClick={(e) => { e.preventDefault(); go("contact"); }}>Contact</a>
         </nav>
         <button type="button" className="fm-btn fm-btn-sm" onClick={onStart}>Create a reel</button>
       </header>
@@ -199,6 +201,15 @@ export function FilmLanding({ onStart }: { onStart: () => void }) {
       </div>
 
       <HowItWorks onStart={onStart} still={still} />
+
+      <section className="ct" id="contact" aria-labelledby="ct-h">
+        <div className="ct-in">
+          <p className="fm-eye">Contact</p>
+          <h2 id="ct-h">Have a question? <em>Ask us.</em></h2>
+          <p className="ct-lead">Tell us your name, your email and what you'd like to know. A person reads every message, and you'll get a short note in your inbox right away so you know it arrived.</p>
+          <ContactForm />
+        </div>
+      </section>
 
       <footer className="fm-foot">
         <Logo />

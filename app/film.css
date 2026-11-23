@@ -168,3 +168,22 @@
   .fm *, .fm *::before, .fm *::after { animation-duration: 0.01ms !important; animation-delay: 0s !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
   .hw-head, .hw-stage > *, .hw-end, .hw-stage .doc-fact { opacity: 1; transform: none; }
 }
+
+/* contact: ask us anything. Saved to Supabase, answered by email. */
+.ct { padding: clamp(72px, 12vh, 140px) clamp(18px, 6vw, 96px); border-top: 1px solid var(--line); scroll-margin-top: 70px; }
+.ct-in { max-width: 760px; }
+.ct h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.08; }
+.ct-lead { color: var(--stone); font-size: 1.02rem; line-height: 1.65; max-width: 56ch; margin: 16px 0 34px; }
+.ct-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; position: relative; }
+.ct-form label { display: grid; gap: 8px; }
+.ct-form label span { font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); font-weight: 600; }
+.ct-form input, .ct-form textarea { font: inherit; font-size: 1rem; color: var(--ivory); background: var(--elev); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; width: 100%; resize: vertical; }
+.ct-form input:focus, .ct-form textarea:focus { outline: 2px solid var(--gold); outline-offset: 2px; border-color: var(--gold); }
+.ct-wide { grid-column: 1 / -1; }
+.ct-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.ct-err { grid-column: 1 / -1; margin: 0; padding: 12px 16px; border-radius: 10px; background: var(--bad-soft); color: var(--bad); font-size: 0.95rem; }
+.ct-form .fm-btn:disabled { opacity: 0.6; cursor: wait; }
+.ct-done { padding: 28px 30px; border: 1px solid var(--line); border-radius: 14px; background: var(--elev); }
+.ct-done h3 { font-size: 1.6rem; margin-bottom: 10px; }
+.ct-done p { color: var(--stone); line-height: 1.65; margin: 0 0 22px; max-width: 56ch; }
+@media (max-width: 640px) { .ct-form { grid-template-columns: minmax(0, 1fr); } }
